@@ -23,16 +23,16 @@ Toutes les navettes sont de la même gamme :
 * En revanche, les navettes n’ont pas toutes le même nombre de places. Les navettes peuvent avoir 2, 5, 10 ou 15 places.
 
 Les stations spatiales sont disséminées dans toute la galaxie :
-• Elles ont une localisation (des coordonnées spatiales) ;
-• Elles ont un nombre de quais d’arrimages pour les navettes ;
-• Chaque quai est identifiable, et tous les quais peuvent accueillir n’importe quelle navette.
+* Elles ont une localisation (des coordonnées spatiales) ;
+* Elles ont un nombre de quais d’arrimages pour les navettes ;
+* Chaque quai est identifiable, et tous les quais peuvent accueillir n’importe quelle navette.
 
 ## Règles de gestion principales
-• Les usagers peuvent librement réserver une navette (et une seule à la fois) pour un voyage.
-• Un usager peut emmener des passagers avec lui qui ne sont pas forcement connus du système.
-• Une station ne peut pas avoir plus de navettes qu’elle n’a de quais.
-• Un quai ne peut arrimer qu’une seule navette à la fois.
-• Tous les 3 voyages, une navette doit être révisée dans la station où elle est arrimée. La révision est prise en charge par un mécanicien Spacelib à l’arrivée de la navette dans la station, et la navette est immobilisée à quai jusqu’à ce que le mécanicien ait terminé la révision.
-• Une navette est dite disponible si elle est à quai dans une station et qu’elle n’est pas en révision.
-• La durée d’un voyage entre deux stations et constante et connue, quelque soient les stations (cf. annexe).
-• Un voyage ne peut pas être réalisé si la station de départ n’a pas de navette disponible avec une capacité suffisante pour accueillir l’ensemble des passagers, ou si la station d’arrivée n’a pas de quai libre disponible le jour d’arrivée prévu.
+* Les usagers peuvent librement réserver une navette (et une seule à la fois) pour un voyage.
+* Un usager peut emmener des passagers avec lui qui ne sont pas forcement connus du système.
+* Une station ne peut pas avoir plus de navettes qu’elle n’a de quais.
+* Un quai ne peut arrimer qu’une seule navette à la fois.
+* Tous les 3 voyages, une navette doit être révisée dans la station où elle est arrimée. La révision est prise en charge par un mécanicien Spacelib à l’arrivée de la navette dans la station, et la navette est immobilisée à quai jusqu’à ce que le mécanicien ait terminé la révision.
+* Une navette est dite disponible si elle est à quai dans une station et qu’elle n’est pas en révision.
+* La durée d’un voyage entre deux stations et constante et connue, quelque soient les stations (cf. annexe).
+* Un voyage ne peut pas être réalisé si la station de départ n’a pas de navette disponible avec une capacité suffisante pour accueillir l’ensemble des passagers, ou si la station d’arrivée n’a pas de quai libre disponible le jour d’arrivée prévu.
