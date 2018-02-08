@@ -18,9 +18,9 @@ document présente une liste de stations spatiales utilisables pour le projet.
 
 ## Description du parc matériel de Spacelib
 Toutes les navettes sont de la même gamme :
-• Elles utilisent un système de propulsion par fusion à froid, le carburant n’étant donc pas une préoccupation
-• Elles ont les mêmes caractéristiques physiques, et parcourent donc une distance en un même temps.
-• En revanche, les navettes n’ont pas toutes le même nombre de places. Les navettes peuvent avoir 2, 5, 10 ou 15 places.
+* Elles utilisent un système de propulsion par fusion à froid, le carburant n’étant donc pas une préoccupation
+* Elles ont les mêmes caractéristiques physiques, et parcourent donc une distance en un même temps.
+* En revanche, les navettes n’ont pas toutes le même nombre de places. Les navettes peuvent avoir 2, 5, 10 ou 15 places.
 
 Les stations spatiales sont disséminées dans toute la galaxie :
 • Elles ont une localisation (des coordonnées spatiales) ;
