@@ -6,6 +6,8 @@ Conception UML du projet : https://drive.google.com/file/d/1qZ4POA0UISNeZ_q_KLFK
 
 Sujet du projet : https://drive.google.com/file/d/14aA95lMoUG3dPfSQUOpizWIsefNlIN3x/view?usp=sharing
 
+Accès direct au Discord du groupe : https://discord.gg/CP8Qka3
+
 # Description du projet 
 
 Spacelib est un service de transports gratuits entre stations spatiales par navettes, que les usagers peuvent venir emprunter pour aller d’une station à l’autre, seuls ou entre amis !
