@@ -1,3 +1,5 @@
 /SpacelibShared/target/
 /Spacelib/Spacelib-ejb/target/
 /Spacelib/Spacelib-ear/target/
+/Spacelib/Spacelib-web/target/
+/_DB/
