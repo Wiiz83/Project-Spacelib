@@ -7,16 +7,18 @@ package fr.miage.toulouse.spacelib.services;
 
 import fr.miage.toulouse.spacelib.business.GestionStationsLocal;
 import javax.ejb.EJB;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author mahdi
  */
+
 @Stateless
 public class ServicesAdmin implements ServicesAdminRemote {
 
-    @EJB
+    @EJB(beanName = "GestionStationsLocal") 
     private GestionStationsLocal gestionStation;
 
     public void creerStation(Long id) {

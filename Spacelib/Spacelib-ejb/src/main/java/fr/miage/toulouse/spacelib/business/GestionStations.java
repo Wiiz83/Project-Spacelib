@@ -16,7 +16,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionStations implements GestionStationsLocal {
 
-    @EJB
+    @EJB(beanName = "StationFacadeLocal") 
     private StationFacadeLocal stationFacade;
     
     public void creerStation (Long id) {
