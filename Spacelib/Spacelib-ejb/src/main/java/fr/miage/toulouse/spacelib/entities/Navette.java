@@ -22,6 +22,15 @@ public class Navette implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private int nbPlaces;
+
+    public int getNbPlaces() {
+        return nbPlaces;
+    }
+
+    public void setNbPlaces(int nbPlaces) {
+        this.nbPlaces = nbPlaces;
+    }
 
     public Long getId() {
         return id;

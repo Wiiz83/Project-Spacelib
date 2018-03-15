@@ -5,6 +5,7 @@
  */
 package fr.miage.toulouse.spacelib.entities;
 
+import fr.miage.toulouse.Coordonnee;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,11 +23,18 @@ public class Station implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     private Coordonnee localisation;
 
     public Long getId() {
         return id;
+    }
+
+    public Coordonnee getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(Coordonnee localisation) {
+        this.localisation = localisation;
     }
 
     public void setId(Long id) {
