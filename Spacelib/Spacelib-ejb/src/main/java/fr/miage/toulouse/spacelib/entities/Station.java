@@ -22,6 +22,8 @@ public class Station implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private Coordonnee localisation;
 
     public Long getId() {
         return id;
