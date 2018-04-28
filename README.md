@@ -18,12 +18,12 @@ Accès direct au Discord du groupe : https://discord.gg/CP8Qka3
 
 # Installation
 
-##  Créer la BD : 
+##  Vérifier / Créer la BD : 
 * nom = SpacelibDB
 * login = SpacelibDB
 * mdp = SpacelibDB
 
-## Clean & Build
+## Clean & Build dans l'ordre
 * D'abord "SpacelibShared"
 * Puis "Spacelib"
 
