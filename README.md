@@ -14,3 +14,17 @@ Accès direct au Discord du groupe : https://discord.gg/CP8Qka3
 
 
 **Voir Wiki pour plus d'info**
+
+# Installation
+
+##  Créer la BD : 
+* nom = SpacelibDB
+* login = SpacelibDB
+* mdp = SpacelibDB
+
+## Clean & Build
+* D'abord "SpacelibShared"
+* Puis "Spacelib"
+
+## Tester
+* Webservice : "http://localhost:8080/MIAGEBank/MIAGEBank-web/WebServicesClientFinaux?wsdl" par exemple
