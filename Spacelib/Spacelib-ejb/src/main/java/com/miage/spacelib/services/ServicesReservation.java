@@ -16,19 +16,39 @@ public class ServicesReservation implements ServicesReservationLocal {
     @EJB
     private GestionVoyageLocal gestionVoyage;
     
+    
+    /**
+     * Ce service retourne la liste des stations existantes (incluant leur localisation)
+     * CF 3.1
+     * 
+     * @return la liste des stations existantes
+     */
     @Override
     public ArrayList obtenirStations() {
-        //return this.gestionStation.obtenir();
+        return this.gestionStation.obtenir();
     }
 
+    
+    /**
+     * Ce service permet à un client de réserver un voyage
+     * CF 3.2
+     * 
+     * @param idClient
+     * @param idStationDepart
+     * @param idStationArrivee
+     * @param NbPassagers
+     * @throws com.miage.spacelib.exceptions.ClientInconnuException
+     * @throws com.miage.spacelib.exceptions.StationInconnuException
+     */
     @Override
-    public void reserverVoyage() {
+    public void reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers) throws ClientInconnuException, StationInconnuException {
        this.gestionVoyage.reserver();
     }
 
     
     /**
      * Ce service permet à un client d'annuler un voyage
+     * CF 3.3
      * 
      * @param idClient l'identifiant du client 
      * @param idReservation l'identifiant de la réservation à annuler

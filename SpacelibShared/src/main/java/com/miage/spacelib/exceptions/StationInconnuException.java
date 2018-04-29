@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.spacelib.business;
-
-import java.util.ArrayList;
-import javax.ejb.Local;
+package com.miage.spacelib.exceptions;
 
 /**
  *
  * @author uzanl
  */
-@Local
-public interface GestionStationLocal {
+public class StationInconnuException extends Exception {
     
-    public ArrayList obtenir();
+    public StationInconnuException(){
+        
+    }
     
+    public StationInconnuException(String msg) {
+        super(msg);
+    }
 }

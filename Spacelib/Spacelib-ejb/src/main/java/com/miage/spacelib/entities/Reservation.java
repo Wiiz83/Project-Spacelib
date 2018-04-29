@@ -6,10 +6,13 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -23,12 +26,55 @@ public class Reservation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @OneToOne(mappedBy="reservation")
+    private Navette navette;
+
+    @OneToOne(mappedBy="reservation")
+    private Client client;
+    
+    @Column(nullable = false)
+    private int nbPassagers;
+
+    public Reservation(){
+        
+    }
+    
+    public Reservation(int nb, Navette n, Client c){
+        this.nbPassagers = nb;
+        this.client = c;
+        this.navette = n;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public Navette getNavette() {
+        return navette;
+    }
+
+    public void setNavette(Navette navette) {
+        this.navette = navette;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+    
+    public int getNbPassagers() {
+        return nbPassagers;
+    }
+
+    public void setNbPassagers(int nbPassagers) {
+        this.nbPassagers = nbPassagers;
     }
 
     @Override

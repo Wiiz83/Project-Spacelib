@@ -37,4 +37,10 @@ public class GestionVoyage implements GestionVoyageLocal {
         
     }
 
+    @Override
+    public void reserver() {
+    
+    
+    }
+
 }

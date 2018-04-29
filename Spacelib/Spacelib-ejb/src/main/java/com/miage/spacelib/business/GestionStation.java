@@ -5,6 +5,7 @@
  */
 package com.miage.spacelib.business;
 
+import java.util.ArrayList;
 import javax.ejb.Stateless;
 
 /**
@@ -14,6 +15,8 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionStation implements GestionStationLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @Override
+    public ArrayList obtenir() {
+        return null;
+    }
 }

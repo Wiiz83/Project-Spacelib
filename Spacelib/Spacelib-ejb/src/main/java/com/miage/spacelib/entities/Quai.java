@@ -7,9 +7,12 @@ package com.miage.spacelib.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -22,6 +25,20 @@ public class Quai implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Station station;
+    
+    @OneToOne(mappedBy="quai")
+    private Navette navette;
+
+    public Quai(){
+        
+    }
+    
+    public Quai(Station station){
+        this.station = station;
+    }
 
     public Long getId() {
         return id;
@@ -29,6 +46,22 @@ public class Quai implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public Station getStation() {
+        return station;
+    }
+
+    public void setStation(Station station) {
+        this.station = station;
+    }
+    
+    public Navette getNavette() {
+        return navette;
+    }
+
+    public void setNavette(Navette navette) {
+        this.navette = navette;
     }
 
     @Override

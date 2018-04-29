@@ -6,10 +6,13 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -23,12 +26,43 @@ public class Revision implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @OneToOne(mappedBy="revision")
+    private Navette navette;
+    
+    @OneToOne(mappedBy="revision")
+    private Mecanicien mecanicien;
+
+    public Revision(){
+        
+    }
+    
+    public Revision(Navette n, Mecanicien m){
+        this.mecanicien = m;
+        this.navette = n;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public Navette getNavette() {
+        return navette;
+    }
+
+    public void setNavette(Navette navette) {
+        this.navette = navette;
+    }
+
+    public Mecanicien getMecanicien() {
+        return mecanicien;
+    }
+
+    public void setMecanicien(Mecanicien mecanicien) {
+        this.mecanicien = mecanicien;
     }
 
     @Override
