@@ -12,8 +12,11 @@ Sujet du projet : https://drive.google.com/file/d/14aA95lMoUG3dPfSQUOpizWIsefNlI
 
 Accès direct au Discord du groupe : https://discord.gg/CP8Qka3
 
+Tutoriel complet d'installation JEE : https://github.com/Wiiz83/ProjetSpacelib/wiki/Installation-compl%C3%A8te
+
 
 **Voir Wiki pour plus d'info**
+
 
 
 # Installation
