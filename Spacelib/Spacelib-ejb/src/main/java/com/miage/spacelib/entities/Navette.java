@@ -29,11 +29,18 @@ public class Navette implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    public enum NombrePlaces {P2,P5,P10,P15}
+    public enum NavetteStatut {Disponible,ARéviser,EnRévision,EnVol}
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NavetteStatut statut;
     
+    public enum NombrePlaces {P2,P5,P10,P15}
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private NombrePlaces nbPlaces;
+    
+    @Column(nullable = false)
+    private int nbVoyages;
    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
     private Reservation reservation;

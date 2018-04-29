@@ -11,6 +11,8 @@ import javafx.util.Pair;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,6 +39,11 @@ public class Station implements Serializable {
     @Column(nullable = false)
     private int nbQuais;
     
+    public enum StationStatut {Disponible,Complet}
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StationStatut statut;
+    
     public Station(){
         
     }
@@ -44,6 +51,7 @@ public class Station implements Serializable {
     public Station(Pair<Integer, Integer> l, int nb){
         this.localisation = l;
         this.nbQuais = nb;
+        this.statut = StationStatut.Disponible;
     }
    
     public Long getId() {

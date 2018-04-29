@@ -6,7 +6,10 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +34,11 @@ public class Quai implements Serializable {
     
     @OneToOne(mappedBy="quai")
     private Navette navette;
+    
+    public enum QuaiStatut {Disponible,Occupé}
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private QuaiStatut statut;
 
     public Quai(){
         
@@ -38,6 +46,7 @@ public class Quai implements Serializable {
     
     public Quai(Station station){
         this.station = station;
+        this.statut = QuaiStatut.Disponible;
     }
 
     public Long getId() {

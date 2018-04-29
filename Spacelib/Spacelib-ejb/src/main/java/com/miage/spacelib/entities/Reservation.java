@@ -6,7 +6,6 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,6 +33,10 @@ public class Reservation implements Serializable {
     
     @Column(nullable = false)
     private int nbPassagers;
+    
+    public enum ReservationStatut {VoyageInitié,VoyageAchevé,VoyageAnnulé}
+    @Column(nullable = false)
+    private ReservationStatut statut;
 
     public Reservation(){
         
