@@ -4,8 +4,6 @@ Prévu pour JEE 7, gestion de projets avec Maven, déploiement sur serveur Glass
 
 IDE Netbeans : https://netbeans.org/downloads/index.html Prendre la version “Java EE” - Ne fonctionne pas avec Java 9
 
-Accès à l'interface de Glassfish : http://localhost:4848/common/index.jsf
-
 Conception UML du projet : https://drive.google.com/file/d/1qZ4POA0UISNeZ_q_KLFKjG9F2Pv1PqXq/view?usp=sharing
 
 Sujet du projet : https://drive.google.com/file/d/14aA95lMoUG3dPfSQUOpizWIsefNlIN3x/view?usp=sharing
@@ -13,7 +11,6 @@ Sujet du projet : https://drive.google.com/file/d/14aA95lMoUG3dPfSQUOpizWIsefNlI
 Accès direct au Discord du groupe : https://discord.gg/CP8Qka3
 
 Tutoriel complet d'installation JEE : https://github.com/Wiiz83/ProjetSpacelib/wiki/Installation-compl%C3%A8te
-
 
 **Voir Wiki pour plus d'info**
 
@@ -34,4 +31,6 @@ Tutoriel complet d'installation JEE : https://github.com/Wiiz83/ProjetSpacelib/w
 * Lancer le serveur GlassFish 
 
 ## Tester
-* Webservice : "http://localhost:8080/MIAGEBank/MIAGEBank-web/WebServicesClientFinaux?wsdl" par exemple
+* Accès à l'interface de Glassfish : http://localhost:4848/common/index.jsf
+* Interface Web Mécanicien : http://localhost:8080/SpacelibMecanicien/
+* Test Web Service Mécanicien : http://localhost:8080/WebServicesMecanicien/WebServicesMecanicien?Tester
