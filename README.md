@@ -27,8 +27,11 @@ Tutoriel complet d'installation JEE : https://github.com/Wiiz83/ProjetSpacelib/w
 * mdp = SpacelibDB
 
 ## Clean & Build dans l'ordre
-* D'abord l'application JAVA "SpacelibShared"
-* Puis l'application d'entreprise "Spacelib"
+* Vérifier que votre serveur GlassFish est arreté 
+* Clean & Build l'application JAVA "SpacelibShared"
+* Clean & Build l'application d'entreprise "Spacelib"
+* Clean & Build les clients web et lourds
+* Lancer le serveur GlassFish 
 
 ## Tester
 * Webservice : "http://localhost:8080/MIAGEBank/MIAGEBank-web/WebServicesClientFinaux?wsdl" par exemple
