@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.spacelib.services;
+package com.miage.spacelib.business;
 
 import javax.ejb.Stateless;
 
@@ -12,18 +12,8 @@ import javax.ejb.Stateless;
  * @author uzanl
  */
 @Stateless
-public class ServicesMecanicien implements ServicesMecanicienLocal {
+public class GestionNavette implements GestionNavetteLocal {
 
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String toto() {
-        return "ça marche";
-    }
-
-    
-    
-    
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
 }

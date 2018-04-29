@@ -5,6 +5,8 @@
  */
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.exceptions.*;
+import java.util.ArrayList;
 import javax.ejb.Local;
 
 /**
@@ -14,4 +16,35 @@ import javax.ejb.Local;
 @Local
 public interface ServicesReservationLocal {
     
+    /**
+     * Ce service retourne la liste des stations existantes (incluant leur localisation)
+     * @return la liste des stations existantes
+     */
+    public ArrayList obtenirStations();   
+
+    /**
+     * Ce service permet à un client de réserver un voyage
+     * 
+     * @param idClient
+     * @param idStationDepart
+     * @param idStationArrivee
+     * @param NbPassagers
+     * @throws com.miage.spacelib.exceptions.ClientInconnuException
+     */
+    public void reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers) throws ClientInconnuException, StationInconnuException;
+    
+    /**
+     * Ce service permet à un client d'annuler un voyage
+     * 
+     * @param idClient l'identifiant du client 
+     * @param idReservation l'identifiant de la réservation à annuler
+     * 
+     * @throws com.miage.spacelib.exceptions.ClientInconnuException si l'id du client est inconnu
+     * @throws com.miage.spacelib.exceptions.ReservationInconnuException si l'id de la réservation est inconnu
+     * @throws com.miage.spacelib.exceptions.ReservationPasseeException si la date de départ est passé 
+     * @throws com.miage.spacelib.exceptions.ReservationClotureeException si la réservation est clôturée
+     */
+    public void annulerVoyage(Long idClient, Long idReservation) throws ClientInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
+
+
 }
