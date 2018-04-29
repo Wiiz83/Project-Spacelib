@@ -27,8 +27,8 @@ Tutoriel complet d'installation JEE : https://github.com/Wiiz83/ProjetSpacelib/w
 * mdp = SpacelibDB
 
 ## Clean & Build dans l'ordre
-* D'abord "SpacelibShared"
-* Puis "Spacelib"
+* D'abord l'application JAVA "SpacelibShared"
+* Puis l'application d'entreprise "Spacelib"
 
 ## Tester
 * Webservice : "http://localhost:8080/MIAGEBank/MIAGEBank-web/WebServicesClientFinaux?wsdl" par exemple
