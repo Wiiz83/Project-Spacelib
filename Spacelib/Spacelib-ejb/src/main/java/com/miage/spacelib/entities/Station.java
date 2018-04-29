@@ -7,7 +7,9 @@ package com.miage.spacelib.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javafx.util.Pair;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,9 +30,20 @@ public class Station implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "station")
     private List<Quai> quais;
-
+    
+    @Column(nullable = false)
+    private Pair<Integer, Integer> localisation;
+    
+    @Column(nullable = false)
+    private int nbQuais;
+    
     public Station(){
         
+    }
+    
+    public Station(Pair<Integer, Integer> l, int nb){
+        this.localisation = l;
+        this.nbQuais = nb;
     }
    
     public Long getId() {
