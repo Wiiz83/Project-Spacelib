@@ -6,12 +6,17 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -24,15 +29,30 @@ public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @OneToOne(mappedBy="reservation")
+    
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Navette navette;
-
-    @OneToOne(mappedBy="reservation")
+    
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Client client;
     
     @Column(nullable = false)
     private int nbPassagers;
+    
+    @OneToOne(mappedBy="reservation")
+    private Station stationDepart;
+    
+    @OneToOne(mappedBy="reservation")
+    private Station stationArrivée;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dateCréation;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dateDepart;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dateArrivée;
     
     public enum ReservationStatut {VoyageInitié,VoyageAchevé,VoyageAnnulé}
     @Column(nullable = false)

@@ -9,3 +9,5 @@
 /SpacelibShared/dist/
 /SpacelibShared/build/
 /SpacelibMecanicien/target/
+*.bak*
+*.lck*

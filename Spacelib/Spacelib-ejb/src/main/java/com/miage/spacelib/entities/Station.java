@@ -25,6 +25,30 @@ import javax.persistence.OneToMany;
 @Entity
 public class Station implements Serializable {
 
+    
+    
+    public enum Modes {
+        mode1 ("Fancy Mode 1"),
+        mode2 ("Fancy Mode 2"),
+        mode3 ("Fancy Mode 3");
+
+        private final String name;       
+
+        private Modes(String s) {
+            name = s;
+        }
+
+        public boolean equalsName(String otherName) {
+            // (otherName == null) check is not needed because name.equals(null) returns false 
+            return name.equals(otherName);
+        }
+
+        public String toString() {
+           return this.name;
+        }
+    }
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

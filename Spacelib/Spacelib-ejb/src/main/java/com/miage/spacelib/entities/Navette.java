@@ -6,6 +6,7 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,10 +44,10 @@ public class Navette implements Serializable {
     private int nbVoyages;
    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
-    private Reservation reservation;
+    private List<Reservation> reservations;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
-    private Revision revision;
+    private List<Revision> revisions;
     
     @OneToOne(mappedBy="navette")
     private Quai quai;
@@ -73,22 +74,6 @@ public class Navette implements Serializable {
 
     public void setNbPlaces(NombrePlaces nbPlaces) {
         this.nbPlaces = nbPlaces;
-    }
-    
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    public Revision getRevision() {
-        return revision;
-    }
-
-    public void setRevision(Revision revision) {
-        this.revision = revision;
     }
 
     public Quai getQuai() {
