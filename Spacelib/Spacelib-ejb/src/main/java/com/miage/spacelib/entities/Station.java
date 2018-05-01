@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
@@ -18,36 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-/**
- *
- * @author uzanl
- */
 @Entity
 public class Station implements Serializable {
-
     
-    
-    public enum Modes {
-        mode1 ("Fancy Mode 1"),
-        mode2 ("Fancy Mode 2"),
-        mode3 ("Fancy Mode 3");
-
-        private final String name;       
-
-        private Modes(String s) {
-            name = s;
-        }
-
-        public boolean equalsName(String otherName) {
-            // (otherName == null) check is not needed because name.equals(null) returns false 
-            return name.equals(otherName);
-        }
-
-        public String toString() {
-           return this.name;
-        }
-    }
-    
+    public static final Pair<String, String> Terre = new Pair<>("sol", "d");
+    public static final Pair<String, String> Dimidium = new Pair<>("pegasi", "b");
+    public static final Pair<String, String> Arion = new Pair<>("delphini", "b");
+    public static final Pair<String, String> Brahe = new Pair<>("cancri", "c");
+    public static final Pair<String, String> Amateru = new Pair<>("epsilonTauri", "b");
+    public static final Pair<String, String> Tadmor = new Pair<>("gammaCepheiA", "b");
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,7 +32,7 @@ public class Station implements Serializable {
     private List<Quai> quais;
     
     @Column(nullable = false)
-    private Pair<Integer, Integer> localisation;
+    private Pair<String, String> localisation;
     
     @Column(nullable = false)
     private int nbQuais;
@@ -72,7 +46,7 @@ public class Station implements Serializable {
         
     }
     
-    public Station(Pair<Integer, Integer> l, int nb){
+    public Station(Pair<String, String> l, int nb){
         this.localisation = l;
         this.nbQuais = nb;
         this.statut = StationStatut.Disponible;
@@ -85,6 +59,32 @@ public class Station implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Pair<String, String> getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(Pair<String, String> localisation) {
+        this.localisation = localisation;
+    }
+
+    public int getNbQuais() {
+        return nbQuais;
+    }
+
+    public void setNbQuais(int nbQuais) {
+        this.nbQuais = nbQuais;
+    }
+
+    public StationStatut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(StationStatut statut) {
+        this.statut = statut;
+    }
+    
+    
 
     public List<Quai> getQuais() {
         return quais;

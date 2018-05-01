@@ -6,6 +6,7 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,10 +36,9 @@ public class Navette implements Serializable {
     @Column(nullable = false)
     private NavetteStatut statut;
     
-    public enum NombrePlaces {P2,P5,P10,P15}
-    @Enumerated(EnumType.ORDINAL)
+    // 2, 5, 10 ou 15 places
     @Column(nullable = false)
-    private NombrePlaces nbPlaces;
+    private int nbPlaces;
     
     @Column(nullable = false)
     private int nbVoyages;
@@ -49,6 +49,7 @@ public class Navette implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
     private List<Revision> revisions;
     
+    // TODO : A voir si on laisse ?
     @OneToOne(mappedBy="navette")
     private Quai quai;
     
@@ -56,8 +57,12 @@ public class Navette implements Serializable {
         
     }
     
-    public Navette(NombrePlaces n){
-        this.nbPlaces = n;
+    public Navette(int nb, String s){
+        this.nbPlaces = nb;
+        this.nbVoyages = 0;
+        this.statut = NavetteStatut.Disponible;
+        //this.reservations = new ArrayList<>();
+        //this.revisions = new ArrayList<>();
     }
 
     public Long getId() {
@@ -67,15 +72,47 @@ public class Navette implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public NombrePlaces getNbPlaces() {
+
+    public NavetteStatut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(NavetteStatut statut) {
+        this.statut = statut;
+    }
+
+    public int getNbPlaces() {
         return nbPlaces;
     }
 
-    public void setNbPlaces(NombrePlaces nbPlaces) {
+    public void setNbPlaces(int nbPlaces) {
         this.nbPlaces = nbPlaces;
     }
 
+    public int getNbVoyages() {
+        return nbVoyages;
+    }
+
+    public void setNbVoyages(int nbVoyages) {
+        this.nbVoyages = nbVoyages;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<Revision> getRevisions() {
+        return revisions;
+    }
+
+    public void setRevisions(List<Revision> revisions) {
+        this.revisions = revisions;
+    }
+    
     public Quai getQuai() {
         return quai;
     }

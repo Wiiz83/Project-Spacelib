@@ -1,49 +1,64 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
+import java.util.Calendar;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@Entity
-public class Client implements Serializable {
+
+/*
+Doc @MappedSuperclass :
+https://jmdoudoux.developpez.com/cours/developpons/java/chap-jpa.php
+https://docs.jboss.org/hibernate/annotations/3.4/reference/fr/html/entity.html
+http://ecariou.perso.univ-pau.fr/cours/web/cours-JPA.pdf
+https://docs.oracle.com/javaee/6/tutorial/doc/bnbqn.html
+
+Exemples : 
+https://www.concretepage.com/hibernate/example-mappedsuperclass-hibernate
+https://docs.jboss.org/hibernate/jpa/2.1/api/javax/persistence/MappedSuperclass.html
+*/
+
+@MappedSuperclass
+public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(name="NOM", nullable = false)
     private String nom;
 
-    @Column(nullable = false)
+    @Column(name="PRENOM", nullable = false)
     private String prenom;
     
-    @Column(nullable = false)
-    private String email;
+    @Column(name="LOGIN", nullable = false)
+    private String login;
 
-    @Column(nullable = false)
+    @Column(name="MOT_DE_PASSE", nullable = false)
     private String motdepasse;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
-    private List<Reservation> reservations;
 
-    public Client(){
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DATE_CREATION", nullable = false)
+    private Calendar dateCreation;
+    
+    public Utilisateur(){
         
     }
     
-    public Client(String n, String p, String e, String m){
+    public Utilisateur(String n, String p, String l, String m){
         this.nom = n;
         this.prenom = p;
-        this.email = e;
+        this.login = l;
         this.motdepasse = m;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -68,12 +83,12 @@ public class Client implements Serializable {
         this.prenom = prenom;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getMotdepasse() {
@@ -84,12 +99,12 @@ public class Client implements Serializable {
         this.motdepasse = motdepasse;
     }
 
-    public List<Reservation> getReservations() {
-        return reservations;
+    public Calendar getDateCreation() {
+        return dateCreation;
     }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
+    public void setDateCreation(Calendar dateCreation) {
+        this.dateCreation = dateCreation;
     }
     
     @Override
@@ -102,10 +117,10 @@ public class Client implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Client)) {
+        if (!(object instanceof Utilisateur)) {
             return false;
         }
-        Client other = (Client) object;
+        Utilisateur other = (Utilisateur) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -114,7 +129,7 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "com.miage.spacelib.entities.Client[ id=" + id + " ]";
+        return "com.miage.spacelib.entities.Utilisateur[ id=" + id + " ]";
     }
     
 }

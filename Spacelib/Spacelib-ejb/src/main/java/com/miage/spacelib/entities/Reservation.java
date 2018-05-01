@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
@@ -18,12 +13,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author uzanl
- */
 @Entity
 public class Reservation implements Serializable {
+    
+    public static final String statutDébutRéservation = "voyage initié";
+    public static final String statutFinRéservation = "voyage achevé";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,16 +28,16 @@ public class Reservation implements Serializable {
     private Navette navette;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Client client;
+    private Usager usager;
     
     @Column(nullable = false)
     private int nbPassagers;
     
     @OneToOne(mappedBy="reservation")
-    private Station stationDepart;
+    private Quai quaiDepart;
     
     @OneToOne(mappedBy="reservation")
-    private Station stationArrivée;
+    private Quai quaiArrivée;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateCréation;
@@ -54,18 +48,23 @@ public class Reservation implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateArrivée;
     
-    public enum ReservationStatut {VoyageInitié,VoyageAchevé,VoyageAnnulé}
     @Column(nullable = false)
-    private ReservationStatut statut;
+    private String statut;
 
     public Reservation(){
         
     }
     
-    public Reservation(int nb, Navette n, Client c){
+    public Reservation(int nb, Navette n, Usager u, Calendar dd, Calendar da, Quai qd, Quai qa){
         this.nbPassagers = nb;
-        this.client = c;
+        this.usager = u;
         this.navette = n;
+        this.dateCréation = Calendar.getInstance();
+        this.dateDepart = dd;
+        this.dateArrivée = da;
+        this.quaiArrivée = qa;
+        this.quaiDepart = qd;
+        this.statut = statutDébutRéservation;
     }
 
     public Long getId() {
@@ -75,6 +74,56 @@ public class Reservation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Calendar getDateCréation() {
+        return dateCréation;
+    }
+
+    public void setDateCréation(Calendar dateCréation) {
+        this.dateCréation = dateCréation;
+    }
+
+    public Calendar getDateDepart() {
+        return dateDepart;
+    }
+
+    public void setDateDepart(Calendar dateDepart) {
+        this.dateDepart = dateDepart;
+    }
+
+    public Calendar getDateArrivée() {
+        return dateArrivée;
+    }
+
+    public void setDateArrivée(Calendar dateArrivée) {
+        this.dateArrivée = dateArrivée;
+    }
+
+    public Quai getQuaiDepart() {
+        return quaiDepart;
+    }
+
+    public void setQuaiDepart(Quai quaiDepart) {
+        this.quaiDepart = quaiDepart;
+    }
+
+    public Quai getQuaiArrivée() {
+        return quaiArrivée;
+    }
+
+    public void setQuaiArrivée(Quai quaiArrivée) {
+        this.quaiArrivée = quaiArrivée;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+    
+    
     
     public Navette getNavette() {
         return navette;
@@ -84,12 +133,12 @@ public class Reservation implements Serializable {
         this.navette = navette;
     }
 
-    public Client getClient() {
-        return client;
+    public Usager getUsager() {
+        return usager;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUsager(Usager usager) {
+        this.usager = usager;
     }
     
     public int getNbPassagers() {

@@ -5,7 +5,7 @@
  */
 package com.miage.spacelib.repositories;
 
-import com.miage.spacelib.entities.Client;
+import com.miage.spacelib.entities.Usager;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author uzanl
  */
 @Stateless
-public class ClientFacade extends AbstractFacade<Client> implements ClientFacadeLocal {
+public class ClientFacade extends AbstractFacade<Usager> implements ClientFacadeLocal {
 
     @PersistenceContext(unitName = "SpacelibPersistenceUnit")
     private EntityManager em;
@@ -26,7 +26,7 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
     }
 
     public ClientFacade() {
-        super(Client.class);
+        super(Usager.class);
     }
     
 }

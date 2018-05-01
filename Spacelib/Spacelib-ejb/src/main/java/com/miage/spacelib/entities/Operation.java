@@ -1,6 +1,7 @@
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,39 +9,55 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Revision implements Serializable {
+public class Operation implements Serializable {
     
     public static final String statutDébutRévision = "début de révision";
     public static final String statutFinRévision = "fin de révision";
+    public static final String statutDébutRéservation = "voyage initié";
+    public static final String statutFinRéservation = "voyage achevé";
+    public static final String statutRévisionNécessaire = "révision nécessaire";
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Navette navette;
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Mecanicien mecanicien;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dateCréation;
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Quai quai;
+    @OneToOne(mappedBy="operation")
+    private Revision revision;
+    
+    @OneToOne(mappedBy="operation")
+    private Reservation reservation;
     
     @Column(nullable = false)
     private String statut;
-
-    public Revision(){
+    
+    public Operation(){
         
     }
     
-    public Revision(Navette n, Mecanicien m, Quai q){
-        this.mecanicien = m;
+    public Operation(Navette n, Revision r, String s){
         this.navette = n;
-        this.statut = statutDébutRévision;
-        this.quai = q;
+        this.revision = r;
+        this.dateCréation = Calendar.getInstance();
+        this.statut = s;
+    }
+    
+    public Operation(Navette n, Reservation r, String s){
+        this.navette = n;
+        this.reservation = r;
+        this.dateCréation = Calendar.getInstance();
+        this.statut = s;
     }
 
     public Long getId() {
@@ -50,7 +67,7 @@ public class Revision implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public Navette getNavette() {
         return navette;
     }
@@ -59,20 +76,28 @@ public class Revision implements Serializable {
         this.navette = navette;
     }
 
-    public Mecanicien getMecanicien() {
-        return mecanicien;
+    public Calendar getDateCréation() {
+        return dateCréation;
     }
 
-    public void setMecanicien(Mecanicien mecanicien) {
-        this.mecanicien = mecanicien;
+    public void setDateCréation(Calendar dateCréation) {
+        this.dateCréation = dateCréation;
     }
 
-    public Quai getQuai() {
-        return quai;
+    public Revision getRevision() {
+        return revision;
     }
 
-    public void setQuai(Quai quai) {
-        this.quai = quai;
+    public void setRevision(Revision revision) {
+        this.revision = revision;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
     public String getStatut() {
@@ -82,6 +107,8 @@ public class Revision implements Serializable {
     public void setStatut(String statut) {
         this.statut = statut;
     }
+    
+    
 
     @Override
     public int hashCode() {
@@ -93,10 +120,10 @@ public class Revision implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Revision)) {
+        if (!(object instanceof Operation)) {
             return false;
         }
-        Revision other = (Revision) object;
+        Operation other = (Operation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +132,7 @@ public class Revision implements Serializable {
 
     @Override
     public String toString() {
-        return "com.miage.spacelib.entities.Revision[ id=" + id + " ]";
+        return "com.miage.spacelib.entities.Operation[ id=" + id + " ]";
     }
     
 }

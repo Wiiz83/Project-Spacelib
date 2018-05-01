@@ -5,7 +5,7 @@
  */
 package com.miage.spacelib.repositories;
 
-import com.miage.spacelib.entities.Client;
+import com.miage.spacelib.entities.Usager;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -16,17 +16,17 @@ import javax.ejb.Local;
 @Local
 public interface ClientFacadeLocal {
 
-    void create(Client client);
+    void create(Usager client);
 
-    void edit(Client client);
+    void edit(Usager client);
 
-    void remove(Client client);
+    void remove(Usager client);
 
-    Client find(Object id);
+    Usager find(Object id);
 
-    List<Client> findAll();
+    List<Usager> findAll();
 
-    List<Client> findRange(int[] range);
+    List<Usager> findRange(int[] range);
 
     int count();
     
