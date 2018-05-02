@@ -38,10 +38,7 @@ public class Navette implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
     private List<Revision> revisions;
-    
-    // TODO : A voir si on laisse ?
-    @OneToOne(mappedBy="navette")
-    private Quai quai;
+ 
     
     public Navette(){
         
@@ -100,15 +97,7 @@ public class Navette implements Serializable {
     public void setRevisions(List<Revision> revisions) {
         this.revisions = revisions;
     }
-    
-    public Quai getQuai() {
-        return quai;
-    }
-
-    public void setQuai(Quai quai) {
-        this.quai = quai;
-    }
-
+ 
     @Override
     public int hashCode() {
         int hash = 0;
