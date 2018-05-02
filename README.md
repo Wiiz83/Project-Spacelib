@@ -23,6 +23,8 @@ Tutoriel complet d'installation JEE : https://github.com/Wiiz83/ProjetSpacelib/w
 * login = SpacelibDB
 * mdp = SpacelibDB
 
+Suivre : https://github.com/Wiiz83/ProjetSpacelib/wiki/Installation-compl%C3%A8te#b-cr%C3%A9ation-dune-base-de-donn%C3%A9es-pour-le-back-office
+
 ## Clean & Build dans l'ordre
 * Vérifier que votre serveur GlassFish est arreté 
 * Clean & Build l'application JAVA "SpacelibShared"
