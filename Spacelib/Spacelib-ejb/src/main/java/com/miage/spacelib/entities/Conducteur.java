@@ -1,6 +1,9 @@
 package com.miage.spacelib.entities;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -8,6 +11,9 @@ import javax.persistence.Table;
 public class Conducteur extends Utilisateur {
 
     private static final long serialVersionUID = 1L;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conducteur")
+    private List<Transfert> transferts;
 
     public Conducteur(){
         
@@ -15,6 +21,14 @@ public class Conducteur extends Utilisateur {
     
     public Conducteur(String n, String p, String l, String m){
         super(n, p, l, m);
+    }
+
+    public List<Transfert> getTransferts() {
+        return transferts;
+    }
+
+    public void setTransferts(List<Transfert> transferts) {
+        this.transferts = transferts;
     }
 
 }

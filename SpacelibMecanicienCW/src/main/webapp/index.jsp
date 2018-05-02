@@ -20,10 +20,6 @@
          out.println(port.toto());
 
 
-        %>
-        
-        
-        
-        
+        %> 
     </body>
 </html>

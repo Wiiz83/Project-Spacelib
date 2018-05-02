@@ -3,17 +3,17 @@ package com.miage.spacelib.entities;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+@MappedSuperclass
 public class Reservation implements Serializable {
     
     public static final String statutDébutRéservation = "voyage initié";
@@ -26,9 +26,6 @@ public class Reservation implements Serializable {
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Navette navette;
-    
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Usager usager;
     
     @Column(nullable = false)
     private int nbPassagers;
@@ -55,9 +52,8 @@ public class Reservation implements Serializable {
         
     }
     
-    public Reservation(int nb, Navette n, Usager u, Calendar dd, Calendar da, Quai qd, Quai qa){
+    public Reservation(int nb, Navette n, Calendar dd, Calendar da, Quai qd, Quai qa){
         this.nbPassagers = nb;
-        this.usager = u;
         this.navette = n;
         this.dateCréation = Calendar.getInstance();
         this.dateDepart = dd;
@@ -123,22 +119,12 @@ public class Reservation implements Serializable {
         this.statut = statut;
     }
     
-    
-    
     public Navette getNavette() {
         return navette;
     }
 
     public void setNavette(Navette navette) {
         this.navette = navette;
-    }
-
-    public Usager getUsager() {
-        return usager;
-    }
-
-    public void setUsager(Usager usager) {
-        this.usager = usager;
     }
     
     public int getNbPassagers() {

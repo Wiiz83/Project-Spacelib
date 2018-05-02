@@ -13,7 +13,7 @@ public class Usager extends Utilisateur {
     private static final long serialVersionUID = 1L;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usager")
-    private List<Reservation> reservations;
+    private List<Voyage> voyages;
 
     public Usager(){
         
@@ -23,12 +23,14 @@ public class Usager extends Utilisateur {
         super(n, p, l, m);
     }
 
-    public List<Reservation> getReservations() {
-        return reservations;
+    public List<Voyage> getVoyages() {
+        return voyages;
     }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
+    public void setVoyages(List<Voyage> voyages) {
+        this.voyages = voyages;
     }
+
+    
     
 }

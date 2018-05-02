@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.miage.spacelib.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,10 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-/**
- *
- * @author uzanl
- */
 @Entity
 public class Navette implements Serializable {
     
@@ -61,8 +51,6 @@ public class Navette implements Serializable {
         this.nbPlaces = nb;
         this.nbVoyages = 0;
         this.statut = NavetteStatut.Disponible;
-        //this.reservations = new ArrayList<>();
-        //this.revisions = new ArrayList<>();
     }
 
     public Long getId() {
