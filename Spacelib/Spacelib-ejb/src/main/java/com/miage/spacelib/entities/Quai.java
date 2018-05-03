@@ -26,7 +26,7 @@ public class Quai implements Serializable {
     @OneToOne(mappedBy="quai")
     private Navette navette;
     
-    public enum QuaiStatut {Disponible,Occupé}
+    public enum QuaiStatut {Disponible,Occupe}
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private QuaiStatut statut;

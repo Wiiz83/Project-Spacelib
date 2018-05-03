@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Revision implements Serializable {
     
-    public static final String statutDébutRévision = "début de révision";
-    public static final String statutFinRévision = "fin de révision";
+    public static final String statutDebutRevision = "début de révision";
+    public static final String statutFinRevision = "fin de révision";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,7 +39,7 @@ public class Revision implements Serializable {
     public Revision(Navette n, Mecanicien m, Quai q){
         this.mecanicien = m;
         this.navette = n;
-        this.statut = statutDébutRévision;
+        this.statut = statutDebutRevision;
         this.quai = q;
     }
 

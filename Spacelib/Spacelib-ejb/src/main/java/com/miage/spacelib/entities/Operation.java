@@ -16,11 +16,11 @@ import javax.persistence.TemporalType;
 @Entity
 public class Operation implements Serializable {
     
-    public static final String statutDébutRévision = "début de révision";
-    public static final String statutFinRévision = "fin de révision";
-    public static final String statutDébutRéservation = "voyage initié";
-    public static final String statutFinRéservation = "voyage achevé";
-    public static final String statutRévisionNécessaire = "révision nécessaire";
+    public static final String statutDebutRevision = "début de révision";
+    public static final String statutFinRevision = "fin de révision";
+    public static final String statutDebutReservation = "voyage initié";
+    public static final String statutFinReservation = "voyage achevé";
+    public static final String statutRevisionNecessaire = "révision nécessaire";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,7 +31,7 @@ public class Operation implements Serializable {
     private Navette navette;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dateCréation;
+    private Calendar dateCreation;
     
     @OneToOne(mappedBy="operation")
     private Revision revision;
@@ -49,14 +49,14 @@ public class Operation implements Serializable {
     public Operation(Navette n, Revision r, String s){
         this.navette = n;
         this.revision = r;
-        this.dateCréation = Calendar.getInstance();
+        this.dateCreation = Calendar.getInstance();
         this.statut = s;
     }
     
     public Operation(Navette n, Reservation r, String s){
         this.navette = n;
         this.reservation = r;
-        this.dateCréation = Calendar.getInstance();
+        this.dateCreation = Calendar.getInstance();
         this.statut = s;
     }
 
@@ -76,12 +76,12 @@ public class Operation implements Serializable {
         this.navette = navette;
     }
 
-    public Calendar getDateCréation() {
-        return dateCréation;
+    public Calendar getDateCreation() {
+        return dateCreation;
     }
 
-    public void setDateCréation(Calendar dateCréation) {
-        this.dateCréation = dateCréation;
+    public void setDateCreation(Calendar dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
     public Revision getRevision() {

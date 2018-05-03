@@ -16,8 +16,8 @@ import javax.persistence.TemporalType;
 @MappedSuperclass
 public class Reservation implements Serializable {
     
-    public static final String statutDébutRéservation = "voyage initié";
-    public static final String statutFinRéservation = "voyage achevé";
+    public static final String statutDebutReservation = "voyage initié";
+    public static final String statutFinReservation = "voyage achevé";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,16 +34,16 @@ public class Reservation implements Serializable {
     private Quai quaiDepart;
     
     @OneToOne(mappedBy="reservation")
-    private Quai quaiArrivée;
+    private Quai quaiArrivee;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dateCréation;
+    private Calendar dateCreation;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateDepart;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dateArrivée;
+    private Calendar dateArrivee;
     
     @Column(nullable = false)
     private String statut;
@@ -55,12 +55,12 @@ public class Reservation implements Serializable {
     public Reservation(int nb, Navette n, Calendar dd, Calendar da, Quai qd, Quai qa){
         this.nbPassagers = nb;
         this.navette = n;
-        this.dateCréation = Calendar.getInstance();
+        this.dateCreation = Calendar.getInstance();
         this.dateDepart = dd;
-        this.dateArrivée = da;
-        this.quaiArrivée = qa;
+        this.dateArrivee = da;
+        this.quaiArrivee = qa;
         this.quaiDepart = qd;
-        this.statut = statutDébutRéservation;
+        this.statut = statutDebutReservation;
     }
 
     public Long getId() {
@@ -71,12 +71,12 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public Calendar getDateCréation() {
-        return dateCréation;
+    public Calendar getDateCreation() {
+        return dateCreation;
     }
 
-    public void setDateCréation(Calendar dateCréation) {
-        this.dateCréation = dateCréation;
+    public void setDateCreation(Calendar dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
     public Calendar getDateDepart() {
@@ -87,12 +87,12 @@ public class Reservation implements Serializable {
         this.dateDepart = dateDepart;
     }
 
-    public Calendar getDateArrivée() {
-        return dateArrivée;
+    public Calendar getDateArrivee() {
+        return dateArrivee;
     }
 
-    public void setDateArrivée(Calendar dateArrivée) {
-        this.dateArrivée = dateArrivée;
+    public void setDateArrivee(Calendar dateArrivee) {
+        this.dateArrivee = dateArrivee;
     }
 
     public Quai getQuaiDepart() {
@@ -103,12 +103,12 @@ public class Reservation implements Serializable {
         this.quaiDepart = quaiDepart;
     }
 
-    public Quai getQuaiArrivée() {
-        return quaiArrivée;
+    public Quai getQuaiArrivee() {
+        return quaiArrivee;
     }
 
-    public void setQuaiArrivée(Quai quaiArrivée) {
-        this.quaiArrivée = quaiArrivée;
+    public void setQuaiArrivee(Quai quaiArrivee) {
+        this.quaiArrivee = quaiArrivee;
     }
 
     public String getStatut() {

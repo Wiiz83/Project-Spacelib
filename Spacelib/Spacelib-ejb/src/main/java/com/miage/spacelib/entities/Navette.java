@@ -21,7 +21,7 @@ public class Navette implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    public enum NavetteStatut {Disponible,ARéviser,EnRévision,EnVol}
+    public enum NavetteStatut {Disponible,AReviser,EnRevision,EnVol}
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private NavetteStatut statut;
