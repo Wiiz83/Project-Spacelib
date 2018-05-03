@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Multi-file class diagram">
+  <ClassDiagramComponents>
+    <Class name="Administrateur" package="com.miage.spacelib.entities" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="n"/>
+          <Argument type="String" name="p"/>
+          <Argument type="String" name="l"/>
+          <Argument type="String" name="m"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="Conducteur" package="com.miage.spacelib.entities" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="transferts" type="List&lt;Transfert&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="n"/>
+          <Argument type="String" name="p"/>
+          <Argument type="String" name="l"/>
+          <Argument type="String" name="m"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getTransferts" returnType="List&lt;Transfert&gt;" visibility="public"/>
+        <Method name="setTransferts" returnType="void" visibility="public">
+          <Argument type="List&lt;Transfert&gt;" name="transferts"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Mecanicien" package="com.miage.spacelib.entities" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="revisions" type="List&lt;Revision&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="n"/>
+          <Argument type="String" name="p"/>
+          <Argument type="String" name="l"/>
+          <Argument type="String" name="m"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getRevisions" returnType="List&lt;Revision&gt;" visibility="public"/>
+        <Method name="setRevisions" returnType="void" visibility="public">
+          <Argument type="List&lt;Revision&gt;" name="revisions"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Navette" package="com.miage.spacelib.entities" visibility="public" xPosition="2072.0" yPosition="46.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="statut" type="NavetteStatut" visibility="private"/>
+        <Field name="nbPlaces" type="int" visibility="private"/>
+        <Field name="nbVoyages" type="int" visibility="private"/>
+        <Field name="reservations" type="List&lt;Reservation&gt;" visibility="private"/>
+        <Field name="revisions" type="List&lt;Revision&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="nb"/>
+          <Argument type="String" name="s"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="getStatut" returnType="NavetteStatut" visibility="public"/>
+        <Method name="setStatut" returnType="void" visibility="public">
+          <Argument type="NavetteStatut" name="statut"/>
+        </Method>
+        <Method name="getNbPlaces" returnType="int" visibility="public"/>
+        <Method name="setNbPlaces" returnType="void" visibility="public">
+          <Argument type="int" name="nbPlaces"/>
+        </Method>
+        <Method name="getNbVoyages" returnType="int" visibility="public"/>
+        <Method name="setNbVoyages" returnType="void" visibility="public">
+          <Argument type="int" name="nbVoyages"/>
+        </Method>
+        <Method name="getReservations" returnType="List&lt;Reservation&gt;" visibility="public"/>
+        <Method name="setReservations" returnType="void" visibility="public">
+          <Argument type="List&lt;Reservation&gt;" name="reservations"/>
+        </Method>
+        <Method name="getRevisions" returnType="List&lt;Revision&gt;" visibility="public"/>
+        <Method name="setRevisions" returnType="void" visibility="public">
+          <Argument type="List&lt;Revision&gt;" name="revisions"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Operation" package="com.miage.spacelib.entities" visibility="public" xPosition="1897.0" yPosition="1499.0">
+      <Fields>
+        <Field name="statutDebutRevision" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="statutFinRevision" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="statutDebutReservation" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="statutFinReservation" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="statutRevisionNecessaire" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="navette" type="Navette" visibility="private"/>
+        <Field name="dateCreation" type="Calendar" visibility="private"/>
+        <Field name="revision" type="Revision" visibility="private"/>
+        <Field name="reservation" type="Reservation" visibility="private"/>
+        <Field name="statut" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Navette" name="n"/>
+          <Argument type="Revision" name="r"/>
+          <Argument type="String" name="s"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Navette" name="n"/>
+          <Argument type="Reservation" name="r"/>
+          <Argument type="String" name="s"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="getNavette" returnType="Navette" visibility="public"/>
+        <Method name="setNavette" returnType="void" visibility="public">
+          <Argument type="Navette" name="navette"/>
+        </Method>
+        <Method name="getDateCreation" returnType="Calendar" visibility="public"/>
+        <Method name="setDateCreation" returnType="void" visibility="public">
+          <Argument type="Calendar" name="dateCreation"/>
+        </Method>
+        <Method name="getRevision" returnType="Revision" visibility="public"/>
+        <Method name="setRevision" returnType="void" visibility="public">
+          <Argument type="Revision" name="revision"/>
+        </Method>
+        <Method name="getReservation" returnType="Reservation" visibility="public"/>
+        <Method name="setReservation" returnType="void" visibility="public">
+          <Argument type="Reservation" name="reservation"/>
+        </Method>
+        <Method name="getStatut" returnType="String" visibility="public"/>
+        <Method name="setStatut" returnType="void" visibility="public">
+          <Argument type="String" name="statut"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Quai" package="com.miage.spacelib.entities" visibility="public" xPosition="2835.0" yPosition="46.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="station" type="Station" visibility="private"/>
+        <Field name="navette" type="Navette" visibility="private"/>
+        <Field name="statut" type="QuaiStatut" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Station" name="station"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="getStatut" returnType="QuaiStatut" visibility="public"/>
+        <Method name="setStatut" returnType="void" visibility="public">
+          <Argument type="QuaiStatut" name="statut"/>
+        </Method>
+        <Method name="getStation" returnType="Station" visibility="public"/>
+        <Method name="setStation" returnType="void" visibility="public">
+          <Argument type="Station" name="station"/>
+        </Method>
+        <Method name="getNavette" returnType="Navette" visibility="public"/>
+        <Method name="setNavette" returnType="void" visibility="public">
+          <Argument type="Navette" name="navette"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Reservation" package="com.miage.spacelib.entities" visibility="public" xPosition="2681.0" yPosition="829.0">
+      <Fields>
+        <Field name="statutDebutReservation" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="statutFinReservation" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="navette" type="Navette" visibility="private"/>
+        <Field name="nbPassagers" type="int" visibility="private"/>
+        <Field name="quaiDepart" type="Quai" visibility="private"/>
+        <Field name="quaiArrivee" type="Quai" visibility="private"/>
+        <Field name="dateCreation" type="Calendar" visibility="private"/>
+        <Field name="dateDepart" type="Calendar" visibility="private"/>
+        <Field name="dateArrivee" type="Calendar" visibility="private"/>
+        <Field name="statut" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="nb"/>
+          <Argument type="Navette" name="n"/>
+          <Argument type="Calendar" name="dd"/>
+          <Argument type="Calendar" name="da"/>
+          <Argument type="Quai" name="qd"/>
+          <Argument type="Quai" name="qa"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="getDateCreation" returnType="Calendar" visibility="public"/>
+        <Method name="setDateCreation" returnType="void" visibility="public">
+          <Argument type="Calendar" name="dateCreation"/>
+        </Method>
+        <Method name="getDateDepart" returnType="Calendar" visibility="public"/>
+        <Method name="setDateDepart" returnType="void" visibility="public">
+          <Argument type="Calendar" name="dateDepart"/>
+        </Method>
+        <Method name="getDateArrivee" returnType="Calendar" visibility="public"/>
+        <Method name="setDateArrivee" returnType="void" visibility="public">
+          <Argument type="Calendar" name="dateArrivee"/>
+        </Method>
+        <Method name="getQuaiDepart" returnType="Quai" visibility="public"/>
+        <Method name="setQuaiDepart" returnType="void" visibility="public">
+          <Argument type="Quai" name="quaiDepart"/>
+        </Method>
+        <Method name="getQuaiArrivee" returnType="Quai" visibility="public"/>
+        <Method name="setQuaiArrivee" returnType="void" visibility="public">
+          <Argument type="Quai" name="quaiArrivee"/>
+        </Method>
+        <Method name="getStatut" returnType="String" visibility="public"/>
+        <Method name="setStatut" returnType="void" visibility="public">
+          <Argument type="String" name="statut"/>
+        </Method>
+        <Method name="getNavette" returnType="Navette" visibility="public"/>
+        <Method name="setNavette" returnType="void" visibility="public">
+          <Argument type="Navette" name="navette"/>
+        </Method>
+        <Method name="getNbPassagers" returnType="int" visibility="public"/>
+        <Method name="setNbPassagers" returnType="void" visibility="public">
+          <Argument type="int" name="nbPassagers"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Revision" package="com.miage.spacelib.entities" visibility="public" xPosition="1297.0" yPosition="128.0">
+      <Fields>
+        <Field name="statutDebutRevision" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="statutFinRevision" type="String" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="navette" type="Navette" visibility="private"/>
+        <Field name="mecanicien" type="Mecanicien" visibility="private"/>
+        <Field name="quai" type="Quai" visibility="private"/>
+        <Field name="statut" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Navette" name="n"/>
+          <Argument type="Mecanicien" name="m"/>
+          <Argument type="Quai" name="q"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="getNavette" returnType="Navette" visibility="public"/>
+        <Method name="setNavette" returnType="void" visibility="public">
+          <Argument type="Navette" name="navette"/>
+        </Method>
+        <Method name="getMecanicien" returnType="Mecanicien" visibility="public"/>
+        <Method name="setMecanicien" returnType="void" visibility="public">
+          <Argument type="Mecanicien" name="mecanicien"/>
+        </Method>
+        <Method name="getQuai" returnType="Quai" visibility="public"/>
+        <Method name="setQuai" returnType="void" visibility="public">
+          <Argument type="Quai" name="quai"/>
+        </Method>
+        <Method name="getStatut" returnType="String" visibility="public"/>
+        <Method name="setStatut" returnType="void" visibility="public">
+          <Argument type="String" name="statut"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Station" package="com.miage.spacelib.entities" visibility="public" xPosition="3532.0" yPosition="20.0">
+      <Fields>
+        <Field name="Terre" type="Pair&lt;String, String&gt;" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="Dimidium" type="Pair&lt;String, String&gt;" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="Arion" type="Pair&lt;String, String&gt;" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="Brahe" type="Pair&lt;String, String&gt;" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="Amateru" type="Pair&lt;String, String&gt;" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="Tadmor" type="Pair&lt;String, String&gt;" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="quais" type="List&lt;Quai&gt;" visibility="private"/>
+        <Field name="localisation" type="Pair&lt;String, String&gt;" visibility="private"/>
+        <Field name="nbQuais" type="int" visibility="private"/>
+        <Field name="statut" type="StationStatut" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Pair&lt;String, String&gt;" name="l"/>
+          <Argument type="int" name="nb"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="getLocalisation" returnType="Pair&lt;String, String&gt;" visibility="public"/>
+        <Method name="setLocalisation" returnType="void" visibility="public">
+          <Argument type="Pair&lt;String, String&gt;" name="localisation"/>
+        </Method>
+        <Method name="getNbQuais" returnType="int" visibility="public"/>
+        <Method name="setNbQuais" returnType="void" visibility="public">
+          <Argument type="int" name="nbQuais"/>
+        </Method>
+        <Method name="getStatut" returnType="StationStatut" visibility="public"/>
+        <Method name="setStatut" returnType="void" visibility="public">
+          <Argument type="StationStatut" name="statut"/>
+        </Method>
+        <Method name="getQuais" returnType="List&lt;Quai&gt;" visibility="public"/>
+        <Method name="setQuais" returnType="void" visibility="public">
+          <Argument type="List&lt;Quai&gt;" name="quais"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Transfert" package="com.miage.spacelib.entities" visibility="public" xPosition="1516.0" yPosition="1577.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="usager" type="Usager" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="nb"/>
+          <Argument type="Navette" name="n"/>
+          <Argument type="Usager" name="u"/>
+          <Argument type="Calendar" name="dd"/>
+          <Argument type="Calendar" name="da"/>
+          <Argument type="Quai" name="qd"/>
+          <Argument type="Quai" name="qa"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getUsager" returnType="Usager" visibility="public"/>
+        <Method name="setUsager" returnType="void" visibility="public">
+          <Argument type="Usager" name="usager"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Usager" package="com.miage.spacelib.entities" visibility="public" xPosition="481.0" yPosition="1118.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="voyages" type="List&lt;Voyage&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="n"/>
+          <Argument type="String" name="p"/>
+          <Argument type="String" name="l"/>
+          <Argument type="String" name="m"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getVoyages" returnType="List&lt;Voyage&gt;" visibility="public"/>
+        <Method name="setVoyages" returnType="void" visibility="public">
+          <Argument type="List&lt;Voyage&gt;" name="voyages"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Utilisateur" package="com.miage.spacelib.entities" visibility="public" xPosition="67.0" yPosition="859.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="id" type="Long" visibility="private"/>
+        <Field name="nom" type="String" visibility="private"/>
+        <Field name="prenom" type="String" visibility="private"/>
+        <Field name="login" type="String" visibility="private"/>
+        <Field name="motdepasse" type="String" visibility="private"/>
+        <Field name="dateCreation" type="Calendar" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="n"/>
+          <Argument type="String" name="p"/>
+          <Argument type="String" name="l"/>
+          <Argument type="String" name="m"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="Long" name="id"/>
+        </Method>
+        <Method name="getNom" returnType="String" visibility="public"/>
+        <Method name="setNom" returnType="void" visibility="public">
+          <Argument type="String" name="nom"/>
+        </Method>
+        <Method name="getPrenom" returnType="String" visibility="public"/>
+        <Method name="setPrenom" returnType="void" visibility="public">
+          <Argument type="String" name="prenom"/>
+        </Method>
+        <Method name="getLogin" returnType="String" visibility="public"/>
+        <Method name="setLogin" returnType="void" visibility="public">
+          <Argument type="String" name="login"/>
+        </Method>
+        <Method name="getMotdepasse" returnType="String" visibility="public"/>
+        <Method name="setMotdepasse" returnType="void" visibility="public">
+          <Argument type="String" name="motdepasse"/>
+        </Method>
+        <Method name="getDateCreation" returnType="Calendar" visibility="public"/>
+        <Method name="setDateCreation" returnType="void" visibility="public">
+          <Argument type="Calendar" name="dateCreation"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Voyage" package="com.miage.spacelib.entities" visibility="public" xPosition="920.0" yPosition="1698.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="conducteur" type="Conducteur" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="nb"/>
+          <Argument type="Navette" name="n"/>
+          <Argument type="Conducteur" name="c"/>
+          <Argument type="Calendar" name="dd"/>
+          <Argument type="Calendar" name="da"/>
+          <Argument type="Quai" name="qd"/>
+          <Argument type="Quai" name="qa"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getConducteur" returnType="Conducteur" visibility="public"/>
+        <Method name="setConducteur" returnType="void" visibility="public">
+          <Argument type="Conducteur" name="conducteur"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="com.miage.spacelib.entities.Operation" target="com.miage.spacelib.entities.Revision" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="com.miage.spacelib.entities.Usager" target="com.miage.spacelib.entities.Utilisateur"/>
+    <HasRelation name="reservations" source="com.miage.spacelib.entities.Navette" target="com.miage.spacelib.entities.Reservation" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Reservation&gt;"/>
+    <HasRelation name="revisions" source="com.miage.spacelib.entities.Navette" target="com.miage.spacelib.entities.Revision" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Revision&gt;"/>
+    <UseRelation source="com.miage.spacelib.entities.Mecanicien" target="com.miage.spacelib.entities.Revision" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Revision" target="com.miage.spacelib.entities.Navette" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Transfert" target="com.miage.spacelib.entities.Usager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Navette" target="com.miage.spacelib.entities.Reservation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="transferts" source="com.miage.spacelib.entities.Conducteur" target="com.miage.spacelib.entities.Transfert" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Transfert&gt;"/>
+    <UseRelation source="com.miage.spacelib.entities.Quai" target="com.miage.spacelib.entities.Navette" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="revision" source="com.miage.spacelib.entities.Operation" target="com.miage.spacelib.entities.Revision" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Voyage" target="com.miage.spacelib.entities.Conducteur" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="navette" source="com.miage.spacelib.entities.Quai" target="com.miage.spacelib.entities.Navette" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="conducteur" source="com.miage.spacelib.entities.Voyage" target="com.miage.spacelib.entities.Conducteur" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="revisions" source="com.miage.spacelib.entities.Mecanicien" target="com.miage.spacelib.entities.Revision" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Revision&gt;"/>
+    <HasRelation name="quaiArrivee" source="com.miage.spacelib.entities.Reservation" target="com.miage.spacelib.entities.Quai" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="quai" source="com.miage.spacelib.entities.Revision" target="com.miage.spacelib.entities.Quai" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="navette" source="com.miage.spacelib.entities.Operation" target="com.miage.spacelib.entities.Navette" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Reservation" target="com.miage.spacelib.entities.Navette" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Quai" target="com.miage.spacelib.entities.Station" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Conducteur" target="com.miage.spacelib.entities.Transfert" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="navette" source="com.miage.spacelib.entities.Reservation" target="com.miage.spacelib.entities.Navette" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="usager" source="com.miage.spacelib.entities.Transfert" target="com.miage.spacelib.entities.Usager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Revision" target="com.miage.spacelib.entities.Mecanicien" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Station" target="com.miage.spacelib.entities.Quai" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="com.miage.spacelib.entities.Administrateur" target="com.miage.spacelib.entities.Utilisateur"/>
+    <IsRelation name="is" source="com.miage.spacelib.entities.Mecanicien" target="com.miage.spacelib.entities.Utilisateur"/>
+    <UseRelation source="com.miage.spacelib.entities.Quai" target="com.miage.spacelib.entities.Quai" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="com.miage.spacelib.entities.Voyage" target="com.miage.spacelib.entities.Reservation"/>
+    <IsRelation name="is" source="com.miage.spacelib.entities.Transfert" target="com.miage.spacelib.entities.Reservation"/>
+    <HasRelation name="voyages" source="com.miage.spacelib.entities.Usager" target="com.miage.spacelib.entities.Voyage" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Voyage&gt;"/>
+    <HasRelation name="navette" source="com.miage.spacelib.entities.Revision" target="com.miage.spacelib.entities.Navette" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="quais" source="com.miage.spacelib.entities.Station" target="com.miage.spacelib.entities.Quai" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List&lt;Quai&gt;"/>
+    <UseRelation source="com.miage.spacelib.entities.Operation" target="com.miage.spacelib.entities.Reservation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="mecanicien" source="com.miage.spacelib.entities.Revision" target="com.miage.spacelib.entities.Mecanicien" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Navette" target="com.miage.spacelib.entities.Navette" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="quaiDepart" source="com.miage.spacelib.entities.Reservation" target="com.miage.spacelib.entities.Quai" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Revision" target="com.miage.spacelib.entities.Quai" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Navette" target="com.miage.spacelib.entities.Revision" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="com.miage.spacelib.entities.Conducteur" target="com.miage.spacelib.entities.Utilisateur"/>
+    <UseRelation source="com.miage.spacelib.entities.Operation" target="com.miage.spacelib.entities.Navette" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Reservation" target="com.miage.spacelib.entities.Quai" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="station" source="com.miage.spacelib.entities.Quai" target="com.miage.spacelib.entities.Station" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Usager" target="com.miage.spacelib.entities.Voyage" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="reservation" source="com.miage.spacelib.entities.Operation" target="com.miage.spacelib.entities.Reservation" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.miage.spacelib.entities.Station" target="com.miage.spacelib.entities.Station" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

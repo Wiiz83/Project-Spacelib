@@ -11,4 +11,5 @@
 /SpacelibMecanicien/target/
 *.bak*
 *.lck*
+*.vpp~*
 /SpacelibMecanicienCW/target/
