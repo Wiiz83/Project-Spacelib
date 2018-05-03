@@ -4,7 +4,7 @@ Prévu pour JEE 7, gestion de projets avec Maven, déploiement sur serveur Glass
 
 IDE Netbeans : https://netbeans.org/downloads/index.html Prendre la version “Java EE” - Ne fonctionne pas avec Java 9
 
-Conception UML du projet : https://drive.google.com/file/d/1qZ4POA0UISNeZ_q_KLFKjG9F2Pv1PqXq/view?usp=sharing
+Conception UML du projet : https://www.visual-paradigm.com/tutorials/modelinginnetbeans.jsp
 
 Sujet du projet : https://drive.google.com/file/d/14aA95lMoUG3dPfSQUOpizWIsefNlIN3x/view?usp=sharing
 
