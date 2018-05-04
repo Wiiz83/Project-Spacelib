@@ -2,7 +2,9 @@ package com.miage.spacelib.entities;
 
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -12,7 +14,9 @@ public class Conducteur extends Utilisateur {
 
     private static final long serialVersionUID = 1L;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conducteur")
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "conducteur")
+    //@Column(name="TRANSFERT", nullable = false)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "conducteur")
     private List<Transfert> transferts;
 
     public Conducteur(){

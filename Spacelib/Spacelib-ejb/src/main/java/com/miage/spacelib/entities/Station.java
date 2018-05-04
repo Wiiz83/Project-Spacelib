@@ -2,54 +2,51 @@ package com.miage.spacelib.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javafx.util.Pair;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="STATION")
 public class Station implements Serializable {
-    
-    public static final Pair<String, String> Terre = new Pair<>("sol", "d");
-    public static final Pair<String, String> Dimidium = new Pair<>("pegasi", "b");
-    public static final Pair<String, String> Arion = new Pair<>("delphini", "b");
-    public static final Pair<String, String> Brahe = new Pair<>("cancri", "c");
-    public static final Pair<String, String> Amateru = new Pair<>("epsilonTauri", "b");
-    public static final Pair<String, String> Tadmor = new Pair<>("gammaCepheiA", "b");
-    
+   
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "station")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
     private List<Quai> quais;
     
-    @Column(nullable = false)
-    private Pair<String, String> localisation;
+    @Column(name="LOCALISATION", nullable = false)
+    private String localisation;
     
-    @Column(nullable = false)
+    @Column(name="NOMBRE_QUAIS", nullable = false)
     private int nbQuais;
     
-    public enum StationStatut {Disponible,Complet}
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private StationStatut statut;
+    @Column(name="NOM", nullable = false)
+    private String nom;
+    
+    //public enum StationStatut {Disponible,Complet}
+    //@Enumerated(EnumType.STRING)
+    @Column(name="STATUT", nullable = false)
+    private String statut;
     
     public Station(){
         
     }
     
-    public Station(Pair<String, String> l, int nb){
+    public Station(String l, int nb, String n){
         this.localisation = l;
         this.nbQuais = nb;
-        this.statut = StationStatut.Disponible;
+        this.statut = "Disponible";
+        this.nom = n;
     }
    
     public Long getId() {
@@ -60,11 +57,11 @@ public class Station implements Serializable {
         this.id = id;
     }
 
-    public Pair<String, String> getLocalisation() {
+    public String getLocalisation() {
         return localisation;
     }
 
-    public void setLocalisation(Pair<String, String> localisation) {
+    public void setLocalisation(String localisation) {
         this.localisation = localisation;
     }
 
@@ -76,15 +73,21 @@ public class Station implements Serializable {
         this.nbQuais = nbQuais;
     }
 
-    public StationStatut getStatut() {
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getStatut() {
         return statut;
     }
 
-    public void setStatut(StationStatut statut) {
+    public void setStatut(String statut) {
         this.statut = statut;
     }
-    
-    
 
     public List<Quai> getQuais() {
         return quais;

@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -21,9 +22,11 @@ public class Quai implements Serializable {
     private Long id;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "stationId")
     private Station station;
     
-    @OneToOne(mappedBy="quai")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "navetteId")
     private Navette navette;
     
     public enum QuaiStatut {Disponible,Occupe}

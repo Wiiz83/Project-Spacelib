@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +27,9 @@ public class Navette implements Serializable {
     @Column(nullable = false)
     private NavetteStatut statut;
     
+    @OneToOne(mappedBy = "navette", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Quai quai;
+    
     // 2, 5, 10 ou 15 places
     @Column(nullable = false)
     private int nbPlaces;
@@ -34,10 +38,7 @@ public class Navette implements Serializable {
     private int nbVoyages;
    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
-    private List<Reservation> reservations;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
-    private List<Revision> revisions;
+    private List<Operation> operations;
  
     
     public Navette(){
@@ -82,21 +83,23 @@ public class Navette implements Serializable {
         this.nbVoyages = nbVoyages;
     }
 
-    public List<Reservation> getReservations() {
-        return reservations;
+    public Quai getQuai() {
+        return quai;
     }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
+    public void setQuai(Quai quai) {
+        this.quai = quai;
     }
 
-    public List<Revision> getRevisions() {
-        return revisions;
+    public List<Operation> getOperations() {
+        return operations;
     }
 
-    public void setRevisions(List<Revision> revisions) {
-        this.revisions = revisions;
+    public void setOperations(List<Operation> operations) {
+        this.operations = operations;
     }
+
+    
  
     @Override
     public int hashCode() {

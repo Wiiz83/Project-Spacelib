@@ -1,20 +1,25 @@
 package com.miage.spacelib.entities;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Operation implements Serializable {
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="OPERATION_TYPE")
+@Table(name="OPERATION")
+public abstract class Operation {
     
     public static final String statutDebutRevision = "début de révision";
     public static final String statutFinRevision = "fin de révision";
@@ -23,6 +28,7 @@ public class Operation implements Serializable {
     public static final String statutRevisionNecessaire = "révision nécessaire";
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -32,13 +38,7 @@ public class Operation implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateCreation;
-    
-    @OneToOne(mappedBy="operation")
-    private Revision revision;
-    
-    @OneToOne(mappedBy="operation")
-    private Reservation reservation;
-    
+
     @Column(nullable = false)
     private String statut;
     
@@ -46,16 +46,8 @@ public class Operation implements Serializable {
         
     }
     
-    public Operation(Navette n, Revision r, String s){
+    public Operation(Navette n, String s){
         this.navette = n;
-        this.revision = r;
-        this.dateCreation = Calendar.getInstance();
-        this.statut = s;
-    }
-    
-    public Operation(Navette n, Reservation r, String s){
-        this.navette = n;
-        this.reservation = r;
         this.dateCreation = Calendar.getInstance();
         this.statut = s;
     }
@@ -84,22 +76,6 @@ public class Operation implements Serializable {
         this.dateCreation = dateCreation;
     }
 
-    public Revision getRevision() {
-        return revision;
-    }
-
-    public void setRevision(Revision revision) {
-        this.revision = revision;
-    }
-
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
     public String getStatut() {
         return statut;
     }
@@ -107,8 +83,6 @@ public class Operation implements Serializable {
     public void setStatut(String statut) {
         this.statut = statut;
     }
-    
-    
 
     @Override
     public int hashCode() {

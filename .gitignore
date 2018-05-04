@@ -13,3 +13,7 @@
 *.lck*
 *.vpp~*
 /SpacelibMecanicienCW/target/
+/SpacelibUsagerCL/target/
+/SpacelibAdminCL/target/
+/SpacelibUsagerCW/target/
+/SpacelibConducteurCW/target/

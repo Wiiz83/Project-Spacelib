@@ -17,8 +17,8 @@ public class Voyage extends Reservation {
         
     }
     
-    public Voyage(int nb, Navette n, Usager u, Calendar dd, Calendar da, Quai qd, Quai qa){
-        super(nb, n, dd, da, qd, qa);
+    public Voyage(int nb, Navette n, String s, Usager u, Calendar dd, Calendar da, Quai qd, Quai qa){
+        super(nb, n, s, dd, da, qd, qa);
         this.usager = u;
     }
 
