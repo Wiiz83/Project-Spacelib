@@ -4,8 +4,10 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Entity
+@Entity(name = "Voyage")
+@Table(name="VOYAGE")
 public class Voyage extends Reservation {
 
     private static final long serialVersionUID = 1L;

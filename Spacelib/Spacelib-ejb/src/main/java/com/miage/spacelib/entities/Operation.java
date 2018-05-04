@@ -11,14 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="OPERATION_TYPE")
-@Table(name="OPERATION")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Operation {
     
     public static final String statutDebutRevision = "début de révision";
@@ -27,8 +24,6 @@ public abstract class Operation {
     public static final String statutFinReservation = "voyage achevé";
     public static final String statutRevisionNecessaire = "révision nécessaire";
 
-    private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

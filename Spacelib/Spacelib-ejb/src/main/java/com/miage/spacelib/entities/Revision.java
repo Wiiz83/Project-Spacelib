@@ -1,13 +1,11 @@
 package com.miage.spacelib.entities;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@DiscriminatorValue("REVISION")
+@Entity(name = "Revision")
 @Table(name="REVISION")
 public class Revision extends Operation {
     

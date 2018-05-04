@@ -1,22 +1,24 @@
 package com.miage.spacelib.entities;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@DiscriminatorValue("RESERVATION")
-@Table(name="RESERVATION")
-public class Reservation extends Operation {
+//@Entity
+//@DiscriminatorValue("RESERVATION")
+//@Table(name="RESERVATION")
 
-    private static final long serialVersionUID = 1L;
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Reservation extends Operation {
+
+    //private static final long serialVersionUID = 1L;
     
     @Column(nullable = false)
     private int nbPassagers;

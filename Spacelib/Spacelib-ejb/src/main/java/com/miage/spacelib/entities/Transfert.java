@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Entity
+@Entity(name = "Transfert")
+@Table(name="TRANSFERT")
 public class Transfert extends Reservation {
 
     private static final long serialVersionUID = 1L;
