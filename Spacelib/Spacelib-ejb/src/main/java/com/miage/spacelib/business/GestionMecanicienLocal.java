@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.spacelib.services;
+package com.miage.spacelib.business;
 
 import com.miage.spacelib.entities.Mecanicien;
 import java.util.List;
@@ -14,14 +14,8 @@ import javax.ejb.Local;
  * @author uzanl
  */
 @Local
-public interface ServicesMecanicienLocal {
+public interface GestionMecanicienLocal {
     
-    /**
-     *
-     * @return
-     */
-    public String toto();
     
     public List<Mecanicien> findAll();
-    
 }

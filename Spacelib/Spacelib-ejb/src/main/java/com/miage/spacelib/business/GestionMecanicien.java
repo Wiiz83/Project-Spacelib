@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.spacelib.services;
+package com.miage.spacelib.business;
 
-import com.miage.spacelib.business.GestionMecanicienLocal;
 import com.miage.spacelib.entities.Mecanicien;
+import com.miage.spacelib.repositories.MecanicienFacadeLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -16,21 +16,13 @@ import javax.ejb.Stateless;
  * @author uzanl
  */
 @Stateless
-public class ServicesMecanicien implements ServicesMecanicienLocal {
+public class GestionMecanicien implements GestionMecanicienLocal {
 
     @EJB
-    private GestionMecanicienLocal gestionMecanicien;
+    private MecanicienFacadeLocal mecanicienFacade;
     
-    @Override
-    public String toto() {
-        return "ça marche";
-    }
-
     @Override
     public List<Mecanicien> findAll() {
-        return this.gestionMecanicien.findAll();
+        return this.mecanicienFacade.findAll();
     }
-
-    
-    
 }
