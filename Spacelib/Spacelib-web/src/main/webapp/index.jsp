@@ -1,6 +1,4 @@
-<%@page import="java.util.List"%>
-<%@page import="com.miage.spacelib.services.*"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,24 +6,53 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Server is running !</h1>
+        
         
         <%
-         /*
-           WebServicesGetData service = new WebServicesGetData();
-         List<com.miage.spacelib.entities.Mecanicien> mecaniciens = service.getMecanos();
-        
-        for (com.miage.spacelib.entities.Mecanicien m : mecaniciens) {
-            out.println(m.getNom());
-        }
-*/
-         WSTest service = new WSTest();
-         List<com.miage.spacelib.entities.Mecanicien> mecaniciens = service.findAll();
-        
-        for (com.miage.spacelib.entities.Mecanicien m : mecaniciens) {
-            out.println(m.getNom());
-        }
+        try
+        {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url="jdbc:derby://localhost:1527/SpacelibDB";
+            String username="SpacelibDB";
+            String password="SpacelibDB";
+            String query="SELECT * FROM MECANICIEN";
+            Connection conn=DriverManager.getConnection(url,username,password);
+            Statement stmt=conn.createStatement();
+            ResultSet rs=stmt.executeQuery(query);
+            while(rs.next())
+        {
 
         %>
+            <tr><td><%rs.getInt("ID"); %></td></tr>
+            <tr><td><%rs.getString("LOGIN"); %></td></tr>
+            <tr><td><%rs.getString("NOM"); %></td></tr>
+                <%
+
+        }
+        %>
+            </table>
+            <%
+            rs.close();
+            stmt.close();
+            conn.close();
+            }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            }
+
+
+
+
+        %>
+
+        
+        
+        
+        
+        
+        
+        
     </body>
 </html>
