@@ -1,4 +1,4 @@
-<%@page import="java.sql.*"%>
+<%@ page import="java.sql.*, javax.sql.*, java.io.*, javax.naming.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,28 +7,23 @@
     </head>
     <body>
         <h1>Server is running !</h1>
-        
-        
+          <table>
         <%
         try
         {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url="jdbc:derby://localhost:1527/SpacelibDB";
-            String username="SpacelibDB";
-            String password="SpacelibDB";
-            String query="SELECT * FROM MECANICIEN";
-            Connection conn=DriverManager.getConnection(url,username,password);
-            Statement stmt=conn.createStatement();
-            ResultSet rs=stmt.executeQuery(query);
-            while(rs.next())
-        {
-
+            InitialContext ctx = new InitialContext();
+            DataSource  ds = (DataSource) ctx.lookup("java:app/jdbc/SpacelibDataSource");
+            Connection  conn = ds.getConnection();
+            Statement  stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM MECANICIEN");
+            while(rs.next()){
         %>
-            <tr><td><%rs.getInt("ID"); %></td></tr>
-            <tr><td><%rs.getString("LOGIN"); %></td></tr>
-            <tr><td><%rs.getString("NOM"); %></td></tr>
+            <tr>
+                <td><%= rs.getInt("ID") %></td>
+                <td><%= rs.getString("LOGIN") %></td>
+                <td><%= rs.getString("NOM") %></td>
+            </tr>
                 <%
-
         }
         %>
             </table>
@@ -40,19 +35,7 @@
         catch(Exception e)
         {
             e.printStackTrace();
-            }
-
-
-
-
+        }
         %>
-
-        
-        
-        
-        
-        
-        
-        
     </body>
 </html>
