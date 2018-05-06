@@ -30,4 +30,12 @@ public interface UsagerFacadeLocal {
 
     int count();
     
+    Usager findByPrenomAndNom(String prenom, String nom);
+    
+    Usager findByLoginAndPassword(String login, String motdepasse);
+    
+    Usager findByPrenomAndNomAndLogin(String prenom, String nom, String login);
+    
+    Usager creerUsagerSiInexistant(String prenom, String nom, String login, String motdepasse);
+    
 }

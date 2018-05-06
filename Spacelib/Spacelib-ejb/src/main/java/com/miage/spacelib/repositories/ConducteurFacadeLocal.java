@@ -30,4 +30,12 @@ public interface ConducteurFacadeLocal {
 
     int count();
     
+    Conducteur findByPrenomAndNom(String prenom, String nom);
+    
+    Conducteur findByLoginAndPassword(String login, String motdepasse);
+    
+    Conducteur findByPrenomAndNomAndLogin(String prenom, String nom, String login);
+    
+    Conducteur creerConducteurSiInexistant(String prenom, String nom, String login, String motdepasse);
+    
 }

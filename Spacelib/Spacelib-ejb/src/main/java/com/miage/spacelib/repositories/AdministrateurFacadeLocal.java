@@ -30,4 +30,12 @@ public interface AdministrateurFacadeLocal {
 
     int count();
     
+    Administrateur findByPrenomAndNom(String prenom, String nom);
+    
+    Administrateur findByLoginAndPassword(String login, String motdepasse);
+    
+    Administrateur findByPrenomAndNomAndLogin(String prenom, String nom, String login);
+    
+    Administrateur creerAdministrateurSiInexistant(String prenom, String nom, String login, String motdepasse);
+    
 }
