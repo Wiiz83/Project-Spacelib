@@ -38,8 +38,13 @@ public class Navette implements Serializable {
     private int nbVoyages;
    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
-    private List<Operation> operations;
+    private List<Voyage> voyages;
  
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
+    private List<Transfert> transferts;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "navette")
+    private List<Revision> revisions;
     
     public Navette(){
         
@@ -89,17 +94,7 @@ public class Navette implements Serializable {
 
     public void setQuai(Quai quai) {
         this.quai = quai;
-    }
-
-    public List<Operation> getOperations() {
-        return operations;
-    }
-
-    public void setOperations(List<Operation> operations) {
-        this.operations = operations;
-    }
-
-    
+    }   
  
     @Override
     public int hashCode() {

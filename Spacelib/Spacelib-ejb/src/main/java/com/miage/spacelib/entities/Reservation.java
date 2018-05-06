@@ -2,24 +2,15 @@ package com.miage.spacelib.entities;
 
 import java.util.Calendar;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-//@Entity
-//@DiscriminatorValue("RESERVATION")
-//@Table(name="RESERVATION")
-
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public abstract class Reservation extends Operation {
 
-    //private static final long serialVersionUID = 1L;
-    
     @Column(nullable = false)
     private int nbPassagers;
     

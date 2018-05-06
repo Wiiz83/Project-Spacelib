@@ -285,11 +285,11 @@
                     <td><%= rs.getInt("ID")%></td>
                     <td><%= rs.getString("DATEARRIVEE")%></td>
                     <td><%= rs.getString("DATECREATION")%></td>
-                    <td><%= rs.getInt("DATEDEPART")%></td>
+                    <td><%= rs.getString("DATEDEPART")%></td>
                     <td><%= rs.getInt("NBPASSAGERS")%></td>
-                    <td><%= rs.getInt("STATUT")%></td>
-                    <td><%= rs.getString("CONDUCTEURID")%></td>
-                    <td><%= rs.getString("NAVETTE_ID")%></td>
+                    <td><%= rs.getString("STATUT")%></td>
+                    <td><%= rs.getInt("CONDUCTEURID")%></td>
+                    <td><%= rs.getInt("NAVETTE_ID")%></td>
                     <td><%= rs.getInt("QUAIARRIVEE_ID")%></td>
                     <td><%= rs.getInt("QUAIDEPART_ID")%></td>
                 </tr>
@@ -342,26 +342,26 @@
                     <th>Date de départ</th>
                     <th>Nombre de passagers</th>
                     <th>Statut</th>
-                    <th>Identifiant de l'usager</th>
                     <th>Identifiant de la navette</th>
                     <th>Identifiant du quai d'arrivée</th>
                     <th>Identifiant du quai de départ</th>
+                    <th>Identifiant de l'usager</th>
                 </tr>
                 <%
-                    rs = stmt.executeQuery("SELECT * FROM TRANSFERT");
+                    rs = stmt.executeQuery("SELECT * FROM VOYAGE");
                     while (rs.next()) {
                 %>
                 <tr>
                     <td><%= rs.getInt("ID")%></td>
                     <td><%= rs.getString("DATEARRIVEE")%></td>
                     <td><%= rs.getString("DATECREATION")%></td>
-                    <td><%= rs.getInt("DATEDEPART")%></td>
+                    <td><%= rs.getString("DATEDEPART")%></td>
                     <td><%= rs.getInt("NBPASSAGERS")%></td>
-                    <td><%= rs.getInt("STATUT")%></td>
-                    <td><%= rs.getString("USAGER_ID")%></td>
-                    <td><%= rs.getString("NAVETTE_ID")%></td>
+                    <td><%= rs.getString("STATUT")%></td>
+                    <td><%= rs.getInt("NAVETTE_ID")%></td>
                     <td><%= rs.getInt("QUAIARRIVEE_ID")%></td>
                     <td><%= rs.getInt("QUAIDEPART_ID")%></td>
+                    <td><%= rs.getInt("USAGER_ID")%></td>
                 </tr>
                 <%
                     }

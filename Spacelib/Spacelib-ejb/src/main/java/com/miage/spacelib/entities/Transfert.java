@@ -10,8 +10,9 @@ import javax.persistence.Table;
 @Entity(name = "Transfert")
 @Table(name="TRANSFERT")
 public class Transfert extends Reservation {
-
-    private static final long serialVersionUID = 1L;
+    
+    public static final String statutDebutVoyage = "voyage initié";
+    public static final String statutFinVoyage = "voyage achevé";
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "conducteurId")
@@ -33,9 +34,4 @@ public class Transfert extends Reservation {
     public void setConducteur(Conducteur conducteur) {
         this.conducteur = conducteur;
     }
-
-    
-    
-    
-    
 }

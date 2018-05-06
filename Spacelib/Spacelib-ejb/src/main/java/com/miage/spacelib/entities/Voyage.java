@@ -9,9 +9,10 @@ import javax.persistence.Table;
 @Entity(name = "Voyage")
 @Table(name="VOYAGE")
 public class Voyage extends Reservation {
-
-    private static final long serialVersionUID = 1L;
-
+    
+    public static final String statutDebutTransfert = "transfert initié";
+    public static final String statutFinTransfert = "transfert achevé";
+    
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usager usager;
     

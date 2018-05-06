@@ -2,27 +2,17 @@ package com.miage.spacelib.entities;
 
 import java.util.Calendar;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public abstract class Operation {
-    
-    public static final String statutDebutRevision = "début de révision";
-    public static final String statutFinRevision = "fin de révision";
-    public static final String statutDebutReservation = "voyage initié";
-    public static final String statutFinReservation = "voyage achevé";
-    public static final String statutRevisionNecessaire = "révision nécessaire";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
