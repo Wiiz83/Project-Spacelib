@@ -13,7 +13,7 @@ public class Mecanicien extends Utilisateur {
     private static final long serialVersionUID = 1L;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mecanicien")
-    private List<Affectation> affectations;
+    private List<Revision> revisions;
 
     public Mecanicien(){
         
@@ -23,11 +23,11 @@ public class Mecanicien extends Utilisateur {
         super(n, p, l, m);
     }
 
-    public List<Affectation> getAffectations() {
-        return affectations;
+    public List<Revision> getRevisions() {
+        return revisions;
     }
 
-    public void setAffectations(List<Affectation> affectations) {
-        this.affectations = affectations;
+    public void setRevisions(List<Revision> revisions) {
+        this.revisions = revisions;
     }
 }

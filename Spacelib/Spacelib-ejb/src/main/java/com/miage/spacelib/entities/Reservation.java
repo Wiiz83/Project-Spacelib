@@ -3,6 +3,7 @@ package com.miage.spacelib.entities;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
@@ -11,19 +12,23 @@ import javax.persistence.TemporalType;
 @MappedSuperclass
 public abstract class Reservation extends Operation {
 
-    @Column(nullable = false)
+    @Column(name="NOMBRE_PASSAGERS", nullable = false)
     private int nbPassagers;
     
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_QUAI_DEPART", nullable = false)
     private Quai quaiDepart;
     
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_QUAI_ARRIVE", nullable = false)
     private Quai quaiArrivee;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DATE_DEPART", nullable = false)
     private Calendar dateDepart;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DATE_ARRIVEE", nullable = false)
     private Calendar dateArrivee;
 
     public Reservation(){

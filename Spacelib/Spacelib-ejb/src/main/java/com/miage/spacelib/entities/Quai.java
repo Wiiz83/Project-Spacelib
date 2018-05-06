@@ -22,11 +22,11 @@ public class Quai implements Serializable {
     private Long id;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "stationId")
+    @JoinColumn(name = "ID_STATION", nullable = false)
     private Station station;
     
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "navetteId")
+    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_NAVETTE", nullable = true)
     private Navette navette;
     
     public enum QuaiStatut {Disponible,Occupe}

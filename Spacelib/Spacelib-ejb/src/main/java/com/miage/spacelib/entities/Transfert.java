@@ -1,6 +1,7 @@
 package com.miage.spacelib.entities;
 
 import java.util.Calendar;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -15,7 +16,7 @@ public class Transfert extends Reservation {
     public static final String statutFinVoyage = "voyage achevé";
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "conducteurId")
+    @JoinColumn(name = "ID_CONDUCTEUR", nullable = false)
     private Conducteur conducteur;
     
     public Transfert(){

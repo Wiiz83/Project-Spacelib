@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
@@ -19,12 +20,14 @@ public abstract class Operation {
     private Long id;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_NAVETTE", nullable = false)
     private Navette navette;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="DATE_CREATION", nullable = false)
     private Calendar dateCreation;
 
-    @Column(nullable = false)
+    @Column(name="STATUT", nullable = false)
     private String statut;
     
     public Operation(){
