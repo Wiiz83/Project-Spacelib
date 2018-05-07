@@ -7,8 +7,11 @@ import com.miage.spacelib.entities.Revision;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.exceptions.MecanicienInconnuException;
 import com.miage.spacelib.exceptions.NavetteInconnuException;
+import com.miage.spacelib.exceptions.NavettePourQuaiInexistantException;
 import com.miage.spacelib.exceptions.QuaiInconnuException;
+import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.RevisionInconnuException;
+import com.miage.spacelib.exceptions.RevisionInexistanteException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import java.util.List;
 import javax.ejb.Local;
@@ -22,7 +25,7 @@ public interface ServicesMecanicienLocal {
     
     public List<Navette> consulterListeNavettes(long idStation) throws StationInconnuException;
 
-    public Quai choisirNavetteDebutRevision(long idNavette, long idMecanicien) throws NavetteInconnuException, MecanicienInconnuException, QuaiInconnuException;
+    public Quai choisirNavetteDebutRevision(long idNavette, long idStation, long idMecanicien) throws NavetteInconnuException, MecanicienInconnuException, QuaiInconnuException;
     
     public Revision consulterRevisionEnCours(long idMecanicien) throws NavetteInconnuException;
     
@@ -30,7 +33,9 @@ public interface ServicesMecanicienLocal {
     
     public List<Station> recupererListeStations();
     
-    public void authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException;
+    public List<Revision> recupererListeNavettesAReviser(long idStation) throws StationInconnuException, QuaiInexistantException, NavettePourQuaiInexistantException, RevisionInexistanteException;
+    
+    public long authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException;
  
     
 }

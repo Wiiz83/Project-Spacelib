@@ -4,23 +4,20 @@
 <xsd:import namespace="http://services.spacelib.miage.com/" schemaLocation="http://localhost:8080/WebServicesMecanicien/WebServicesMecanicien?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="authentifierAvecStationRattachement">
-<part name="parameters" element="tns:authentifierAvecStationRattachement"/>
+<message name="initDatas">
+<part name="parameters" element="tns:initDatas"/>
 </message>
-<message name="authentifierAvecStationRattachementResponse">
-<part name="parameters" element="tns:authentifierAvecStationRattachementResponse"/>
+<message name="initDatasResponse">
+<part name="parameters" element="tns:initDatasResponse"/>
+</message>
+<message name="authentifier">
+<part name="parameters" element="tns:authentifier"/>
+</message>
+<message name="authentifierResponse">
+<part name="parameters" element="tns:authentifierResponse"/>
 </message>
 <message name="MecanicienInconnuException">
 <part name="fault" element="tns:MecanicienInconnuException"/>
-</message>
-<message name="StationInconnuException">
-<part name="fault" element="tns:StationInconnuException"/>
-</message>
-<message name="consulterListeNavettes">
-<part name="parameters" element="tns:consulterListeNavettes"/>
-</message>
-<message name="consulterListeNavettesResponse">
-<part name="parameters" element="tns:consulterListeNavettesResponse"/>
 </message>
 <message name="recupererListeStations">
 <part name="parameters" element="tns:recupererListeStations"/>
@@ -37,17 +34,14 @@
 <message name="RevisionInconnuException">
 <part name="fault" element="tns:RevisionInconnuException"/>
 </message>
-<message name="choisirNavetteDebutRevision">
-<part name="parameters" element="tns:choisirNavetteDebutRevision"/>
+<message name="consulterListeNavettes">
+<part name="parameters" element="tns:consulterListeNavettes"/>
 </message>
-<message name="choisirNavetteDebutRevisionResponse">
-<part name="parameters" element="tns:choisirNavetteDebutRevisionResponse"/>
+<message name="consulterListeNavettesResponse">
+<part name="parameters" element="tns:consulterListeNavettesResponse"/>
 </message>
-<message name="NavetteInconnuException">
-<part name="fault" element="tns:NavetteInconnuException"/>
-</message>
-<message name="QuaiInconnuException">
-<part name="fault" element="tns:QuaiInconnuException"/>
+<message name="StationInconnuException">
+<part name="fault" element="tns:StationInconnuException"/>
 </message>
 <message name="consulterRevisionEnCours">
 <part name="parameters" element="tns:consulterRevisionEnCours"/>
@@ -55,29 +49,54 @@
 <message name="consulterRevisionEnCoursResponse">
 <part name="parameters" element="tns:consulterRevisionEnCoursResponse"/>
 </message>
+<message name="NavetteInconnuException">
+<part name="fault" element="tns:NavetteInconnuException"/>
+</message>
+<message name="recupererListeNavettesAReviser">
+<part name="parameters" element="tns:recupererListeNavettesAReviser"/>
+</message>
+<message name="recupererListeNavettesAReviserResponse">
+<part name="parameters" element="tns:recupererListeNavettesAReviserResponse"/>
+</message>
+<message name="QuaiInexistantException">
+<part name="fault" element="tns:QuaiInexistantException"/>
+</message>
+<message name="NavettePourQuaiInexistantException">
+<part name="fault" element="tns:NavettePourQuaiInexistantException"/>
+</message>
+<message name="RevisionInexistanteException">
+<part name="fault" element="tns:RevisionInexistanteException"/>
+</message>
 <message name="renseignerStationRattachement">
 <part name="parameters" element="tns:renseignerStationRattachement"/>
 </message>
 <message name="renseignerStationRattachementResponse">
 <part name="parameters" element="tns:renseignerStationRattachementResponse"/>
 </message>
-<message name="authentifier">
-<part name="parameters" element="tns:authentifier"/>
+<message name="choisirNavetteDebutRevision">
+<part name="parameters" element="tns:choisirNavetteDebutRevision"/>
 </message>
-<message name="authentifierResponse">
-<part name="parameters" element="tns:authentifierResponse"/>
+<message name="choisirNavetteDebutRevisionResponse">
+<part name="parameters" element="tns:choisirNavetteDebutRevisionResponse"/>
+</message>
+<message name="QuaiInconnuException">
+<part name="fault" element="tns:QuaiInconnuException"/>
+</message>
+<message name="authentifierAvecStationRattachement">
+<part name="parameters" element="tns:authentifierAvecStationRattachement"/>
+</message>
+<message name="authentifierAvecStationRattachementResponse">
+<part name="parameters" element="tns:authentifierAvecStationRattachementResponse"/>
 </message>
 <portType name="WebServicesMecanicien">
-<operation name="authentifierAvecStationRattachement">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachementRequest" message="tns:authentifierAvecStationRattachement"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachementResponse" message="tns:authentifierAvecStationRattachementResponse"/>
-<fault message="tns:MecanicienInconnuException" name="MecanicienInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachement/Fault/MecanicienInconnuException"/>
-<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachement/Fault/StationInconnuException"/>
+<operation name="initDatas">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/initDatasRequest" message="tns:initDatas"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/initDatasResponse" message="tns:initDatasResponse"/>
 </operation>
-<operation name="consulterListeNavettes">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterListeNavettesRequest" message="tns:consulterListeNavettes"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterListeNavettesResponse" message="tns:consulterListeNavettesResponse"/>
-<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterListeNavettes/Fault/StationInconnuException"/>
+<operation name="authentifier">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierRequest" message="tns:authentifier"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierResponse" message="tns:authentifierResponse"/>
+<fault message="tns:MecanicienInconnuException" name="MecanicienInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifier/Fault/MecanicienInconnuException"/>
 </operation>
 <operation name="recupererListeStations">
 <input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/recupererListeStationsRequest" message="tns:recupererListeStations"/>
@@ -88,6 +107,29 @@
 <output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/finirRevisionEnCoursResponse" message="tns:finirRevisionEnCoursResponse"/>
 <fault message="tns:RevisionInconnuException" name="RevisionInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/finirRevisionEnCours/Fault/RevisionInconnuException"/>
 </operation>
+<operation name="consulterListeNavettes">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterListeNavettesRequest" message="tns:consulterListeNavettes"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterListeNavettesResponse" message="tns:consulterListeNavettesResponse"/>
+<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterListeNavettes/Fault/StationInconnuException"/>
+</operation>
+<operation name="consulterRevisionEnCours">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterRevisionEnCoursRequest" message="tns:consulterRevisionEnCours"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterRevisionEnCoursResponse" message="tns:consulterRevisionEnCoursResponse"/>
+<fault message="tns:NavetteInconnuException" name="NavetteInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterRevisionEnCours/Fault/NavetteInconnuException"/>
+</operation>
+<operation name="recupererListeNavettesAReviser">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/recupererListeNavettesAReviserRequest" message="tns:recupererListeNavettesAReviser"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/recupererListeNavettesAReviserResponse" message="tns:recupererListeNavettesAReviserResponse"/>
+<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/recupererListeNavettesAReviser/Fault/StationInconnuException"/>
+<fault message="tns:QuaiInexistantException" name="QuaiInexistantException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/recupererListeNavettesAReviser/Fault/QuaiInexistantException"/>
+<fault message="tns:NavettePourQuaiInexistantException" name="NavettePourQuaiInexistantException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/recupererListeNavettesAReviser/Fault/NavettePourQuaiInexistantException"/>
+<fault message="tns:RevisionInexistanteException" name="RevisionInexistanteException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/recupererListeNavettesAReviser/Fault/RevisionInexistanteException"/>
+</operation>
+<operation name="renseignerStationRattachement">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/renseignerStationRattachementRequest" message="tns:renseignerStationRattachement"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/renseignerStationRattachementResponse" message="tns:renseignerStationRattachementResponse"/>
+<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/renseignerStationRattachement/Fault/StationInconnuException"/>
+</operation>
 <operation name="choisirNavetteDebutRevision">
 <input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/choisirNavetteDebutRevisionRequest" message="tns:choisirNavetteDebutRevision"/>
 <output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/choisirNavetteDebutRevisionResponse" message="tns:choisirNavetteDebutRevisionResponse"/>
@@ -95,25 +137,25 @@
 <fault message="tns:MecanicienInconnuException" name="MecanicienInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/choisirNavetteDebutRevision/Fault/MecanicienInconnuException"/>
 <fault message="tns:QuaiInconnuException" name="QuaiInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/choisirNavetteDebutRevision/Fault/QuaiInconnuException"/>
 </operation>
-<operation name="consulterRevisionEnCours">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterRevisionEnCoursRequest" message="tns:consulterRevisionEnCours"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterRevisionEnCoursResponse" message="tns:consulterRevisionEnCoursResponse"/>
-<fault message="tns:NavetteInconnuException" name="NavetteInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/consulterRevisionEnCours/Fault/NavetteInconnuException"/>
-</operation>
-<operation name="renseignerStationRattachement">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/renseignerStationRattachementRequest" message="tns:renseignerStationRattachement"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/renseignerStationRattachementResponse" message="tns:renseignerStationRattachementResponse"/>
-<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/renseignerStationRattachement/Fault/StationInconnuException"/>
-</operation>
-<operation name="authentifier">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierRequest" message="tns:authentifier"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierResponse" message="tns:authentifierResponse"/>
-<fault message="tns:MecanicienInconnuException" name="MecanicienInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifier/Fault/MecanicienInconnuException"/>
+<operation name="authentifierAvecStationRattachement">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachementRequest" message="tns:authentifierAvecStationRattachement"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachementResponse" message="tns:authentifierAvecStationRattachementResponse"/>
+<fault message="tns:MecanicienInconnuException" name="MecanicienInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachement/Fault/MecanicienInconnuException"/>
+<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesMecanicien/authentifierAvecStationRattachement/Fault/StationInconnuException"/>
 </operation>
 </portType>
 <binding name="WebServicesMecanicienPortBinding" type="tns:WebServicesMecanicien">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="authentifierAvecStationRattachement">
+<operation name="initDatas">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="authentifier">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -123,21 +165,6 @@
 </output>
 <fault name="MecanicienInconnuException">
 <soap:fault name="MecanicienInconnuException" use="literal"/>
-</fault>
-<fault name="StationInconnuException">
-<soap:fault name="StationInconnuException" use="literal"/>
-</fault>
-</operation>
-<operation name="consulterListeNavettes">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="StationInconnuException">
-<soap:fault name="StationInconnuException" use="literal"/>
 </fault>
 </operation>
 <operation name="recupererListeStations">
@@ -161,6 +188,63 @@
 <soap:fault name="RevisionInconnuException" use="literal"/>
 </fault>
 </operation>
+<operation name="consulterListeNavettes">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="StationInconnuException">
+<soap:fault name="StationInconnuException" use="literal"/>
+</fault>
+</operation>
+<operation name="consulterRevisionEnCours">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="NavetteInconnuException">
+<soap:fault name="NavetteInconnuException" use="literal"/>
+</fault>
+</operation>
+<operation name="recupererListeNavettesAReviser">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="StationInconnuException">
+<soap:fault name="StationInconnuException" use="literal"/>
+</fault>
+<fault name="QuaiInexistantException">
+<soap:fault name="QuaiInexistantException" use="literal"/>
+</fault>
+<fault name="NavettePourQuaiInexistantException">
+<soap:fault name="NavettePourQuaiInexistantException" use="literal"/>
+</fault>
+<fault name="RevisionInexistanteException">
+<soap:fault name="RevisionInexistanteException" use="literal"/>
+</fault>
+</operation>
+<operation name="renseignerStationRattachement">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="StationInconnuException">
+<soap:fault name="StationInconnuException" use="literal"/>
+</fault>
+</operation>
 <operation name="choisirNavetteDebutRevision">
 <soap:operation soapAction=""/>
 <input>
@@ -179,31 +263,7 @@
 <soap:fault name="QuaiInconnuException" use="literal"/>
 </fault>
 </operation>
-<operation name="consulterRevisionEnCours">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="NavetteInconnuException">
-<soap:fault name="NavetteInconnuException" use="literal"/>
-</fault>
-</operation>
-<operation name="renseignerStationRattachement">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="StationInconnuException">
-<soap:fault name="StationInconnuException" use="literal"/>
-</fault>
-</operation>
-<operation name="authentifier">
+<operation name="authentifierAvecStationRattachement">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -213,6 +273,9 @@
 </output>
 <fault name="MecanicienInconnuException">
 <soap:fault name="MecanicienInconnuException" use="literal"/>
+</fault>
+<fault name="StationInconnuException">
+<soap:fault name="StationInconnuException" use="literal"/>
 </fault>
 </operation>
 </binding>

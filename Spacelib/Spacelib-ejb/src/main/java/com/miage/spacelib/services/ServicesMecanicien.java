@@ -10,8 +10,11 @@ import com.miage.spacelib.entities.Revision;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.exceptions.MecanicienInconnuException;
 import com.miage.spacelib.exceptions.NavetteInconnuException;
+import com.miage.spacelib.exceptions.NavettePourQuaiInexistantException;
 import com.miage.spacelib.exceptions.QuaiInconnuException;
+import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.RevisionInconnuException;
+import com.miage.spacelib.exceptions.RevisionInexistanteException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -48,8 +51,8 @@ public class ServicesMecanicien implements ServicesMecanicienLocal {
     }
 
     @Override
-    public Quai choisirNavetteDebutRevision(long idNavette, long idMecanicien) throws NavetteInconnuException, MecanicienInconnuException, QuaiInconnuException {
-        return this.gestionRevision.choisirNavetteDebutRevision(idNavette, idMecanicien);
+    public Quai choisirNavetteDebutRevision(long idNavette, long idStation, long idMecanicien) throws NavetteInconnuException, MecanicienInconnuException, QuaiInconnuException {
+        return this.gestionRevision.choisirNavetteDebutRevision(idNavette, idStation, idMecanicien);
     }
 
     @Override
@@ -64,13 +67,17 @@ public class ServicesMecanicien implements ServicesMecanicienLocal {
 
     @Override
     public List<Station> recupererListeStations() {
-        System.out.println("com.miage.spacelib.services.ServicesMecanicien.recupererListeStations()");
         return this.gestionStation.recupererListeStations();
     }
 
     @Override
-    public void authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException {
-        this.gestionMecanicien.authentifierAvecStationRattachement(login, motdepasse, idStation);
+    public long authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException {
+        return this.gestionMecanicien.authentifierAvecStationRattachement(login, motdepasse, idStation);
+    }
+
+    @Override
+    public List<Revision> recupererListeNavettesAReviser(long idStation) throws StationInconnuException, QuaiInexistantException, NavettePourQuaiInexistantException, RevisionInexistanteException {
+        return this.gestionRevision.recupererListeNavettesAReviser(idStation);
     }
     
 

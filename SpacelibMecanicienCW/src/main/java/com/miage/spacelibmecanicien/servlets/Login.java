@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceRef;
 
 /**
@@ -47,8 +48,13 @@ public class Login extends HttpServlet {
         WebServicesMecanicien port = service.getWebServicesMecanicienPort();
         
         try {
-            port.authentifierAvecStationRattachement(login, motdepasse, idStation);
-            request.setAttribute("messageInfo", "Message modifié avec succès");
+            long idMecanicien = port.authentifierAvecStationRattachement(login, motdepasse, idStation);
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("idStation", idStation);
+            session.setAttribute("idMecanicien", idMecanicien);
+            
+            request.setAttribute("idStation", idStation);
             RequestDispatcher rd = request.getRequestDispatcher("Navettes");
             rd.forward(request, response);
         } catch (MecanicienInconnuException_Exception ex) {
@@ -72,6 +78,7 @@ public class Login extends HttpServlet {
         List<Station> stations = port.recupererListeStations();
         return stations;
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

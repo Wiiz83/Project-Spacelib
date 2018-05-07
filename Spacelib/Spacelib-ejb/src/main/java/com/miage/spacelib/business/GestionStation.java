@@ -5,7 +5,10 @@
  */
 package com.miage.spacelib.business;
 
+import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Station;
+import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.repositories.RevisionFacadeLocal;
 import com.miage.spacelib.repositories.StationFacadeLocal;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,9 @@ public class GestionStation implements GestionStationLocal {
     
     @EJB
     private StationFacadeLocal stationFacade;
+    
+    @EJB
+    private RevisionFacadeLocal revisionFacade;
 
     @Override
     public ArrayList obtenir() {
@@ -29,7 +35,8 @@ public class GestionStation implements GestionStationLocal {
 
     @Override
     public List<Station> recupererListeStations() {
-        System.out.println("com.miage.spacelib.business.GestionStation.recupererListeStations()");
         return this.stationFacade.findAll();
     }
+
+    
 }

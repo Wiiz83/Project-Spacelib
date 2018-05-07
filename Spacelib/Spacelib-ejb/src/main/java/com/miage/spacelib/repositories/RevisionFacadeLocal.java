@@ -9,6 +9,7 @@ import com.miage.spacelib.entities.Mecanicien;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Revision;
+import com.miage.spacelib.exceptions.StationInconnuException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -38,5 +39,7 @@ public interface RevisionFacadeLocal {
     Revision nouveauFinRevision(Mecanicien mecanicien, Navette navette, Quai quai);
     
     Revision nouveauRevisionNecessaire(Navette navette, Quai quai);
+    
+    List<Revision> recupererListeRevisionNecessaireParQuai(Quai quai);
     
 }

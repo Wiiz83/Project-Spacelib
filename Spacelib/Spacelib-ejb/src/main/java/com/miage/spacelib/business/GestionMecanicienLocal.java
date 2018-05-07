@@ -23,7 +23,7 @@ public interface GestionMecanicienLocal {
     
     public long renseignerStationRattachement(String nom) throws StationInconnuException;
     
-    public void authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException;
+    public long authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException;
  
     
 }

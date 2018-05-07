@@ -27,7 +27,6 @@
     </head>
     <body>
         <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script><script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
-    <body>
         <h1><img src="images/logo.png" alt="Spacelib logo" height="90px"></h1>
         <!---728x90--->
         <script src='//publisher.eboundservices.com/dynamicAds/dynamicScript.js'></script>
@@ -47,6 +46,12 @@
                                 if (msginfo != null) {
                                     out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + msginfo + "</p>");
                                 }
+                                
+                                String numeroQuai = String.valueOf(request.getAttribute("idQuai"));
+                                System.out.println("numeroQuai : "+numeroQuai);
+                                if (!numeroQuai.isEmpty()) {
+                                    out.println("<p style='background-color: green; color:white; font-weight: bold; padding: 10px;'>La navette se trouve au quai numéro " + numeroQuai + "</p></br>");
+                                }
                             %>
                             <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-0">
                                 <form method="post" action="Login">					
@@ -55,9 +60,12 @@
 
                                     <select name="idStation"> 
                                         <%
+                                           
                                             Iterator it = Login.getStationsList().iterator();
                                             String v = null;
-                                            while (it.hasNext()) {
+
+                                            while (it.hasNext () 
+                                                ) {
                                                 Station station = (Station) it.next();
                                                 v = station.getNom();
                                         %>	

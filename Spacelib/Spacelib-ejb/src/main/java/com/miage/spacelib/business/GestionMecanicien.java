@@ -37,11 +37,13 @@ public class GestionMecanicien implements GestionMecanicienLocal {
     }
     
     @Override
-    public void authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException {
+    public long authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException {
         final Mecanicien mecanicien = this.mecanicienFacade.findByLoginAndPassword(login, motdepasse);
         if(mecanicien == null) throw new MecanicienInconnuException("Ce compte de mécanicien n'existe pas.");
         
         final Station station = this.stationFacade.find(idStation);
         if(station == null) throw new StationInconnuException("Cette station n'existe pas.");
+        
+        return mecanicien.getId();
     }
 }

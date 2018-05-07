@@ -9,9 +9,15 @@ import com.miage.spacelib.entities.Mecanicien;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Revision;
+import com.miage.spacelib.exceptions.StationInconnuException;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -54,6 +60,24 @@ public class RevisionFacade extends AbstractFacade<Revision> implements Revision
         Revision r = new Revision(navette, statut, quai);
         this.create(r);
         return r;
+    }
+
+    @Override
+    public List<Revision> recupererListeRevisionNecessaireParQuai(Quai quai) {
+        try{
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Revision> cq = cb.createQuery(Revision.class);
+            Root<Revision> root = cq.from(Revision.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(root.get("quaiNavette"), quai),
+                            cb.equal(root.get("statut"), Revision.statutRevisionNecessaire)
+                    )
+            );
+            return getEntityManager().createQuery(cq).getResultList();  
+        } catch(NoResultException e) {
+            return null;
+        }
     }
     
 }

@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 public class Navette implements Serializable {
@@ -88,6 +89,7 @@ public class Navette implements Serializable {
         this.nbVoyages = nbVoyages;
     }
 
+    @XmlTransient
     public Quai getQuai() {
         return quai;
     }
