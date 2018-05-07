@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.spacelibmecanicien.controller;
+package com.miage.spacelibmecanicien.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,10 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.miage.spacelibmecanicien.model.WebServicesMecanicien;
 import com.miage.spacelibmecanicien.model.WebServicesMecanicien_Service;
 
-/**
- *
- * @author uzanl
- */
 @WebServlet(name = "DebutRevision", urlPatterns = {"/DebutRevision"})
 public class DebutRevision extends HttpServlet {
 
@@ -35,27 +31,8 @@ public class DebutRevision extends HttpServlet {
         
          WebServicesMecanicien_Service service = new WebServicesMecanicien_Service();
          WebServicesMecanicien port = service.getWebServicesMecanicienPort();
-         
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DebutRevision</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DebutRevision at " + request.getContextPath() + "</h1>");
-            out.println("<h1>" +  port.toto()+ "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    public static String getStuff(){
-        return "caca";
-    }
-
-    
+         //port.toto()
+    }    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

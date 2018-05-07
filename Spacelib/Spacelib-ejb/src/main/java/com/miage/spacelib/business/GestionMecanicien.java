@@ -6,23 +6,42 @@
 package com.miage.spacelib.business;
 
 import com.miage.spacelib.entities.Mecanicien;
+import com.miage.spacelib.entities.Station;
+import com.miage.spacelib.exceptions.MecanicienInconnuException;
+import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.repositories.MecanicienFacadeLocal;
+import com.miage.spacelib.repositories.StationFacadeLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-/**
- *
- * @author uzanl
- */
 @Stateless
 public class GestionMecanicien implements GestionMecanicienLocal {
 
     @EJB
     private MecanicienFacadeLocal mecanicienFacade;
     
+    @EJB
+    private StationFacadeLocal stationFacade;
+
     @Override
-    public List<Mecanicien> findAll() {
-        return this.mecanicienFacade.findAll();
+    public void authentifier(String login, String motdepasse) throws MecanicienInconnuException {
+        final Mecanicien mecanicien = this.mecanicienFacade.findByLoginAndPassword(login, motdepasse);
+        if(mecanicien == null) throw new MecanicienInconnuException("Ce compte de mécanicien n'existe pas.");
+    }
+
+    
+    @Override
+    public long renseignerStationRattachement(String nom) throws StationInconnuException {
+        return 0;
+    }
+    
+    @Override
+    public void authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException {
+        final Mecanicien mecanicien = this.mecanicienFacade.findByLoginAndPassword(login, motdepasse);
+        if(mecanicien == null) throw new MecanicienInconnuException("Ce compte de mécanicien n'existe pas.");
+        
+        final Station station = this.stationFacade.find(idStation);
+        if(station == null) throw new StationInconnuException("Cette station n'existe pas.");
     }
 }

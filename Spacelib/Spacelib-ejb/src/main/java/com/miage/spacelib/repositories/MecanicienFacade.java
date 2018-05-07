@@ -49,16 +49,20 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
 
     @Override
     public Mecanicien findByLoginAndPassword(String login, String motdepasse) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Mecanicien> cq = cb.createQuery(Mecanicien.class);
-        Root<Mecanicien> root = cq.from(Mecanicien.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase()),
-                        cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try{
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Mecanicien> cq = cb.createQuery(Mecanicien.class);
+            Root<Mecanicien> root = cq.from(Mecanicien.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase()),
+                            cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult(); 
+        } catch(NoResultException e) {
+            return null;
+        }
     }
 
     @Override

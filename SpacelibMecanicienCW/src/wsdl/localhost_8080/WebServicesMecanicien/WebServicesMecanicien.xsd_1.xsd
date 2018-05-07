@@ -1,16 +1,231 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://services.spacelib.miage.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.spacelib.miage.com/">
 
-<xs:element name="toto" type="tns:toto"/>
+<xs:element name="MecanicienInconnuException" type="tns:MecanicienInconnuException"/>
 
-<xs:element name="totoResponse" type="tns:totoResponse"/>
+<xs:element name="NavetteInconnuException" type="tns:NavetteInconnuException"/>
 
-<xs:complexType name="toto">
+<xs:element name="QuaiInconnuException" type="tns:QuaiInconnuException"/>
+
+<xs:element name="RevisionInconnuException" type="tns:RevisionInconnuException"/>
+
+<xs:element name="StationInconnuException" type="tns:StationInconnuException"/>
+
+<xs:element name="authentifier" type="tns:authentifier"/>
+
+<xs:element name="authentifierAvecStationRattachement" type="tns:authentifierAvecStationRattachement"/>
+
+<xs:element name="authentifierAvecStationRattachementResponse" type="tns:authentifierAvecStationRattachementResponse"/>
+
+<xs:element name="authentifierResponse" type="tns:authentifierResponse"/>
+
+<xs:element name="choisirNavetteDebutRevision" type="tns:choisirNavetteDebutRevision"/>
+
+<xs:element name="choisirNavetteDebutRevisionResponse" type="tns:choisirNavetteDebutRevisionResponse"/>
+
+<xs:element name="consulterListeNavettes" type="tns:consulterListeNavettes"/>
+
+<xs:element name="consulterListeNavettesResponse" type="tns:consulterListeNavettesResponse"/>
+
+<xs:element name="consulterRevisionEnCours" type="tns:consulterRevisionEnCours"/>
+
+<xs:element name="consulterRevisionEnCoursResponse" type="tns:consulterRevisionEnCoursResponse"/>
+
+<xs:element name="finirRevisionEnCours" type="tns:finirRevisionEnCours"/>
+
+<xs:element name="finirRevisionEnCoursResponse" type="tns:finirRevisionEnCoursResponse"/>
+
+<xs:element name="recupererListeStations" type="tns:recupererListeStations"/>
+
+<xs:element name="recupererListeStationsResponse" type="tns:recupererListeStationsResponse"/>
+
+<xs:element name="renseignerStationRattachement" type="tns:renseignerStationRattachement"/>
+
+<xs:element name="renseignerStationRattachementResponse" type="tns:renseignerStationRattachementResponse"/>
+
+<xs:complexType name="consulterListeNavettes">
+<xs:sequence>
+<xs:element name="idStation" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consulterListeNavettesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:navette" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="navette">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="nbPlaces" type="xs:int"/>
+<xs:element name="nbVoyages" type="xs:int"/>
+<xs:element name="quai" type="tns:quai" minOccurs="0"/>
+<xs:element name="statut" type="tns:navetteStatut" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="quai">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="navette" type="tns:navette" minOccurs="0"/>
+<xs:element name="station" type="tns:station" minOccurs="0"/>
+<xs:element name="statut" type="tns:quaiStatut" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="station">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="localisation" type="xs:string" minOccurs="0"/>
+<xs:element name="nbQuais" type="xs:int"/>
+<xs:element name="nom" type="xs:string" minOccurs="0"/>
+<xs:element name="quais" type="tns:quai" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="statut" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="StationInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="finirRevisionEnCours">
+<xs:sequence>
+<xs:element name="idRevision" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="finirRevisionEnCoursResponse">
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="totoResponse">
+<xs:complexType name="RevisionInconnuException">
 <xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
+
+<xs:complexType name="choisirNavetteDebutRevision">
+<xs:sequence>
+<xs:element name="idNavette" type="xs:long"/>
+<xs:element name="idMecanicien" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="choisirNavetteDebutRevisionResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:quai" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="NavetteInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="MecanicienInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="QuaiInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="renseignerStationRattachement">
+<xs:sequence>
+<xs:element name="nomStation" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="renseignerStationRattachementResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consulterRevisionEnCours">
+<xs:sequence>
+<xs:element name="idMecanicien" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consulterRevisionEnCoursResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:revision" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="revision">
+<xs:complexContent>
+<xs:extension base="tns:operation">
+<xs:sequence>
+<xs:element name="quai" type="tns:quai" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="operation" abstract="true">
+<xs:sequence>
+<xs:element name="dateCreation" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="navette" type="tns:navette" minOccurs="0"/>
+<xs:element name="statut" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authentifierAvecStationRattachement">
+<xs:sequence>
+<xs:element name="login" type="xs:string" minOccurs="0"/>
+<xs:element name="motdepasse" type="xs:string" minOccurs="0"/>
+<xs:element name="idStation" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authentifierAvecStationRattachementResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="recupererListeStations">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="recupererListeStationsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:station" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authentifier">
+<xs:sequence>
+<xs:element name="login" type="xs:string" minOccurs="0"/>
+<xs:element name="motdepasse" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="authentifierResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:simpleType name="quaiStatut">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Disponible"/>
+<xs:enumeration value="Occupe"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="navetteStatut">
+<xs:restriction base="xs:string">
+<xs:enumeration value="Disponible"/>
+<xs:enumeration value="AReviser"/>
+<xs:enumeration value="EnRevision"/>
+<xs:enumeration value="EnVol"/>
+</xs:restriction>
+</xs:simpleType>
 </xs:schema>
