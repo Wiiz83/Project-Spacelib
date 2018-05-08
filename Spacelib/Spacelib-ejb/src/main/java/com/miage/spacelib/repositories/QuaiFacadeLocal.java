@@ -5,7 +5,9 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
+import com.miage.spacelib.entities.Station;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +31,9 @@ public interface QuaiFacadeLocal {
     List<Quai> findRange(int[] range);
 
     int count();
+    
+    Quai findByNavette(Navette navette);
+    
+    List<Quai> recupererListeQuaisParStation(Station station);
     
 }

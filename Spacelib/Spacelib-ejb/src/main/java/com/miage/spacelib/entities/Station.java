@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name="STATION")
@@ -89,6 +90,7 @@ public class Station implements Serializable {
         this.statut = statut;
     }
 
+    @XmlTransient
     public List<Quai> getQuais() {
         return quais;
     }

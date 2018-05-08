@@ -5,10 +5,15 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *

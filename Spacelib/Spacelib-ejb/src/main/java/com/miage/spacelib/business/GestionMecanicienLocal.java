@@ -6,6 +6,8 @@
 package com.miage.spacelib.business;
 
 import com.miage.spacelib.entities.Mecanicien;
+import com.miage.spacelib.exceptions.MecanicienInconnuException;
+import com.miage.spacelib.exceptions.StationInconnuException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,5 +19,11 @@ import javax.ejb.Local;
 public interface GestionMecanicienLocal {
     
     
-    public List<Mecanicien> findAll();
+    public void authentifier(String login, String motdepasse) throws MecanicienInconnuException;
+    
+    public long renseignerStationRattachement(String nom) throws StationInconnuException;
+    
+    public long authentifierAvecStationRattachement(String login, String motdepasse, long idStation) throws MecanicienInconnuException, StationInconnuException;
+ 
+    
 }

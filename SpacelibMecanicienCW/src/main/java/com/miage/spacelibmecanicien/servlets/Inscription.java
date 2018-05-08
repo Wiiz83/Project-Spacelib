@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.spacelibmecanicien.controller;
+package com.miage.spacelibmecanicien.servlets;
 
+import com.miage.spacelibmecanicien.model.MecanicienInconnuException_Exception;
+import com.miage.spacelibmecanicien.model.WebServicesMecanicien;
+import com.miage.spacelibmecanicien.model.WebServicesMecanicien_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.miage.spacelibmecanicien.model.WebServicesMecanicien;
-import com.miage.spacelibmecanicien.model.WebServicesMecanicien_Service;
 
 /**
  *
  * @author uzanl
  */
-@WebServlet(name = "DebutRevision", urlPatterns = {"/DebutRevision"})
-public class DebutRevision extends HttpServlet {
+public class Inscription extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,31 +34,28 @@ public class DebutRevision extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-         WebServicesMecanicien_Service service = new WebServicesMecanicien_Service();
-         WebServicesMecanicien port = service.getWebServicesMecanicienPort();
-         
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DebutRevision</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DebutRevision at " + request.getContextPath() + "</h1>");
-            out.println("<h1>" +  port.toto()+ "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+        String login = request.getParameter("login");
+        String motdepasse = request.getParameter("motdepasse");
+
+        WebServicesMecanicien_Service service = new WebServicesMecanicien_Service();
+        WebServicesMecanicien port = service.getWebServicesMecanicienPort();
+
+        try {
+            port.authentifier(login, motdepasse);
+            request.setAttribute("messageInfo", "Message modifié avec succès");
+            RequestDispatcher rd = request.getRequestDispatcher("Navettes");
+            rd.forward(request, response);
+            
+        } catch (MecanicienInconnuException_Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Erreur : " + ex.getMessage());
+            request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
+            RequestDispatcher rd = request.getRequestDispatcher("Index");
+            rd.forward(request, response);
         }
     }
 
-    public static String getStuff(){
-        return "caca";
-    }
-
-    
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

@@ -57,6 +57,7 @@ public class Utilisateur implements Serializable {
         this.prenom = p;
         this.login = l;
         this.motdepasse = m;
+        this.dateCreation = Calendar.getInstance();
     }
 
     public Long getId() {

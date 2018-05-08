@@ -5,6 +5,7 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,5 +30,4 @@ public interface StationFacadeLocal {
     List<Station> findRange(int[] range);
 
     int count();
-    
 }

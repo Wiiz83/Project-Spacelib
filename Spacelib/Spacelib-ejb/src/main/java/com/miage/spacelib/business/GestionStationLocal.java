@@ -5,7 +5,11 @@
  */
 package com.miage.spacelib.business;
 
+import com.miage.spacelib.entities.Navette;
+import com.miage.spacelib.entities.Station;
+import com.miage.spacelib.exceptions.StationInconnuException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +20,7 @@ import javax.ejb.Local;
 public interface GestionStationLocal {
     
     public ArrayList obtenir();
+    
+    public List<Station> recupererListeStations();
     
 }

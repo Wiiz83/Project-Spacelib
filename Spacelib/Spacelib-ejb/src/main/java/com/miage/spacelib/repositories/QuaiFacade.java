@@ -5,10 +5,17 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Administrateur;
+import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
+import com.miage.spacelib.entities.Station;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -27,6 +34,24 @@ public class QuaiFacade extends AbstractFacade<Quai> implements QuaiFacadeLocal 
 
     public QuaiFacade() {
         super(Quai.class);
+    }
+
+    @Override
+    public Quai findByNavette(Navette navette) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Quai> cq = cb.createQuery(Quai.class);
+        Root<Quai> root = cq.from(Quai.class);
+        cq.where(cb.equal(root.get("navette"), navette));
+        return getEntityManager().createQuery(cq).getSingleResult();
+    }
+    
+    @Override
+    public List<Quai> recupererListeQuaisParStation(Station station) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Quai> cq = cb.createQuery(Quai.class);
+        Root<Quai> root = cq.from(Quai.class);
+        cq.where(cb.equal(root.get("station"), station));
+        return getEntityManager().createQuery(cq).getResultList();
     }
     
 }

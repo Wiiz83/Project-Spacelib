@@ -5,6 +5,9 @@
  */
 package com.miage.spacelib.business;
 
+import com.miage.spacelib.entities.Navette;
+import com.miage.spacelib.exceptions.StationInconnuException;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +16,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionNavetteLocal {
+    
+    public List<Navette> consulterListeNavettes(long idStation) throws StationInconnuException;
     
 }

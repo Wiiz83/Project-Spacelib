@@ -5,6 +5,11 @@
  */
 package com.miage.spacelib.business;
 
+import com.miage.spacelib.entities.Navette;
+import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.repositories.NavetteFacadeLocal;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -13,7 +18,13 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class GestionNavette implements GestionNavetteLocal {
+    
+    @EJB
+    private NavetteFacadeLocal navetteFacade;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @Override
+    public List<Navette> consulterListeNavettes(long idStation) throws StationInconnuException {
+        return null;
+    }
+
 }
