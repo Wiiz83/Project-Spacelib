@@ -12,7 +12,12 @@ import javax.ejb.Stateless;
  * @author uzanl
  */
 @Stateless
-public class ServicesBorne implements ServicesBorneRemote {
+public class ServicesBorne implements ServicesUsagerRemote {
+
+    @Override
+    public boolean login(String nom, String pass) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

@@ -5,6 +5,7 @@
  */
 package com.miage.spacelib.services;
 
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -12,6 +13,6 @@ import javax.ejb.Remote;
  * @author uzanl
  */
 @Remote
-public interface ServicesBorneRemote {
-    
+public interface ServicesUsagerRemote {
+    public boolean login (String nom, String pass) ;    
 }
