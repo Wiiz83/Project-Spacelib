@@ -19,7 +19,15 @@
 
     </head>
     <body>
-        <h1><img src="images/logo.png" alt="Spacelib logo" height="90px"></h1>
+        <%
+            if(session.getAttribute("idStation") == null || session.getAttribute("idMecanicien") == null){
+                request.setAttribute("messageErreur", "Erreur : Merci de vous connecter");
+                RequestDispatcher rd = request.getRequestDispatcher("Index");
+                rd.forward(request, response);
+            }
+        %>
+        <h1><a href="index.jsp"><img src="images/logo.png" alt="Spacelib logo" height="90px"></a></h1>
+        <h3 style='color:white; font-size: 20px; font-weight: bold; padding: 10px;'>Navettes nécessitant une révision</h3>
         <div class="main-content-nologin">
                     <form method="post" action="DebutRevision">
                         <table class="table table-bordered" align="center" style="justify-content:center;align-items:center;width:100%;height:100%;">

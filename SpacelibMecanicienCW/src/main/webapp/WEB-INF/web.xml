@@ -13,20 +13,32 @@
         <jsp-file>index.jsp</jsp-file>
     </servlet>
     <servlet>
-        <servlet-name>Navettes</servlet-name>
-        <jsp-file>navettes.jsp</jsp-file>
+        <servlet-name>DebutRevisionJSP</servlet-name>
+        <jsp-file>debutrevision.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>FinRevisionJSP</servlet-name>
+        <jsp-file>finrevision.jsp</jsp-file>
     </servlet>
     <servlet>
         <servlet-name>Inscription</servlet-name>
         <servlet-class>com.miage.spacelibmecanicien.servlets.Inscription</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FinRevision</servlet-name>
+        <servlet-class>com.miage.spacelibmecanicien.servlets.FinRevision</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Index</servlet-name>
         <url-pattern>/Index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Navettes</servlet-name>
-        <url-pattern>/Navettes</url-pattern>
+        <servlet-name>DebutRevisionJSP</servlet-name>
+        <url-pattern>/DebutRevisionJSP</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FinRevisionJSP</servlet-name>
+        <url-pattern>/FinRevisionJSP</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -39,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>Inscription</servlet-name>
         <url-pattern>/Inscription</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FinRevision</servlet-name>
+        <url-pattern>/FinRevision</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

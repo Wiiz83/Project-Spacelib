@@ -27,10 +27,10 @@ public interface ServicesMecanicienLocal {
 
     public Quai choisirNavetteDebutRevision(long idNavette, long idStation, long idMecanicien) throws NavetteInconnuException, MecanicienInconnuException, QuaiInconnuException;
     
-    public Revision consulterRevisionEnCours(long idMecanicien) throws NavetteInconnuException;
+    public Revision consulterRevisionEnCours(long idMecanicien, long idStation) throws NavetteInconnuException, QuaiInexistantException, RevisionInexistanteException;
     
-    public void finirRevisionEnCours(long idRevision) throws RevisionInconnuException;
-    
+    public void finirRevisionEnCours(long idNavette, long idStation, long idMecanicien) throws QuaiInconnuException, NavetteInconnuException, MecanicienInconnuException;
+
     public List<Station> recupererListeStations();
     
     public List<Revision> recupererListeNavettesAReviser(long idStation) throws StationInconnuException, QuaiInexistantException, NavettePourQuaiInexistantException, RevisionInexistanteException;

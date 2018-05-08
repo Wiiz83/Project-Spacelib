@@ -26,6 +26,11 @@
         </script>
     </head>
     <body>
+        
+        <%
+            session.setAttribute("idStation", null);
+            session.setAttribute("idMecanicien", null);
+        %>
         <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script><script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
         <h1><img src="images/logo.png" alt="Spacelib logo" height="90px"></h1>
         <!---728x90--->
@@ -48,7 +53,7 @@
                                 }
                                 
                                 String numeroQuai = String.valueOf(request.getAttribute("idQuai"));
-                                if (numeroQuai != null && !numeroQuai.isEmpty()) {
+                                if (numeroQuai != null && !numeroQuai.isEmpty() && numeroQuai != "null") {
                                     out.println("<p style='background-color: green; color:white; font-weight: bold; padding: 10px;'>La navette se trouve au quai numéro " + numeroQuai + "</p></br>");
                                 }
                             %>

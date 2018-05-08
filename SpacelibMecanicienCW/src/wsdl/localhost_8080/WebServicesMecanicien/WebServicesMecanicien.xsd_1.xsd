@@ -10,8 +10,6 @@
 
 <xs:element name="QuaiInexistantException" type="tns:QuaiInexistantException"/>
 
-<xs:element name="RevisionInconnuException" type="tns:RevisionInconnuException"/>
-
 <xs:element name="RevisionInexistanteException" type="tns:RevisionInexistanteException"/>
 
 <xs:element name="StationInconnuException" type="tns:StationInconnuException"/>
@@ -83,22 +81,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="finirRevisionEnCours">
-<xs:sequence>
-<xs:element name="idRevision" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="finirRevisionEnCoursResponse">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="RevisionInconnuException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="choisirNavetteDebutRevision">
 <xs:sequence>
 <xs:element name="idNavette" type="xs:long"/>
@@ -148,6 +130,18 @@
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="finirRevisionEnCours">
+<xs:sequence>
+<xs:element name="idNavette" type="xs:long"/>
+<xs:element name="idStation" type="xs:long"/>
+<xs:element name="idMecanicien" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="finirRevisionEnCoursResponse">
+<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="renseignerStationRattachement">
@@ -224,6 +218,7 @@
 <xs:complexType name="consulterRevisionEnCours">
 <xs:sequence>
 <xs:element name="idMecanicien" type="xs:long"/>
+<xs:element name="idStation" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -247,6 +242,16 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="recupererListeStations">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="recupererListeStationsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:station" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="authentifier">
 <xs:sequence>
 <xs:element name="login" type="xs:string" minOccurs="0"/>
@@ -256,16 +261,6 @@
 
 <xs:complexType name="authentifierResponse">
 <xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="recupererListeStations">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="recupererListeStationsResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:station" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
 </xs:complexType>
 
 <xs:simpleType name="navetteStatut">

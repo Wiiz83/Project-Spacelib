@@ -56,13 +56,13 @@ public class ServicesMecanicien implements ServicesMecanicienLocal {
     }
 
     @Override
-    public Revision consulterRevisionEnCours(long idMecanicien) throws NavetteInconnuException {
-        return this.gestionRevision.consulterRevisionEnCours(idMecanicien);
+    public Revision consulterRevisionEnCours(long idMecanicien, long idStation) throws NavetteInconnuException, QuaiInexistantException, RevisionInexistanteException {
+        return this.gestionRevision.consulterRevisionEnCours(idMecanicien, idStation);
     }
 
     @Override
-    public void finirRevisionEnCours(long idRevision) throws RevisionInconnuException {
-        this.gestionRevision.finirRevisionEnCours(idRevision);
+    public void finirRevisionEnCours(long idNavette, long idStation, long idMecanicien) throws QuaiInconnuException, NavetteInconnuException, MecanicienInconnuException {
+        this.gestionRevision.finirRevisionEnCours(idNavette, idStation, idMecanicien);
     }
 
     @Override

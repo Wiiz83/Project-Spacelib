@@ -79,14 +79,13 @@ public class WebServicesMecanicien {
     */
     
     @WebMethod(operationName = "consulterRevisionEnCours")
-    public Revision consulterRevisionEnCours(@WebParam(name = "idMecanicien") long idMecanicien) throws NavetteInconnuException {
-        return ejbRef.consulterRevisionEnCours(idMecanicien);
+    public Revision consulterRevisionEnCours(@WebParam(name = "idMecanicien") long idMecanicien, @WebParam(name = "idStation") long idStation) throws NavetteInconnuException, QuaiInexistantException, RevisionInexistanteException {
+        return ejbRef.consulterRevisionEnCours(idMecanicien,idStation);
     }
     
     @WebMethod(operationName = "finirRevisionEnCours")
-    public void finirRevisionEnCours(@WebParam(name = "idRevision") long idRevision) throws RevisionInconnuException {
-        ejbRef.finirRevisionEnCours(idRevision);
+    public void finirRevisionEnCours(@WebParam(name = "idNavette") long idNavette, @WebParam(name = "idStation") long idStation, @WebParam(name = "idMecanicien") long idMecanicien) throws QuaiInconnuException, NavetteInconnuException, MecanicienInconnuException{
+        ejbRef.finirRevisionEnCours(idNavette, idStation, idMecanicien);
     }
-    
     
 }

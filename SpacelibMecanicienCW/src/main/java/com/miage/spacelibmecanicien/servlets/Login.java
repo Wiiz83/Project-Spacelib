@@ -6,6 +6,10 @@
 package com.miage.spacelibmecanicien.servlets;
 
 import com.miage.spacelibmecanicien.model.MecanicienInconnuException_Exception;
+import com.miage.spacelibmecanicien.model.NavetteInconnuException_Exception;
+import com.miage.spacelibmecanicien.model.QuaiInexistantException_Exception;
+import com.miage.spacelibmecanicien.model.Revision;
+import com.miage.spacelibmecanicien.model.RevisionInexistanteException_Exception;
 import com.miage.spacelibmecanicien.model.Station;
 import com.miage.spacelibmecanicien.model.StationInconnuException_Exception;
 import com.miage.spacelibmecanicien.model.WebServicesMecanicien;
@@ -54,15 +58,19 @@ public class Login extends HttpServlet {
             session.setAttribute("idStation", idStation);
             session.setAttribute("idMecanicien", idMecanicien);
             
-            request.setAttribute("idStation", idStation);
-            RequestDispatcher rd = request.getRequestDispatcher("Navettes");
-            rd.forward(request, response);
-        } catch (MecanicienInconnuException_Exception ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
-            RequestDispatcher rd = request.getRequestDispatcher("Index");
-            rd.forward(request, response);
-        } catch (StationInconnuException_Exception ex) {
+            Revision revision = port.consulterRevisionEnCours(idMecanicien, idStation);
+
+            if(revision != null){
+                request.setAttribute("revision", revision);
+                RequestDispatcher rd = request.getRequestDispatcher("FinRevisionJSP");
+                rd.forward(request, response);
+            } else {
+                request.setAttribute("idStation", idStation);
+                RequestDispatcher rd = request.getRequestDispatcher("DebutRevisionJSP");
+                rd.forward(request, response);
+            }
+            
+        } catch (MecanicienInconnuException_Exception | StationInconnuException_Exception | QuaiInexistantException_Exception | RevisionInexistanteException_Exception | NavetteInconnuException_Exception ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
             RequestDispatcher rd = request.getRequestDispatcher("Index");
@@ -78,7 +86,8 @@ public class Login extends HttpServlet {
         List<Station> stations = port.recupererListeStations();
         return stations;
     }
-
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

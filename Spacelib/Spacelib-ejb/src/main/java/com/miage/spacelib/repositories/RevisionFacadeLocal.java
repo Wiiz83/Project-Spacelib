@@ -42,4 +42,6 @@ public interface RevisionFacadeLocal {
     
     Revision recupererDerniereRevisionQuai(Quai quai);
     
+    Revision recupererDerniereRevisionMecanicienQuai(Quai quai, Mecanicien m);
+    
 }

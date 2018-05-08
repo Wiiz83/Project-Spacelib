@@ -82,4 +82,24 @@ public class RevisionFacade extends AbstractFacade<Revision> implements Revision
         }
     }
     
+    @Override
+    public Revision recupererDerniereRevisionMecanicienQuai(Quai quai, Mecanicien m) {
+        try{
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Revision> cq = cb.createQuery(Revision.class);
+            Root<Revision> root = cq.from(Revision.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(root.get("quaiNavette"), quai),
+                            cb.equal(root.get("mecanicien"), m)
+                    )
+            );
+            cq.orderBy(cb.desc(root.get("dateCreation")));
+
+            return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();  
+        } catch(NoResultException e) {
+            return null;
+        }
+    }
+    
 }
