@@ -18,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import static javax.swing.UIManager.get;
 
 /**
  *
@@ -63,18 +64,19 @@ public class RevisionFacade extends AbstractFacade<Revision> implements Revision
     }
 
     @Override
-    public List<Revision> recupererListeRevisionNecessaireParQuai(Quai quai) {
+    public Revision recupererDerniereRevisionQuai(Quai quai) {
         try{
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Revision> cq = cb.createQuery(Revision.class);
             Root<Revision> root = cq.from(Revision.class);
             cq.where(
                     cb.and(
-                            cb.equal(root.get("quaiNavette"), quai),
-                            cb.equal(root.get("statut"), Revision.statutRevisionNecessaire)
+                            cb.equal(root.get("quaiNavette"), quai)
                     )
             );
-            return getEntityManager().createQuery(cq).getResultList();  
+            cq.orderBy(cb.desc(root.get("dateCreation")));
+
+            return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();  
         } catch(NoResultException e) {
             return null;
         }

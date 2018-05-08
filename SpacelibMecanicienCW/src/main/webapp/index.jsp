@@ -48,8 +48,7 @@
                                 }
                                 
                                 String numeroQuai = String.valueOf(request.getAttribute("idQuai"));
-                                System.out.println("numeroQuai : "+numeroQuai);
-                                if (!numeroQuai.isEmpty()) {
+                                if (numeroQuai != null && !numeroQuai.isEmpty()) {
                                     out.println("<p style='background-color: green; color:white; font-weight: bold; padding: 10px;'>La navette se trouve au quai numéro " + numeroQuai + "</p></br>");
                                 }
                             %>

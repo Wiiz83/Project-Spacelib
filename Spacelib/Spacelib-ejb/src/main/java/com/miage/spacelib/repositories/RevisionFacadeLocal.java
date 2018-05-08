@@ -40,6 +40,6 @@ public interface RevisionFacadeLocal {
     
     Revision nouveauRevisionNecessaire(Navette navette, Quai quai);
     
-    List<Revision> recupererListeRevisionNecessaireParQuai(Quai quai);
+    Revision recupererDerniereRevisionQuai(Quai quai);
     
 }

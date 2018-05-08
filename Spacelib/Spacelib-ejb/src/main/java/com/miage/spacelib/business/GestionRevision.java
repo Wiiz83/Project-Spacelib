@@ -99,14 +99,22 @@ public class GestionRevision implements GestionRevisionLocal {
                 // on vérifie que le quai possède une navette en révision 
                 if (q.getNavette() != null) {
                     // on récupère toutes les révisions avec le statut 'révision nécessaires' du quai
-                    List<Revision> toutesRevisionsNecessaires = new ArrayList<>();
-                    toutesRevisionsNecessaires = this.revisionFacade.recupererListeRevisionNecessaireParQuai(q);
-                    // on trie les révisions nécessaires pour séléctionner que les actuelles : les navettes avec 0 voyage restant
-                    if(toutesRevisionsNecessaires.size() > 0){
-                        for (Revision r : toutesRevisionsNecessaires) {
-                            if (r.getNavette().getNbVoyages() == 0) {
-                                revisions.add(r);
-                            }
+                    Revision derniereRevisionDuQuai = this.revisionFacade.recupererDerniereRevisionQuai(q);
+                    System.out.println(derniereRevisionDuQuai.getId());
+                    
+                    
+                    System.out.println(derniereRevisionDuQuai.getStatut()+" et " + Revision.statutRevisionNecessaire);
+                    
+                    
+                    // si la dernière opération de révision est une révision nécessaire : 
+                    if(new String(derniereRevisionDuQuai.getStatut()).equals(Revision.statutRevisionNecessaire)){
+                        
+                        System.out.println("passe1");
+                        // et si la navette possède bien 0 voyage restant
+                        if (derniereRevisionDuQuai.getNavette().getNbVoyages() == 0) {
+                            System.out.println("passe2");
+                            // alors c'est bien une révision nécessaire !
+                            revisions.add(derniereRevisionDuQuai);
                         }
                     }
                 }
