@@ -44,6 +44,9 @@ public class ServicesUsager implements ServicesUsagerRemote {
 
     }
 
+    /*
+    
+   
     @Override
     public Voyage reserver(int nbPassagers, long idQuaiDepart, long idQuaiArrivee, Calendar dateDepart) {
         return null;
@@ -53,6 +56,8 @@ public class ServicesUsager implements ServicesUsagerRemote {
     public Voyage voyageEnCours(long idUsager) {
         return null;
     }
+    
+     */
 
     @Override
     public void finaliserVoyage(long idVoyage) {
