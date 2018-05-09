@@ -45,13 +45,13 @@ public class ServicesUsager implements ServicesUsagerRemote {
     }
 
     @Override
-    public long reserver(int nbPassagers, long idQuaiDepart, long idQuaiArrivee, Calendar dateDepart) {
-        return 0;
+    public Voyage reserver(int nbPassagers, long idQuaiDepart, long idQuaiArrivee, Calendar dateDepart) {
+        return null;
     }
 
     @Override
-    public long voyageEnCours(long idUsager) {
-        return 0;
+    public Voyage voyageEnCours(long idUsager) {
+        return null;
     }
 
     @Override

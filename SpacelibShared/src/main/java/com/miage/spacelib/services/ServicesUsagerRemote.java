@@ -1,5 +1,6 @@
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.entities.Voyage;
 import com.miage.spacelib.exceptions.ClientInconnuException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
@@ -17,9 +18,9 @@ public interface ServicesUsagerRemote {
     
     public void creeCompte(String nom, String prenom, String login, String motdepasse);
     
-    public long reserver(int nbPassagers, long idQuaiDepart, long idQuaiArrivee, Calendar dateDepart);
+    public Voyage reserver(int nbPassagers, long idQuaiDepart, long idQuaiArrivee, Calendar dateDepart);
     
-    public long voyageEnCours(long idUsager);
+    public Voyage voyageEnCours(long idUsager);
     
     public void finaliserVoyage(long idVoyage);
 
