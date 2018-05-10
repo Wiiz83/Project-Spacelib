@@ -1,31 +1,33 @@
 package com.miage.spacelib.services;
 
-import com.miage.spacelib.exceptions.ClientInconnuException;
+import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.VoyageInconnuException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.ejb.Remote;
 
 
 @Remote
 public interface ServicesUsagerRemote {
     
-    public boolean login (String nom, String pass);    
+    public Long login (String nom, String pass) throws UsagerInconnuException;    
     
-    public void creeCompte(String nom, String prenom, String login, String motdepasse);
-    
-    // public Voyage reserver(int nbPassagers, long idQuaiDepart, long idQuaiArrivee, Calendar dateDepart);
+    public void creerCompte(String nom, String prenom, String login, String motdepasse);
     
     // public Voyage voyageEnCours(long idUsager);
     
-    public void finaliserVoyage(long idVoyage);
+    public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException;
 
-    public ArrayList obtenirStations();   
+    //public ArrayList<Station> obtenirStations();   
+    
+    //public ArrayList<Voyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException;  
 
-    public void reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers) throws ClientInconnuException, StationInconnuException;
+    //public Voyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws UsagerInconnuException, StationInconnuException;
 
-    public void annulerVoyage(Long idClient, Long idReservation) throws ClientInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
+    public void annulerVoyage(Long idUsager, Long idVoyage) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
 
 }

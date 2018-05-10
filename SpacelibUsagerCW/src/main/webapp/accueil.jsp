@@ -26,7 +26,8 @@
     <body>
         
         <%
-            session.setAttribute("idUsager", null);
+            session.setAttribute("idStation", null);
+            session.setAttribute("idMecanicien", null);
         %>
         <script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script><script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
         <h1><img src="images/logo.png" alt="Spacelib logo" height="90px"></h1>
@@ -48,11 +49,34 @@
                                 if (msginfo != null) {
                                     out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + msginfo + "</p>");
                                 }
+                                
+                                String numeroQuai = String.valueOf(request.getAttribute("idQuai"));
+                                if (numeroQuai != null && !numeroQuai.isEmpty() && numeroQuai != "null") {
+                                    out.println("<p style='background-color: green; color:white; font-weight: bold; padding: 10px;'>La navette se trouve au quai numéro " + numeroQuai + "</p></br>");
+                                }
                             %>
                             <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-0">
                                 <form method="post" action="Login">					
                                     <input placeholder="Login" name="login" class="mail" type="text" required>
                                     <input placeholder="Mot de passe" name="motdepasse" class="lock" type="password" required>
+
+                                    <select name="idStation"> 
+                                        <%
+                                           
+                                            Iterator it = Login.getStationsList().iterator();
+                                            String v = null;
+
+                                            while (it.hasNext () 
+                                                ) {
+                                                Station station = (Station) it.next();
+                                                v = station.getNom();
+                                        %>	
+                                        <option value="<%= station.getId()%>"> <%= v%></option> 
+                                        <%
+                                            }
+                                        %> 
+                                    </select>
+
                                     <input type="submit" value="Connexion"/>
                                 </form>
                             </div>

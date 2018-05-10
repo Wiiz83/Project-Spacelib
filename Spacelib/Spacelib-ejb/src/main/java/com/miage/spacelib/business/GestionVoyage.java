@@ -5,7 +5,7 @@
  */
 package com.miage.spacelib.business;
 
-import com.miage.spacelib.exceptions.ClientInconnuException;
+import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
@@ -32,7 +32,7 @@ public class GestionVoyage implements GestionVoyageLocal {
      * @throws com.miage.spacelib.exceptions.ReservationClotureeException si la réservation est clôturée
      */
     @Override
-    public void annuler(Long idClient, Long idReservation) throws ClientInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException {
+    public void annuler(Long idClient, Long idReservation) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException {
         
         
     }
