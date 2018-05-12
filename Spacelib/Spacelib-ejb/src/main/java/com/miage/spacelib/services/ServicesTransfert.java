@@ -5,6 +5,7 @@
  */
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.entities.Voyage;
 import javax.ejb.Stateless;
 
 /**
@@ -14,6 +15,6 @@ import javax.ejb.Stateless;
 @Stateless
 public class ServicesTransfert implements ServicesTransfertLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+
+    
 }

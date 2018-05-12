@@ -5,10 +5,12 @@
  */
 package com.miage.spacelib.business;
 
+import com.miage.spacelib.entities.Voyage;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
+import com.miage.spacelib.exceptions.VoyageInconnuException;
 import javax.ejb.Stateless;
 
 /**
@@ -18,20 +20,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class GestionVoyage implements GestionVoyageLocal {
 
-    
-    
-    /**
-     * Ce service permet à un client d'annuler un voyage
-     * 
-     * @param idClient l'identifiant du client 
-     * @param idReservation l'identifiant de la réservation à annuler
-     * 
-     * @throws com.miage.spacelib.exceptions.ClientInconnuException si l'id du client est inconnu
-     * @throws com.miage.spacelib.exceptions.ReservationInconnuException si l'id de la réservation est inconnu
-     * @throws com.miage.spacelib.exceptions.ReservationPasseeException si la date de départ est passé 
-     * @throws com.miage.spacelib.exceptions.ReservationClotureeException si la réservation est clôturée
-     */
-    @Override
+    //@Override
     public void annuler(Long idClient, Long idReservation) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException {
         
         
@@ -41,6 +30,19 @@ public class GestionVoyage implements GestionVoyageLocal {
     public void reserver() {
     
     
+    }
+
+    @Override
+    public void annulerVoyage(Long idClient, Long idReservation) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException {
+    }
+
+    @Override
+    public Voyage voyageEnCours(Long idUsager) throws UsagerInconnuException {
+        return null;
+    }
+
+    @Override
+    public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException {
     }
 
 }

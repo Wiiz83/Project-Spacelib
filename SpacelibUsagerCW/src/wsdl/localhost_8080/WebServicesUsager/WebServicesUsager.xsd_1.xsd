@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://services.spacelib.miage.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.spacelib.miage.com/">
 
+<xs:element name="IllegalAccessException" type="tns:IllegalAccessException"/>
+
+<xs:element name="InvocationTargetException" type="tns:InvocationTargetException"/>
+
 <xs:element name="ReservationClotureeException" type="tns:ReservationClotureeException"/>
 
 <xs:element name="ReservationInconnuException" type="tns:ReservationInconnuException"/>
@@ -134,19 +138,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="creerCompte">
-<xs:sequence>
-<xs:element name="nom" type="xs:string" minOccurs="0"/>
-<xs:element name="prenom" type="xs:string" minOccurs="0"/>
-<xs:element name="login" type="xs:string" minOccurs="0"/>
-<xs:element name="motdepasse" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="creerCompteResponse">
-<xs:sequence/>
-</xs:complexType>
-
 <xs:complexType name="annulerVoyage">
 <xs:sequence>
 <xs:element name="idUsager" type="xs:long" minOccurs="0"/>
@@ -174,6 +165,19 @@
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="creerCompte">
+<xs:sequence>
+<xs:element name="nom" type="xs:string" minOccurs="0"/>
+<xs:element name="prenom" type="xs:string" minOccurs="0"/>
+<xs:element name="login" type="xs:string" minOccurs="0"/>
+<xs:element name="motdepasse" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="creerCompteResponse">
+<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="reserverVoyage">
@@ -204,8 +208,46 @@
 
 <xs:complexType name="obtenirStationsResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:station" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="return" type="tns:rStation" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rStation">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="localisation" type="xs:string" minOccurs="0"/>
+<xs:element name="nbQuais" type="xs:int"/>
+<xs:element name="nom" type="xs:string" minOccurs="0"/>
+<xs:element name="quais" type="tns:rQuai" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="statut" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rQuai">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="IllegalAccessException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="InvocationTargetException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+<xs:element name="targetException" type="tns:throwable" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="throwable">
+<xs:sequence>
+<xs:element name="stackTrace" type="tns:stackTraceElement" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="stackTraceElement" final="extension restriction">
+<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="login">

@@ -1,50 +1,27 @@
-package com.miage.spacelib.entities;
+package com.miage.spacelib.ressources;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlTransient;
 
-@Entity
-@Table(name="STATION")
-public class Station implements Serializable {
+public class rStation implements Serializable {
    
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "station")
-    private List<Quai> quais;
-    
-    @Column(name="LOCALISATION", nullable = false)
+    private List<rQuai> quais;
+
     private String localisation;
     
-    @Column(name="NOMBRE_QUAIS", nullable = false)
     private int nbQuais;
-    
-    @Column(name="NOM", nullable = false)
+
     private String nom;
     
-    //public enum StationStatut {Disponible,Complet}
-    //@Enumerated(EnumType.STRING)
-    @Column(name="STATUT", nullable = false)
     private String statut;
     
-    public Station(){
+    public rStation(){
         
     }
     
-    public Station(String l, int nb, String n){
+    public rStation(String l, int nb, String n){
         this.localisation = l;
         this.nbQuais = nb;
         this.statut = "Disponible";
@@ -91,12 +68,11 @@ public class Station implements Serializable {
         this.statut = statut;
     }
 
-    @XmlTransient
-    public List<Quai> getQuais() {
+    public List<rQuai> getQuais() {
         return quais;
     }
 
-    public void setQuais(List<Quai> quais) {
+    public void setQuais(List<rQuai> quais) {
         this.quais = quais;
     }
 
@@ -110,10 +86,10 @@ public class Station implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Station)) {
+        if (!(object instanceof rStation)) {
             return false;
         }
-        Station other = (Station) object;
+        rStation other = (rStation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

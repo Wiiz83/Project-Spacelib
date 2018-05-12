@@ -5,11 +5,7 @@
  */
 package com.miage.spacelib.business;
 
-import com.miage.spacelib.entities.Navette;
-import com.miage.spacelib.entities.Station;
-import com.miage.spacelib.exceptions.StationInconnuException;
-import java.util.ArrayList;
-import java.util.List;
+import com.miage.spacelib.exceptions.UsagerInconnuException;
 import javax.ejb.Local;
 
 /**
@@ -17,9 +13,8 @@ import javax.ejb.Local;
  * @author uzanl
  */
 @Local
-public interface GestionStationLocal {
+public interface GestionUsagerLocal {
     
-    public List<Station> recupererListeStations();
-
+    public Long authentifier(String login, String motdepasse) throws UsagerInconnuException;
     
 }

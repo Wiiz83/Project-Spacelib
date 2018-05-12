@@ -5,11 +5,16 @@
  */
 package com.miage.spacelibusager.servlets;
 
+import com.miage.spacelib.ressources.rStation;
+import com.miage.spacelib.services.IllegalAccessException_Exception;
+import com.miage.spacelib.services.InvocationTargetException_Exception;
+import com.miage.spacelib.services.RStation;
 import com.miage.spacelib.services.UsagerInconnuException_Exception;
 import com.miage.spacelib.services.WebServicesUsager;
 import com.miage.spacelib.services.WebServicesUsager_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -42,28 +47,17 @@ public class Index extends HttpServlet {
         WebServicesUsager port = service.getWebServicesUsagerPort();
         
         try {
-            long idMecanicien = port.login(login, motdepasse);
+            Long idUsager = port.login(login, motdepasse);
             
             HttpSession session = request.getSession();
-            session.setAttribute("idStation", idStation);
-            session.setAttribute("idMecanicien", idMecanicien);
-            
-            Revision revision = port.consulterRevisionEnCours(idMecanicien, idStation);
-
-            if(revision != null){
-                request.setAttribute("revision", revision);
-                RequestDispatcher rd = request.getRequestDispatcher("FinRevisionJSP");
-                rd.forward(request, response);
-            } else {
-                request.setAttribute("idStation", idStation);
-                RequestDispatcher rd = request.getRequestDispatcher("DebutRevisionJSP");
-                rd.forward(request, response);
-            }
+            session.setAttribute("idUsager", idUsager);
+            RequestDispatcher rd = request.getRequestDispatcher("accueil.jsp");
+            rd.forward(request, response);
             
         } catch (UsagerInconnuException_Exception ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
-            RequestDispatcher rd = request.getRequestDispatcher("Index");
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
         }
     }

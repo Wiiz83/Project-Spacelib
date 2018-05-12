@@ -50,7 +50,7 @@
                                 }
                             %>
                             <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-0">
-                                <form method="post" action="Login">					
+                                <form method="post" action="Index">					
                                     <input placeholder="Login" name="login" class="mail" type="text" required>
                                     <input placeholder="Mot de passe" name="motdepasse" class="lock" type="password" required>
                                     <input type="submit" value="Connexion"/>

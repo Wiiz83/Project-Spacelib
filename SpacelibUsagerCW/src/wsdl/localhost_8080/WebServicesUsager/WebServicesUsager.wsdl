@@ -4,20 +4,20 @@
 <xsd:import namespace="http://services.spacelib.miage.com/" schemaLocation="http://localhost:8080/WebServicesUsager/WebServicesUsager?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="creerCompte">
-<part name="parameters" element="tns:creerCompte"/>
+<message name="login">
+<part name="parameters" element="tns:login"/>
 </message>
-<message name="creerCompteResponse">
-<part name="parameters" element="tns:creerCompteResponse"/>
+<message name="loginResponse">
+<part name="parameters" element="tns:loginResponse"/>
+</message>
+<message name="UsagerInconnuException">
+<part name="fault" element="tns:UsagerInconnuException"/>
 </message>
 <message name="annulerVoyage">
 <part name="parameters" element="tns:annulerVoyage"/>
 </message>
 <message name="annulerVoyageResponse">
 <part name="parameters" element="tns:annulerVoyageResponse"/>
-</message>
-<message name="UsagerInconnuException">
-<part name="fault" element="tns:UsagerInconnuException"/>
 </message>
 <message name="ReservationInconnuException">
 <part name="fault" element="tns:ReservationInconnuException"/>
@@ -28,12 +28,6 @@
 <message name="ReservationClotureeException">
 <part name="fault" element="tns:ReservationClotureeException"/>
 </message>
-<message name="obtenirStations">
-<part name="parameters" element="tns:obtenirStations"/>
-</message>
-<message name="obtenirStationsResponse">
-<part name="parameters" element="tns:obtenirStationsResponse"/>
-</message>
 <message name="reserverVoyage">
 <part name="parameters" element="tns:reserverVoyage"/>
 </message>
@@ -43,11 +37,23 @@
 <message name="StationInconnuException">
 <part name="fault" element="tns:StationInconnuException"/>
 </message>
-<message name="login">
-<part name="parameters" element="tns:login"/>
+<message name="obtenirStations">
+<part name="parameters" element="tns:obtenirStations"/>
 </message>
-<message name="loginResponse">
-<part name="parameters" element="tns:loginResponse"/>
+<message name="obtenirStationsResponse">
+<part name="parameters" element="tns:obtenirStationsResponse"/>
+</message>
+<message name="IllegalAccessException">
+<part name="fault" element="tns:IllegalAccessException"/>
+</message>
+<message name="InvocationTargetException">
+<part name="fault" element="tns:InvocationTargetException"/>
+</message>
+<message name="creerCompte">
+<part name="parameters" element="tns:creerCompte"/>
+</message>
+<message name="creerCompteResponse">
+<part name="parameters" element="tns:creerCompteResponse"/>
 </message>
 <message name="obtenirVoyagesUsager">
 <part name="parameters" element="tns:obtenirVoyagesUsager"/>
@@ -56,9 +62,10 @@
 <part name="parameters" element="tns:obtenirVoyagesUsagerResponse"/>
 </message>
 <portType name="WebServicesUsager">
-<operation name="creerCompte">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/creerCompteRequest" message="tns:creerCompte"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/creerCompteResponse" message="tns:creerCompteResponse"/>
+<operation name="login">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/loginRequest" message="tns:login"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/loginResponse" message="tns:loginResponse"/>
+<fault message="tns:UsagerInconnuException" name="UsagerInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/login/Fault/UsagerInconnuException"/>
 </operation>
 <operation name="annulerVoyage">
 <input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/annulerVoyageRequest" message="tns:annulerVoyage"/>
@@ -68,20 +75,21 @@
 <fault message="tns:ReservationPasseeException" name="ReservationPasseeException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/annulerVoyage/Fault/ReservationPasseeException"/>
 <fault message="tns:ReservationClotureeException" name="ReservationClotureeException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/annulerVoyage/Fault/ReservationClotureeException"/>
 </operation>
-<operation name="obtenirStations">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/obtenirStationsRequest" message="tns:obtenirStations"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/obtenirStationsResponse" message="tns:obtenirStationsResponse"/>
-</operation>
 <operation name="reserverVoyage">
 <input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/reserverVoyageRequest" message="tns:reserverVoyage"/>
 <output wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/reserverVoyageResponse" message="tns:reserverVoyageResponse"/>
 <fault message="tns:UsagerInconnuException" name="UsagerInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/reserverVoyage/Fault/UsagerInconnuException"/>
 <fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/reserverVoyage/Fault/StationInconnuException"/>
 </operation>
-<operation name="login">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/loginRequest" message="tns:login"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/loginResponse" message="tns:loginResponse"/>
-<fault message="tns:UsagerInconnuException" name="UsagerInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/login/Fault/UsagerInconnuException"/>
+<operation name="obtenirStations">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/obtenirStationsRequest" message="tns:obtenirStations"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/obtenirStationsResponse" message="tns:obtenirStationsResponse"/>
+<fault message="tns:IllegalAccessException" name="IllegalAccessException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/obtenirStations/Fault/IllegalAccessException"/>
+<fault message="tns:InvocationTargetException" name="InvocationTargetException" wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/obtenirStations/Fault/InvocationTargetException"/>
+</operation>
+<operation name="creerCompte">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/creerCompteRequest" message="tns:creerCompte"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/creerCompteResponse" message="tns:creerCompteResponse"/>
 </operation>
 <operation name="obtenirVoyagesUsager">
 <input wsam:Action="http://services.spacelib.miage.com/WebServicesUsager/obtenirVoyagesUsagerRequest" message="tns:obtenirVoyagesUsager"/>
@@ -91,7 +99,7 @@
 </portType>
 <binding name="WebServicesUsagerPortBinding" type="tns:WebServicesUsager">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="creerCompte">
+<operation name="login">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -99,6 +107,9 @@
 <output>
 <soap:body use="literal"/>
 </output>
+<fault name="UsagerInconnuException">
+<soap:fault name="UsagerInconnuException" use="literal"/>
+</fault>
 </operation>
 <operation name="annulerVoyage">
 <soap:operation soapAction=""/>
@@ -121,15 +132,6 @@
 <soap:fault name="ReservationClotureeException" use="literal"/>
 </fault>
 </operation>
-<operation name="obtenirStations">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="reserverVoyage">
 <soap:operation soapAction=""/>
 <input>
@@ -145,7 +147,7 @@
 <soap:fault name="StationInconnuException" use="literal"/>
 </fault>
 </operation>
-<operation name="login">
+<operation name="obtenirStations">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -153,9 +155,21 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="UsagerInconnuException">
-<soap:fault name="UsagerInconnuException" use="literal"/>
+<fault name="IllegalAccessException">
+<soap:fault name="IllegalAccessException" use="literal"/>
 </fault>
+<fault name="InvocationTargetException">
+<soap:fault name="InvocationTargetException" use="literal"/>
+</fault>
+</operation>
+<operation name="creerCompte">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
 </operation>
 <operation name="obtenirVoyagesUsager">
 <soap:operation soapAction=""/>

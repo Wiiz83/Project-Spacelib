@@ -7,6 +7,8 @@ import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.ressources.rStation;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.ejb.EJB;
@@ -35,9 +37,9 @@ public class WebServicesUsager {
     }
     
     @WebMethod(operationName = "obtenirStations")
-    public ArrayList<Station> obtenirStations() {
-        //return ejbRef.obtenirStations();
-        return null;
+    public ArrayList<rStation> obtenirStations() throws IllegalAccessException, InvocationTargetException {
+        ArrayList<rStation> stations = ejbRef.obtenirStations();
+        return stations;
     }
     
     @WebMethod(operationName = "reserverVoyage")

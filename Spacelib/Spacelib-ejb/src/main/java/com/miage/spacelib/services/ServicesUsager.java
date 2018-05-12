@@ -6,21 +6,24 @@
 package com.miage.spacelib.services;
 
 import com.miage.spacelib.business.GestionStationLocal;
+import com.miage.spacelib.business.GestionUsagerLocal;
 import com.miage.spacelib.business.GestionVoyageLocal;
-import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
-import com.miage.spacelib.entities.Usager;
-import com.miage.spacelib.entities.Voyage;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
+import com.miage.spacelib.ressources.rStation;
+import com.miage.spacelib.ressources.rVoyage;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import org.apache.commons.beanutils.BeanUtils;
 
 /**
  *
@@ -35,10 +38,14 @@ public class ServicesUsager implements ServicesUsagerRemote {
     @EJB
     private GestionVoyageLocal gestionVoyage;
     
+    @EJB
+    private GestionUsagerLocal gestionUsager;
+    
+    
     // RETOURNE LE LOGIN DE L'USAGER POUR LE RECUPERER DANS LE CLIENT LOURD ET WEB COMME VARIABLE DE SESSION
     @Override
-    public Long login(String nom, String pass) throws UsagerInconnuException {
-        return null; 
+    public Long login(String login, String motdepasse) throws UsagerInconnuException {
+        return this.gestionUsager.authentifier(login, motdepasse);
     }
 
     @Override
@@ -46,22 +53,12 @@ public class ServicesUsager implements ServicesUsagerRemote {
 
     }
 
-    /*
-    
-    // NOTE PAR LUCAS POUR MAHDI : Utilise plutôt la méthode reserverVoyage(), 
-    // l'utilisateur choisi des stations de départ et d'arrivée
-    // il ne choisi pas les quais : c'est fait par le système automatiquement ça
     @Override
-    public Voyage reserver(int nbPassagers, long idQuaiDepart, long idQuaiArrivee, Calendar dateDepart) {
-        return null;
-    }
-
-    @Override
-    public Voyage voyageEnCours(Long idUsager) {
+    public rVoyage voyageEnCours(Long idUsager) {
+        rVoyage rvoy = new rVoyage();
         return null;
     }
     
-     */
 
     @Override
     public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException{
@@ -71,10 +68,16 @@ public class ServicesUsager implements ServicesUsagerRemote {
      * Ce service retourne la liste des stations existantes (incluant leur localisation)
      * CF 3.1
      */
-    //@Override
-    public ArrayList<Station> obtenirStations() {
-        //return this.gestionStation.obtenir();
-        return null;
+    @Override
+    public ArrayList<rStation> obtenirStations() throws IllegalAccessException, InvocationTargetException{
+        List<Station> stations = this.gestionStation.recupererListeStations();
+        ArrayList<rStation> resultList = new ArrayList<>();
+        for(Station station : stations){
+            rStation rstation = new rStation();
+            BeanUtils.copyProperties(rstation, station);
+            resultList.add(rstation);
+        }
+        return resultList;
     }
 
     
@@ -82,14 +85,14 @@ public class ServicesUsager implements ServicesUsagerRemote {
      * Ce service permet à un client de réserver un voyage
      * CF 3.2
      */
-    //@Override
-    public Voyage reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws UsagerInconnuException, StationInconnuException {
+    @Override
+    public rVoyage reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws UsagerInconnuException, StationInconnuException {
        //return this.gestionVoyage.reserver();
        return null;
     }
     
-    //@Override
-    public ArrayList<Voyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException {
+    @Override
+    public ArrayList<rVoyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException {
         return null;
     }
 
@@ -100,7 +103,7 @@ public class ServicesUsager implements ServicesUsagerRemote {
      */
     @Override
     public void annulerVoyage(Long idClient, Long idUsager) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException {
-        this.gestionVoyage.annuler(idClient, idUsager);
+        this.gestionVoyage.annulerVoyage(idClient, idUsager);
     }
 
     

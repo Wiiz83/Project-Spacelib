@@ -594,3 +594,61 @@ button, input, select, textarea {
     font: inherit;
     margin: 0;
 }
+
+
+#menu {
+    margin-bottom: 50px;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+border: 1px solid #ddd;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#menu li {
+    float: center;
+}
+
+#menu li a {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+#menu li a:hover {
+    background-color: #111;
+}
+
+
+
+.main-content-nologin select {
+    padding: 15px !important;
+    margin: 15px !important;
+    width: 92% !important;
+}
+
+.main-content-nologin form {
+    width: 400px !important;
+    margin-left: 27% !important;
+}
+
+input[type="date"]{
+    width: 92%;
+    padding: 15px;
+    border: none;
+    margin-bottom: 20px;
+    font-size: 14px;
+    outline: none;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+}

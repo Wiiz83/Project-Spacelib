@@ -6,6 +6,9 @@ import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
+import com.miage.spacelib.ressources.rStation;
+import com.miage.spacelib.ressources.rVoyage;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.ejb.Remote;
@@ -18,15 +21,15 @@ public interface ServicesUsagerRemote {
     
     public void creerCompte(String nom, String prenom, String login, String motdepasse);
     
-    // public Voyage voyageEnCours(long idUsager);
+    public rVoyage voyageEnCours(Long idUsager);
     
     public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException;
 
-    //public ArrayList<Station> obtenirStations();   
+    public ArrayList<rStation> obtenirStations() throws IllegalAccessException, InvocationTargetException;   
     
-    //public ArrayList<Voyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException;  
+    public ArrayList<rVoyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException;  
 
-    //public Voyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws UsagerInconnuException, StationInconnuException;
+    public rVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws UsagerInconnuException, StationInconnuException;
 
     public void annulerVoyage(Long idUsager, Long idVoyage) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
 

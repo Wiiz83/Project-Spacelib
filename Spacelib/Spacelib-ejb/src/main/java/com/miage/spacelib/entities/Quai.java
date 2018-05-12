@@ -24,11 +24,13 @@ public class Quai implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    //@ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_STATION", nullable = false)
     private Station station;
     
-    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    //@OneToOne(optional = true, fetch = FetchType.LAZY)
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_NAVETTE", nullable = true)
     private Navette navette;
     

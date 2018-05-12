@@ -27,8 +27,9 @@
             }
         %>
         <h1><a href="index.jsp"><img src="images/logo.png" alt="Spacelib logo" height="90px"></a></h1>
-        <h3 style='color:white; font-size: 20px; font-weight: bold; padding: 10px;'>Navettes nécessitant une révision</h3>
+
         <div class="main-content-nologin">
+                    <h3 style='color:white; font-size: 20px; font-weight: bold; padding: 10px;'>Navettes nécessitant une révision</h3>
                     <form method="post" action="DebutRevision">
                         <table class="table table-bordered" align="center" style="justify-content:center;align-items:center;width:100%;height:100%;">
                             <thead>

@@ -24,14 +24,7 @@ public class GestionStation implements GestionStationLocal {
     
     @EJB
     private StationFacadeLocal stationFacade;
-    
-    @EJB
-    private RevisionFacadeLocal revisionFacade;
 
-    @Override
-    public ArrayList obtenir() {
-        return null;
-    }
 
     @Override
     public List<Station> recupererListeStations() {
