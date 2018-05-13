@@ -1,11 +1,12 @@
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.exceptions.QuaiIndisponibleException;
+import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
-import com.miage.spacelib.exceptions.StationsIdentiquesException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.ressources.RStation;
@@ -31,7 +32,7 @@ public interface ServicesUsagerRemote {
     
     public ArrayList<RVoyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException;  
 
-    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws InvocationTargetException, IllegalAccessException, StationsIdentiquesException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;
+    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, InvocationTargetException, IllegalAccessException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;
 
     public void annulerVoyage(Long idUsager, Long idVoyage) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
 

@@ -10,11 +10,12 @@ import com.miage.spacelib.business.GestionUsagerLocal;
 import com.miage.spacelib.business.GestionVoyageLocal;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.entities.Voyage;
+import com.miage.spacelib.exceptions.QuaiIndisponibleException;
+import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
-import com.miage.spacelib.exceptions.StationsIdentiquesException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
@@ -28,10 +29,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.apache.commons.beanutils.BeanUtils;
 
-/**
- *
- * @author uzanl
- */
 @Stateless
 public class ServicesUsager implements ServicesUsagerRemote {
     
@@ -89,7 +86,7 @@ public class ServicesUsager implements ServicesUsagerRemote {
      * CF 3.2
      */
     @Override
-    public RVoyage reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws InvocationTargetException, IllegalAccessException, StationsIdentiquesException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+    public RVoyage reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, InvocationTargetException, IllegalAccessException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
         Voyage voyage = this.gestionVoyage.reserverVoyage(idClient, idStationDepart, idStationArrivee, NbPassagers, dateDepart);
         System.out.println("Voyage = " + voyage);
         RVoyage rvoyage = new RVoyage();

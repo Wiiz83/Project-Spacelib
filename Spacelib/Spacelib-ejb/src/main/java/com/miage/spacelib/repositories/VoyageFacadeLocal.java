@@ -37,5 +37,9 @@ public interface VoyageFacadeLocal {
     
     public Voyage creerVoyage(Navette navette, Usager usager, Quai quaiDepart, Quai quaiArrive, int NbPassagers, Calendar dateDepart, Calendar dateArrivee);
    
-    public List<Voyage> findVoyagesArriveeADateEtQuai(Calendar dateDepart,Quai q);
+    public Voyage findPlusProcheVoyageArriveADateEtQuai(Calendar dateDepart,Quai q);
+    
+    public Voyage findPlusProcheVoyageDepartADateEtQuai(Calendar dateDepart, Quai q);
+    
+    public Voyage findVoyageDepartDeNavetteEntreDatesAQuai(Navette n, Calendar dArrivee, Quai q);
 }

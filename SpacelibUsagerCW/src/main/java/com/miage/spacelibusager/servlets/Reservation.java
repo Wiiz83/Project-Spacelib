@@ -1,26 +1,22 @@
 package com.miage.spacelibusager.servlets;
 
-import com.miage.spacelib.exceptions.StationInconnuException;
-import com.miage.spacelib.exceptions.StationsIdentiquesException;
-import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
-import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.QuaiIndisponibleException;
 import com.miage.spacelib.services.IllegalAccessException_Exception;
 import com.miage.spacelib.services.InvocationTargetException_Exception;
+import com.miage.spacelib.services.QuaiIndisponibleException_Exception;
+import com.miage.spacelib.services.QuaiInexistantException_Exception;
 import com.miage.spacelib.services.RVoyage;
 import com.miage.spacelib.services.StationInconnuException_Exception;
-import com.miage.spacelib.services.StationsIdentiquesException_Exception;
 import com.miage.spacelib.services.TempsTrajetInconnuException_Exception;
 import com.miage.spacelib.services.UsagerInconnuException_Exception;
 import com.miage.spacelib.services.WebServicesUsager;
 import com.miage.spacelib.services.WebServicesUsager_Service;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -42,10 +38,17 @@ public class Reservation extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
         } else {
-
-            Long idUsager = (Long) session.getAttribute("idUsager");
             Long idStationDepart = Long.valueOf(request.getParameter("idStationDepart"));
             Long idStationArrivee = Long.valueOf(request.getParameter("idStationArrivee"));
+            
+            if(Objects.equals(idStationDepart, idStationArrivee)){
+                request.setAttribute("messageErreur", "Erreur : Les stations de départ et d'arrivée ne peuvent pas être identiques.");
+                RequestDispatcher rd = request.getRequestDispatcher("reservation.jsp");
+                rd.forward(request, response);
+            }
+            
+            Long idUsager = (Long) session.getAttribute("idUsager");
+            
             int nbpassagers = Integer.parseInt(request.getParameter("nbpassagers"));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date;
@@ -66,17 +69,13 @@ public class Reservation extends HttpServlet {
             WebServicesUsager_Service service = new WebServicesUsager_Service();
             WebServicesUsager port = service.getWebServicesUsagerPort();
 
-            RVoyage vvoyage;
             try {
-                vvoyage = port.reserverVoyage(idUsager, idStationDepart, idStationArrivee, nbpassagers, dateDepart);
+                RVoyage vvoyage = port.reserverVoyage(idUsager, idStationDepart, idStationArrivee, nbpassagers, dateDepart);
                 System.out.println("VOYAGE RECUPEREE : " + vvoyage);
-            } catch (IllegalAccessException_Exception | InvocationTargetException_Exception | StationInconnuException_Exception | StationsIdentiquesException_Exception | TempsTrajetInconnuException_Exception | UsagerInconnuException_Exception ex) {
+            } catch (QuaiInexistantException_Exception | QuaiIndisponibleException_Exception | StationInconnuException_Exception | IllegalAccessException_Exception | InvocationTargetException_Exception | TempsTrajetInconnuException_Exception | UsagerInconnuException_Exception ex){
+                System.out.println("LOLILOL");
                 Logger.getLogger(Reservation.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
-                RequestDispatcher rd = request.getRequestDispatcher("reservation.jsp");
-                rd.forward(request, response);
-            }
-
+            } 
         }
     }
 

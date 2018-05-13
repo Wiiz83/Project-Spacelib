@@ -1,12 +1,11 @@
 package com.miage.spacelib.services;
 
-import com.miage.spacelib.entities.Station;
-import com.miage.spacelib.entities.Voyage;
+import com.miage.spacelib.exceptions.QuaiIndisponibleException;
+import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
-import com.miage.spacelib.exceptions.StationsIdentiquesException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.ressources.RStation;
@@ -46,7 +45,7 @@ public class WebServicesUsager {
     }
     
     @WebMethod(operationName = "reserverVoyage")
-    public RVoyage reserverVoyage(@WebParam(name = "idUsager") Long idUsager, @WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee, @WebParam(name = "NbPassagers") int NbPassagers, @WebParam(name = "dateDepart") Calendar dateDepart) throws InvocationTargetException, IllegalAccessException, StationsIdentiquesException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+    public RVoyage reserverVoyage(@WebParam(name = "idUsager") Long idUsager, @WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee, @WebParam(name = "NbPassagers") int NbPassagers, @WebParam(name = "dateDepart") Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, InvocationTargetException, IllegalAccessException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
        return this.ejbRef.reserverVoyage(idUsager, idStationDepart, idStationArrivee, NbPassagers, dateDepart);
     }
 

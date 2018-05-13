@@ -5,7 +5,11 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Navette;
+import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Transfert;
+import com.miage.spacelib.entities.Voyage;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +33,11 @@ public interface TransfertFacadeLocal {
     List<Transfert> findRange(int[] range);
 
     int count();
+    
+    public Transfert findPlusProcheTransfertArriveADateEtQuai(Calendar dateDepart,Quai q);
+    
+    public Transfert findPlusProcheTransfertDepartADateEtQuai(Calendar dateDepart, Quai q);
+    
+    public Transfert findTransfertDepartDeNavetteEntreDatesAQuai(Navette n, Calendar dArrivee, Quai q);
     
 }

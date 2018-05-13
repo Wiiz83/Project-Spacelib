@@ -4,6 +4,10 @@
 
 <xs:element name="InvocationTargetException" type="tns:InvocationTargetException"/>
 
+<xs:element name="QuaiIndisponibleException" type="tns:QuaiIndisponibleException"/>
+
+<xs:element name="QuaiInexistantException" type="tns:QuaiInexistantException"/>
+
 <xs:element name="ReservationClotureeException" type="tns:ReservationClotureeException"/>
 
 <xs:element name="ReservationInconnuException" type="tns:ReservationInconnuException"/>
@@ -11,8 +15,6 @@
 <xs:element name="ReservationPasseeException" type="tns:ReservationPasseeException"/>
 
 <xs:element name="StationInconnuException" type="tns:StationInconnuException"/>
-
-<xs:element name="StationsIdentiquesException" type="tns:StationsIdentiquesException"/>
 
 <xs:element name="TempsTrajetInconnuException" type="tns:TempsTrajetInconnuException"/>
 
@@ -186,6 +188,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="QuaiInexistantException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="QuaiIndisponibleException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="InvocationTargetException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
@@ -204,12 +218,6 @@
 </xs:complexType>
 
 <xs:complexType name="IllegalAccessException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="StationsIdentiquesException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>

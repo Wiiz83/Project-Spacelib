@@ -54,7 +54,36 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
     }
 
     @Override
-    public List<Voyage> findVoyagesArriveeADateEtQuai(Calendar dateDepart, Quai q) {
+    public Voyage findPlusProcheVoyageArriveADateEtQuai(Calendar dateDepart, Quai q) {
+        try {
+            java.util.Date utilDate = dateDepart.getTime();
+            
+            System.out.println("Date o " + dateDepart);
+            System.out.println("Date a " + utilDate);
+            System.out.println("Quai " + q);
+
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+            Root<Voyage> root = cq.from(Voyage.class);
+
+            final Predicate quaiPredicate = cb.equal(root.get("quaiArrivee"), q);
+            final Predicate dateArrivePredicate = cb.lessThanOrEqualTo(root.<Date>get("dateArrivee"), utilDate);
+            
+            cq.where(cb.and(quaiPredicate, dateArrivePredicate));
+            cq.orderBy(cb.asc(root.get("dateArrivee")));
+
+            return getEntityManager().createQuery(cq)
+                    .setFirstResult(0)
+                    .setMaxResults(1)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("NOP");
+            return null;
+        }
+    }
+    
+    @Override
+    public Voyage findPlusProcheVoyageDepartADateEtQuai(Calendar dateDepart, Quai q) {
         try {
             java.util.Date utilDate = dateDepart.getTime();
 
@@ -63,50 +92,56 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
             Root<Voyage> root = cq.from(Voyage.class);
 
             final ParameterExpression<Quai> quaiParameter = cb.parameter(Quai.class);
-            final ParameterExpression<Date> dateDepartParameter = cb.parameter(Date.class);
             final ParameterExpression<Date> dateArriveParameter = cb.parameter(Date.class);
 
             final Predicate quaiPredicate = cb.equal(root.get("quaiDepart"), quaiParameter);
+            final Path<Date> checkDateArrivePath = root.<Date>get("dateDepart");
+
+            final Predicate dateArrivePredicate = cb.greaterThanOrEqualTo(checkDateArrivePath, dateArriveParameter);
+
+            cq.where(cb.and(quaiPredicate, dateArrivePredicate));
+            cq.orderBy(cb.desc(root.get("dateDepart")));
             
-            final Path<Date> checkDateDepartPath = root.<Date>get("dateDepart");
-            final Path<Date> checkDateArrivePath = root.<Date>get("dateArrivee");
-
-            final Predicate dateDepartPredicate = cb.lessThan(checkDateDepartPath, dateDepartParameter);
-            final Predicate dateArrivePredicate = cb.lessThan(checkDateArrivePath, dateArriveParameter);
-            
-            cq.where(cb.and(quaiPredicate, dateDepartPredicate, dateArrivePredicate));
-
-            //cq.orderBy(Arrays.asList(cb.asc(checkDatePath)));
-
             return getEntityManager().createQuery(cq)
                     .setParameter(quaiParameter, q)
-                    .setParameter(dateDepartParameter, utilDate, TemporalType.DATE)
                     .setParameter(dateArriveParameter, utilDate, TemporalType.DATE)
-                    .getResultList();
+                    .setFirstResult(0)
+                    .setMaxResults(1)
+                    .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
+    }
+    
+    @Override
+    public Voyage findVoyageDepartDeNavetteEntreDatesAQuai(Navette n, Calendar dArrivee, Quai q) {
+        try {
+            java.util.Date datePrecedenteArrivee = dArrivee.getTime();
 
-        /*
-        try{
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
             Root<Voyage> root = cq.from(Voyage.class);
-            final ParameterExpression<Date> endDateParameter = cb.parameter(Date.class);
-            Predicate startPredicate = cb.greaterThanOrEqualTo(root.<Date>get("inservicedate"), endDateParameter);
-            cq.where(
-                    cb.and(
-                            cb.equal(root.get("quaiArrivee"), q),
-                            cb.equal(root.get("dateArrivee"), dateDepart),
-                            cb.lessThanOrEqualTo(root.get("dateArrivee"), dateDepart)
-                    )
-            );
 
-            return getEntityManager().createQuery(cq).getResultList();
-        } catch(NoResultException e) {
+            final ParameterExpression<Quai> quaiParameter = cb.parameter(Quai.class);
+            final ParameterExpression<Date> dateArriveParameter = cb.parameter(Date.class);
+            
+            final Predicate quaiPredicate = cb.equal(root.get("quaiDepart"), quaiParameter);
+            final Path<Date> checkDateDepartPath = root.<Date>get("dateDepart");
+
+            final Predicate dateArrivePredicate = cb.greaterThanOrEqualTo(checkDateDepartPath, dateArriveParameter);
+
+            cq.where(cb.and(quaiPredicate, dateArrivePredicate));
+            cq.orderBy(cb.desc(root.get("dateDepart")));
+            
+            return getEntityManager().createQuery(cq)
+                    .setParameter(quaiParameter, q)
+                    .setParameter(dateArriveParameter, datePrecedenteArrivee, TemporalType.DATE)
+                    .setFirstResult(0)
+                    .setMaxResults(1)
+                    .getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
-         */
     }
 
 }

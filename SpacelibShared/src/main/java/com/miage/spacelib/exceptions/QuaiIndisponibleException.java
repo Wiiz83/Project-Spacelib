@@ -9,13 +9,13 @@ package com.miage.spacelib.exceptions;
  *
  * @author uzanl
  */
-public class StationsIdentiquesException extends Exception {
+public class QuaiIndisponibleException extends Exception {
     
-    public StationsIdentiquesException(){
+    public QuaiIndisponibleException(){
         
     }
     
-    public StationsIdentiquesException(String msg) {
+    public QuaiIndisponibleException(String msg) {
         super(msg);
     }
     
