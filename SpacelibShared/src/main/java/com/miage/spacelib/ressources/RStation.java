@@ -3,11 +3,11 @@ package com.miage.spacelib.ressources;
 import java.io.Serializable;
 import java.util.List;
 
-public class rStation implements Serializable {
+public class RStation implements Serializable {
    
     private Long id;
     
-    private List<rQuai> quais;
+   // private List<RQuai> quais;
 
     private String localisation;
     
@@ -17,11 +17,11 @@ public class rStation implements Serializable {
     
     private String statut;
     
-    public rStation(){
+    public RStation(){
         
     }
     
-    public rStation(String l, int nb, String n){
+    public RStation(String l, int nb, String n){
         this.localisation = l;
         this.nbQuais = nb;
         this.statut = "Disponible";
@@ -67,15 +67,15 @@ public class rStation implements Serializable {
     public void setStatut(String statut) {
         this.statut = statut;
     }
-
-    public List<rQuai> getQuais() {
+/*
+    public List<RQuai> getQuais() {
         return quais;
     }
 
-    public void setQuais(List<rQuai> quais) {
+    public void setQuais(List<RQuai> quais) {
         this.quais = quais;
     }
-
+*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -86,10 +86,10 @@ public class rStation implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof rStation)) {
+        if (!(object instanceof RStation)) {
             return false;
         }
-        rStation other = (rStation) object;
+        RStation other = (RStation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

@@ -12,6 +12,10 @@
 
 <xs:element name="StationInconnuException" type="tns:StationInconnuException"/>
 
+<xs:element name="StationsIdentiquesException" type="tns:StationsIdentiquesException"/>
+
+<xs:element name="TempsTrajetInconnuException" type="tns:TempsTrajetInconnuException"/>
+
 <xs:element name="UsagerInconnuException" type="tns:UsagerInconnuException"/>
 
 <xs:element name="annulerVoyage" type="tns:annulerVoyage"/>
@@ -46,54 +50,54 @@
 
 <xs:complexType name="obtenirVoyagesUsagerResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:voyage" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="return" type="tns:rVoyage" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="voyage">
+<xs:complexType name="rVoyage">
 <xs:complexContent>
-<xs:extension base="tns:reservation">
+<xs:extension base="tns:rReservation">
 <xs:sequence>
-<xs:element name="usager" type="tns:usager" minOccurs="0"/>
+<xs:element name="usager" type="tns:rUsager" minOccurs="0"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
 
-<xs:complexType name="reservation" abstract="true">
+<xs:complexType name="rReservation" abstract="true">
 <xs:complexContent>
-<xs:extension base="tns:operation">
+<xs:extension base="tns:rOperation">
 <xs:sequence>
 <xs:element name="dateArrivee" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="dateDepart" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="nbPassagers" type="xs:int"/>
-<xs:element name="quaiArrivee" type="tns:quai" minOccurs="0"/>
-<xs:element name="quaiDepart" type="tns:quai" minOccurs="0"/>
+<xs:element name="quaiArrivee" type="tns:rQuai" minOccurs="0"/>
+<xs:element name="quaiDepart" type="tns:rQuai" minOccurs="0"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
 
-<xs:complexType name="operation" abstract="true">
+<xs:complexType name="rOperation" abstract="true">
 <xs:sequence>
 <xs:element name="dateCreation" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="navette" type="tns:navette" minOccurs="0"/>
+<xs:element name="navette" type="tns:rNavette" minOccurs="0"/>
 <xs:element name="statut" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="usager">
+<xs:complexType name="rUsager">
 <xs:complexContent>
-<xs:extension base="tns:utilisateur">
+<xs:extension base="tns:rUtilisateur">
 <xs:sequence>
-<xs:element name="voyages" type="tns:voyage" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="voyages" type="tns:rVoyage" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
 
-<xs:complexType name="utilisateur">
+<xs:complexType name="rUtilisateur">
 <xs:sequence>
 <xs:element name="dateCreation" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
@@ -104,31 +108,17 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="quai">
-<xs:sequence>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="navette" type="tns:navette" minOccurs="0"/>
-<xs:element name="station" type="tns:station" minOccurs="0"/>
-<xs:element name="statut" type="tns:quaiStatut" minOccurs="0"/>
-</xs:sequence>
+<xs:complexType name="rQuai">
+<xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="navette">
+<xs:complexType name="rNavette">
 <xs:sequence>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
 <xs:element name="nbPlaces" type="xs:int"/>
 <xs:element name="nbVoyages" type="xs:int"/>
+<xs:element name="quai" type="tns:rQuai" minOccurs="0"/>
 <xs:element name="statut" type="tns:navetteStatut" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="station">
-<xs:sequence>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="localisation" type="xs:string" minOccurs="0"/>
-<xs:element name="nbQuais" type="xs:int"/>
-<xs:element name="nom" type="xs:string" minOccurs="0"/>
-<xs:element name="statut" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -192,7 +182,42 @@
 
 <xs:complexType name="reserverVoyageResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:voyage" minOccurs="0"/>
+<xs:element name="return" type="tns:rVoyage" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="InvocationTargetException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+<xs:element name="targetException" type="tns:throwable" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="throwable">
+<xs:sequence>
+<xs:element name="stackTrace" type="tns:stackTraceElement" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="stackTraceElement" final="extension restriction">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="IllegalAccessException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="StationsIdentiquesException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="TempsTrajetInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -218,36 +243,8 @@
 <xs:element name="localisation" type="xs:string" minOccurs="0"/>
 <xs:element name="nbQuais" type="xs:int"/>
 <xs:element name="nom" type="xs:string" minOccurs="0"/>
-<xs:element name="quais" type="tns:rQuai" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="statut" type="xs:string" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="rQuai">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="IllegalAccessException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="InvocationTargetException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-<xs:element name="targetException" type="tns:throwable" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="throwable">
-<xs:sequence>
-<xs:element name="stackTrace" type="tns:stackTraceElement" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="stackTraceElement" final="extension restriction">
-<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="login">
@@ -269,13 +266,6 @@
 <xs:enumeration value="AReviser"/>
 <xs:enumeration value="EnRevision"/>
 <xs:enumeration value="EnVol"/>
-</xs:restriction>
-</xs:simpleType>
-
-<xs:simpleType name="quaiStatut">
-<xs:restriction base="xs:string">
-<xs:enumeration value="Disponible"/>
-<xs:enumeration value="Occupe"/>
 </xs:restriction>
 </xs:simpleType>
 </xs:schema>

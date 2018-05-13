@@ -5,7 +5,12 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Navette;
+import com.miage.spacelib.entities.Quai;
+import com.miage.spacelib.entities.Station;
+import com.miage.spacelib.entities.Usager;
 import com.miage.spacelib.entities.Voyage;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,4 +35,7 @@ public interface VoyageFacadeLocal {
 
     int count();
     
+    public Voyage creerVoyage(Navette navette, Usager usager, Quai quaiDepart, Quai quaiArrive, int NbPassagers, Calendar dateDepart, Calendar dateArrivee);
+   
+    public List<Voyage> findVoyagesArriveeADateEtQuai(Calendar dateDepart,Quai q);
 }

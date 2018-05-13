@@ -3,23 +3,23 @@ package com.miage.spacelib.ressources;
 import java.io.Serializable;
 import java.util.Calendar;
 
-public abstract class rReservation extends rOperation implements Serializable {
+public abstract class RReservation extends ROperation implements Serializable {
 
     private int nbPassagers;
     
-    private rQuai quaiDepart;
+    private RQuai quaiDepart;
     
-    private rQuai quaiArrivee;
+    private RQuai quaiArrivee;
     
     private Calendar dateDepart;
     
     private Calendar dateArrivee;
 
-    public rReservation(){
+    public RReservation(){
         
     }
     
-    public rReservation(int nb, rNavette n, String s, Calendar dd, Calendar da, rQuai qd, rQuai qa){
+    public RReservation(int nb, RNavette n, String s, Calendar dd, Calendar da, RQuai qd, RQuai qa){
         super(n, s);
         this.nbPassagers = nb;
         this.dateDepart = dd;
@@ -44,19 +44,19 @@ public abstract class rReservation extends rOperation implements Serializable {
         this.dateArrivee = dateArrivee;
     }
 
-    public rQuai getQuaiDepart() {
+    public RQuai getQuaiDepart() {
         return quaiDepart;
     }
 
-    public void setQuaiDepart(rQuai quaiDepart) {
+    public void setQuaiDepart(RQuai quaiDepart) {
         this.quaiDepart = quaiDepart;
     }
 
-    public rQuai getQuaiArrivee() {
+    public RQuai getQuaiArrivee() {
         return quaiArrivee;
     }
 
-    public void setQuaiArrivee(rQuai quaiArrivee) {
+    public void setQuaiArrivee(RQuai quaiArrivee) {
         this.quaiArrivee = quaiArrivee;
     }
     

@@ -3,21 +3,21 @@ package com.miage.spacelib.ressources;
 import java.io.Serializable;
 import java.util.Calendar;
 
-public abstract class rOperation implements Serializable {
+public abstract class ROperation implements Serializable {
 
     private Long id;
     
-    private rNavette navette;
+    private RNavette navette;
     
     private Calendar dateCreation;
 
     private String statut;
     
-    public rOperation(){
+    public ROperation(){
         
     }
     
-    public rOperation(rNavette n, String s){
+    public ROperation(RNavette n, String s){
         this.navette = n;
         this.dateCreation = Calendar.getInstance();
         this.statut = s;
@@ -31,11 +31,11 @@ public abstract class rOperation implements Serializable {
         this.id = id;
     }
 
-    public rNavette getNavette() {
+    public RNavette getNavette() {
         return navette;
     }
 
-    public void setNavette(rNavette navette) {
+    public void setNavette(RNavette navette) {
         this.navette = navette;
     }
 
@@ -65,10 +65,10 @@ public abstract class rOperation implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof rOperation)) {
+        if (!(object instanceof ROperation)) {
             return false;
         }
-        rOperation other = (rOperation) object;
+        ROperation other = (ROperation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

@@ -3,27 +3,27 @@ package com.miage.spacelib.ressources;
 import java.io.Serializable;
 import java.util.Calendar;
 
-public class rTransfert extends rReservation implements Serializable  {
+public class RTransfert extends RReservation implements Serializable  {
     
     public static final String statutDebutVoyage = "voyage initié";
     public static final String statutFinVoyage = "voyage achevé";
     
-    private rConducteur conducteur;
+    private RConducteur conducteur;
     
-    public rTransfert(){
+    public RTransfert(){
         
     }
     
-    public rTransfert(int nb, rNavette n, String s, rConducteur c, Calendar dd, Calendar da, rQuai qd, rQuai qa){
+    public RTransfert(int nb, RNavette n, String s, RConducteur c, Calendar dd, Calendar da, RQuai qd, RQuai qa){
         super(nb, n, s, dd, da, qd, qa);
         this.conducteur = c;
     }
 
-    public rConducteur getConducteur() {
+    public RConducteur getConducteur() {
         return conducteur;
     }
 
-    public void setConducteur(rConducteur conducteur) {
+    public void setConducteur(RConducteur conducteur) {
         this.conducteur = conducteur;
     }
 }

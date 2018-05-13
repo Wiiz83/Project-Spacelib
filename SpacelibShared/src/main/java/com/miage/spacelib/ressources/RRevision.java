@@ -2,35 +2,35 @@ package com.miage.spacelib.ressources;
 
 import java.io.Serializable;
 
-public class rRevision extends rOperation implements Serializable {
+public class RRevision extends ROperation implements Serializable {
 
     public static final String statutRevisionNecessaire = "révision nécessaire";
     public static final String statutDebutRevision = "début de révision";
     public static final String statutFinRevision = "fin de révision";
     
-    private rQuai quaiNavette;
+    private RQuai quaiNavette;
     
-    private rMecanicien mecanicien;
+    private RMecanicien mecanicien;
     
-    public rRevision(){
+    public RRevision(){
         
     }
     
-    public rRevision(rNavette n, String s, rQuai q){
+    public RRevision(RNavette n, String s, RQuai q){
         super(n, s);
         this.quaiNavette = q;
     }
     
-    public rRevision(rNavette n, String s, rMecanicien m, rQuai q){
+    public RRevision(RNavette n, String s, RMecanicien m, RQuai q){
         this(n, s, q);
         this.mecanicien = m;
     }  
 
-    public rQuai getQuai() {
+    public RQuai getQuai() {
         return quaiNavette;
     }
 
-    public void setQuai(rQuai quaiNavette) {
+    public void setQuai(RQuai quaiNavette) {
         this.quaiNavette = quaiNavette;
     }
     

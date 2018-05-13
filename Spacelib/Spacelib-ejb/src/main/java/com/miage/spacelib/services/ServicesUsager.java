@@ -9,14 +9,17 @@ import com.miage.spacelib.business.GestionStationLocal;
 import com.miage.spacelib.business.GestionUsagerLocal;
 import com.miage.spacelib.business.GestionVoyageLocal;
 import com.miage.spacelib.entities.Station;
+import com.miage.spacelib.entities.Voyage;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.StationsIdentiquesException;
+import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
-import com.miage.spacelib.ressources.rStation;
-import com.miage.spacelib.ressources.rVoyage;
+import com.miage.spacelib.ressources.RStation;
+import com.miage.spacelib.ressources.RVoyage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,8 +57,8 @@ public class ServicesUsager implements ServicesUsagerRemote {
     }
 
     @Override
-    public rVoyage voyageEnCours(Long idUsager) {
-        rVoyage rvoy = new rVoyage();
+    public RVoyage voyageEnCours(Long idUsager) {
+        RVoyage rvoy = new RVoyage();
         return null;
     }
     
@@ -69,11 +72,11 @@ public class ServicesUsager implements ServicesUsagerRemote {
      * CF 3.1
      */
     @Override
-    public ArrayList<rStation> obtenirStations() throws IllegalAccessException, InvocationTargetException{
+    public ArrayList<RStation> obtenirStations() throws IllegalAccessException, InvocationTargetException{
         List<Station> stations = this.gestionStation.recupererListeStations();
-        ArrayList<rStation> resultList = new ArrayList<>();
+        ArrayList<RStation> resultList = new ArrayList<>();
         for(Station station : stations){
-            rStation rstation = new rStation();
+            RStation rstation = new RStation();
             BeanUtils.copyProperties(rstation, station);
             resultList.add(rstation);
         }
@@ -86,13 +89,18 @@ public class ServicesUsager implements ServicesUsagerRemote {
      * CF 3.2
      */
     @Override
-    public rVoyage reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws UsagerInconnuException, StationInconnuException {
-       //return this.gestionVoyage.reserver();
-       return null;
+    public RVoyage reserverVoyage(Long idClient, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws InvocationTargetException, IllegalAccessException, StationsIdentiquesException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+        Voyage voyage = this.gestionVoyage.reserverVoyage(idClient, idStationDepart, idStationArrivee, NbPassagers, dateDepart);
+        System.out.println("Voyage = " + voyage);
+        RVoyage rvoyage = new RVoyage();
+        System.out.println("rvoyage" +rvoyage);
+        BeanUtils.copyProperties(rvoyage, voyage);
+        System.out.println("rvoyage2" + rvoyage);
+        return rvoyage;
     }
     
     @Override
-    public ArrayList<rVoyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException {
+    public ArrayList<RVoyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException {
         return null;
     }
 

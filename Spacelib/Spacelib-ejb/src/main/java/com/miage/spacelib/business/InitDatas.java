@@ -353,9 +353,9 @@ public class InitDatas {
         */
         Calendar dd1 = new GregorianCalendar(2018,8,15);
         Calendar df1 = new GregorianCalendar(2018,8,19);
-        Transfert t1 = new Transfert(5, n, Transfert.statutDebutVoyage, c1, dd1, df1, q, q2);
-        Transfert t2 = new Transfert(5, n2, Transfert.statutDebutVoyage, c2, dd1, df1, q2, q3);
-        Transfert t3 = new Transfert(5, n3, Transfert.statutDebutVoyage, c3, dd1, df1, q3, q);
+        Transfert t1 = new Transfert(5, n, Transfert.statutDebutTransfert, c1, dd1, df1, q, q2);
+        Transfert t2 = new Transfert(5, n2, Transfert.statutDebutTransfert, c2, dd1, df1, q2, q3);
+        Transfert t3 = new Transfert(5, n3, Transfert.statutDebutTransfert, c3, dd1, df1, q3, q);
         transfertFacade.create(t1);
         transfertFacade.create(t2);
         transfertFacade.create(t3);
@@ -366,9 +366,9 @@ public class InitDatas {
         */
         Calendar dd2 = new GregorianCalendar(2018,7,12);
         Calendar df2 = new GregorianCalendar(2018,7,25);
-        Voyage v1 = new Voyage(5, n4, Voyage.statutDebutTransfert, u1, dd2, df2, q, q2);
-        Voyage v2 = new Voyage(5, n5, Voyage.statutDebutTransfert, u2, dd2, df2, q2, q3);
-        Voyage v3 = new Voyage(5, n6, Voyage.statutDebutTransfert, u3, dd2, df2, q3, q);
+        Voyage v1 = new Voyage(5, n4, Voyage.statutDebutVoyage, u1, dd2, df2, q, q2);
+        Voyage v2 = new Voyage(5, n5, Voyage.statutDebutVoyage, u2, dd2, df2, q2, q3);
+        Voyage v3 = new Voyage(5, n6, Voyage.statutDebutVoyage, u3, dd2, df2, q3, q);
         voyageFacade.create(v1);
         voyageFacade.create(v2);
         voyageFacade.create(v3);

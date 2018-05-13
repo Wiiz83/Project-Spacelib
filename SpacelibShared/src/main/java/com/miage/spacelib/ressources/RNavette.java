@@ -3,31 +3,31 @@ package com.miage.spacelib.ressources;
 import java.io.Serializable;
 import java.util.List;
 
-public class rNavette implements Serializable {
+public class RNavette implements Serializable {
     
     private Long id;
     
     private enum NavetteStatut {Disponible,AReviser,EnRevision,EnVol}
     private NavetteStatut statut;
     
-    private rQuai quai;
+    private RQuai quai;
     
     // 2, 5, 10 ou 15 places
     private int nbPlaces;
     
     private int nbVoyages;
    
-    private List<rVoyage> voyages;
+    private List<RVoyage> voyages;
  
-    private List<rTransfert> transferts;
+    private List<RTransfert> transferts;
     
-    private List<rRevision> revisions;
+    private List<RRevision> revisions;
     
-    public rNavette(){
+    public RNavette(){
         
     }
     
-    public rNavette(int nb, String s){
+    public RNavette(int nb, String s){
         this.nbPlaces = nb;
         this.nbVoyages = 0;
         this.statut = NavetteStatut.Disponible;
@@ -65,11 +65,11 @@ public class rNavette implements Serializable {
         this.nbVoyages = nbVoyages;
     }
 
-    public rQuai getQuai() {
+    public RQuai getQuai() {
         return quai;
     }
 
-    public void setQuai(rQuai quai) {
+    public void setQuai(RQuai quai) {
         this.quai = quai;
     }   
  
@@ -83,10 +83,10 @@ public class rNavette implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof rNavette)) {
+        if (!(object instanceof RNavette)) {
             return false;
         }
-        rNavette other = (rNavette) object;
+        RNavette other = (RNavette) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

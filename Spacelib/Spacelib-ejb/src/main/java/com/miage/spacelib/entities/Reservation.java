@@ -11,6 +11,8 @@ import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class Reservation extends Operation {
+    
+    
 
     @Column(name="NOMBRE_PASSAGERS", nullable = false)
     private int nbPassagers;
@@ -23,11 +25,11 @@ public abstract class Reservation extends Operation {
     @JoinColumn(name = "ID_QUAI_ARRIVE", nullable = false)
     private Quai quaiArrivee;
     
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name="DATE_DEPART", nullable = false)
     private Calendar dateDepart;
     
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name="DATE_ARRIVEE", nullable = false)
     private Calendar dateArrivee;
 

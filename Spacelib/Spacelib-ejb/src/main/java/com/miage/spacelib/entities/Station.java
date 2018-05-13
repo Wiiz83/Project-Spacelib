@@ -2,6 +2,7 @@ package com.miage.spacelib.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -25,6 +27,9 @@ public class Station implements Serializable {
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "station")
     private List<Quai> quais;
+    
+   // @OneToOne(mappedBy = "station", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+   // private TempsTrajet tpsTrajet;
     
     @Column(name="LOCALISATION", nullable = false)
     private String localisation;
@@ -99,6 +104,15 @@ public class Station implements Serializable {
     public void setQuais(List<Quai> quais) {
         this.quais = quais;
     }
+/*
+    public TempsTrajet getTpsTrajet() {
+        return tpsTrajet;
+    }
+
+    public void setTpsTrajet(TempsTrajet tpsTrajet) {
+        this.tpsTrajet = tpsTrajet;
+    }
+    */
 
     @Override
     public int hashCode() {

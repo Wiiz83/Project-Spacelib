@@ -2,15 +2,15 @@ package com.miage.spacelib.ressources;
 
 import java.io.Serializable;
 
-public class rQuai implements Serializable {
+public class RQuai implements Serializable {
 
     private Long id;
-    private rStation station;
-    private rNavette navette;
+    private RStation station;
+    private RNavette navette;
     private enum QuaiStatut {Disponible,Occupe}
     private QuaiStatut statut;
     
-    rQuai(rStation station){
+    RQuai(RStation station){
         this.station = station;
         this.statut = QuaiStatut.Disponible;
     }

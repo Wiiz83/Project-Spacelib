@@ -6,8 +6,11 @@ import com.miage.spacelib.exceptions.ReservationClotureeException;
 import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.StationsIdentiquesException;
+import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
-import com.miage.spacelib.ressources.rStation;
+import com.miage.spacelib.ressources.RStation;
+import com.miage.spacelib.ressources.RVoyage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,22 +40,19 @@ public class WebServicesUsager {
     }
     
     @WebMethod(operationName = "obtenirStations")
-    public ArrayList<rStation> obtenirStations() throws IllegalAccessException, InvocationTargetException {
-        ArrayList<rStation> stations = ejbRef.obtenirStations();
+    public ArrayList<RStation> obtenirStations() throws IllegalAccessException, InvocationTargetException {
+        ArrayList<RStation> stations = ejbRef.obtenirStations();
         return stations;
     }
     
     @WebMethod(operationName = "reserverVoyage")
-    public Voyage reserverVoyage(@WebParam(name = "idUsager") Long idUsager, @WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee, @WebParam(name = "NbPassagers") int NbPassagers, @WebParam(name = "dateDepart") Calendar dateDepart) throws UsagerInconnuException, StationInconnuException {
-       //return this.ejbRef.reserverVoyage(idUsager, idStationDepart, idStationArrivee, NbPassagers, dateDepart);
-       return null;
+    public RVoyage reserverVoyage(@WebParam(name = "idUsager") Long idUsager, @WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee, @WebParam(name = "NbPassagers") int NbPassagers, @WebParam(name = "dateDepart") Calendar dateDepart) throws InvocationTargetException, IllegalAccessException, StationsIdentiquesException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+       return this.ejbRef.reserverVoyage(idUsager, idStationDepart, idStationArrivee, NbPassagers, dateDepart);
     }
-    
 
     @WebMethod(operationName = "obtenirVoyagesUsager")
-    public ArrayList<Voyage> obtenirVoyagesUsager(@WebParam(name = "idUsager") Long idUsager) throws UsagerInconnuException {
-       //return this.ejbRef.obtenirVoyagesUsager(idUsager);
-       return null;
+    public ArrayList<RVoyage> obtenirVoyagesUsager(@WebParam(name = "idUsager") Long idUsager) throws UsagerInconnuException {
+       return this.ejbRef.obtenirVoyagesUsager(idUsager);
     }
     
     @WebMethod(operationName = "annulerVoyage")

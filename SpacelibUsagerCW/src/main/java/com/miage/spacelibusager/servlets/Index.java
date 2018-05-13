@@ -5,10 +5,9 @@
  */
 package com.miage.spacelibusager.servlets;
 
-import com.miage.spacelib.ressources.rStation;
+import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.services.IllegalAccessException_Exception;
 import com.miage.spacelib.services.InvocationTargetException_Exception;
-import com.miage.spacelib.services.RStation;
 import com.miage.spacelib.services.UsagerInconnuException_Exception;
 import com.miage.spacelib.services.WebServicesUsager;
 import com.miage.spacelib.services.WebServicesUsager_Service;
@@ -53,7 +52,6 @@ public class Index extends HttpServlet {
             session.setAttribute("idUsager", idUsager);
             RequestDispatcher rd = request.getRequestDispatcher("accueil.jsp");
             rd.forward(request, response);
-            
         } catch (UsagerInconnuException_Exception ex) {
             Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());

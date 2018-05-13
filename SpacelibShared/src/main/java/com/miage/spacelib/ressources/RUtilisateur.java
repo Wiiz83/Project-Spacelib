@@ -3,7 +3,7 @@ package com.miage.spacelib.ressources;
 import java.io.Serializable;
 import java.util.Calendar;
 
-public class rUtilisateur implements Serializable {
+public class RUtilisateur implements Serializable {
 
     private Long id;
 
@@ -17,11 +17,11 @@ public class rUtilisateur implements Serializable {
 
     private Calendar dateCreation;
     
-    public rUtilisateur(){
+    public RUtilisateur(){
         
     }
     
-    public rUtilisateur(String n, String p, String l, String m){
+    public RUtilisateur(String n, String p, String l, String m){
         this.nom = n;
         this.prenom = p;
         this.login = l;
@@ -87,10 +87,10 @@ public class rUtilisateur implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof rUtilisateur)) {
+        if (!(object instanceof RUtilisateur)) {
             return false;
         }
-        rUtilisateur other = (rUtilisateur) object;
+        RUtilisateur other = (RUtilisateur) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

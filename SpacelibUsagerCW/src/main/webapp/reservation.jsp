@@ -53,9 +53,9 @@
 
                             if (rstations != null) {
                                 for (RStation r : rstations) {
-                                    %>
-                                    <option value="<%= r.getId()%>"> <%= r.getNom() %></option> 
-                                    <%
+                    %>
+                    <option value="<%= r.getId()%>"> <%= r.getNom()%></option> 
+                    <%
                                 }
                             }
                         } catch (IllegalAccessException_Exception ex) {
@@ -70,14 +70,19 @@
                     <%
                         if (rstations != null) {
                             for (RStation r : rstations) {
-                                %>
-                                <option value="<%= r.getId()%>"> <%= r.getNom() %></option> 
-                                <%
+                    %>
+                    <option value="<%= r.getId()%>"> <%= r.getNom()%></option> 
+                    <%
                             }
                         }
                     %>
                 </select>
-
+                <%
+                    String msginfo = (String) request.getAttribute("messageErreur");
+                    if (msginfo != null) {
+                        out.println("<p style='color:red; font-weight: bold; padding: 10px;'>" + msginfo + "</p>");
+                    }
+                %>
                 <input type="submit" value="Réserver"/>
             </form>
         </div>

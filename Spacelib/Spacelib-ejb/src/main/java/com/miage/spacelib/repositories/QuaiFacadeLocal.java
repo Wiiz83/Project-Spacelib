@@ -36,4 +36,5 @@ public interface QuaiFacadeLocal {
     
     List<Quai> recupererListeQuaisParStation(Station station);
     
+    
 }

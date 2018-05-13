@@ -12,8 +12,8 @@ import javax.persistence.Table;
 @Table(name="VOYAGE")
 public class Voyage extends Reservation {
     
-    public static final String statutDebutTransfert = "transfert initié";
-    public static final String statutFinTransfert = "transfert achevé";
+    public static final String statutDebutVoyage = "voyage initié";
+    public static final String statutFinVoyage = "voyage achevé";
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USAGER", nullable = false)

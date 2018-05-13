@@ -1,8 +1,8 @@
+<%@page import="com.miage.spacelib.services.RStation"%>
 <%@page import="com.miage.spacelib.services.InvocationTargetException_Exception"%>
 <%@page import="com.miage.spacelib.services.IllegalAccessException_Exception"%>
 <%@page import="com.miage.spacelib.services.WebServicesUsager"%>
 <%@page import="com.miage.spacelib.services.WebServicesUsager_Service"%>
-<%@page import="com.miage.spacelib.services.RStation"%>
 <%@page import="java.util.logging.Level"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.List"%>
@@ -61,9 +61,8 @@
                         List<RStation> rstations = null;
                         WebServicesUsager_Service service = new WebServicesUsager_Service();
                         WebServicesUsager port = service.getWebServicesUsagerPort();
-                        try {
-                            rstations = port.obtenirStations();
 
+                            rstations = port.obtenirStations();
                             if (rstations != null) {
                                 for (RStation r : rstations) {
                                     out.println("<tr>");
@@ -77,11 +76,6 @@
                             } else {
 
                             }
-                        } catch (IllegalAccessException_Exception ex) {
-                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
-                        } catch (InvocationTargetException_Exception ex) {
-                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
-                        }
 
                     %>
                 </tbody>
