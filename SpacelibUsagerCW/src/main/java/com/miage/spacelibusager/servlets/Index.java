@@ -5,15 +5,10 @@
  */
 package com.miage.spacelibusager.servlets;
 
-import com.miage.spacelib.ressources.RStation;
-import com.miage.spacelib.services.IllegalAccessException_Exception;
-import com.miage.spacelib.services.InvocationTargetException_Exception;
 import com.miage.spacelib.services.UsagerInconnuException_Exception;
 import com.miage.spacelib.services.WebServicesUsager;
 import com.miage.spacelib.services.WebServicesUsager_Service;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;

@@ -15,8 +15,6 @@ import com.miage.spacelibmecanicien.model.StationInconnuException_Exception;
 import com.miage.spacelibmecanicien.model.WebServicesMecanicien;
 import com.miage.spacelibmecanicien.model.WebServicesMecanicien_Service;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.Clock;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +24,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.WebServiceRef;
 
 /**
  *

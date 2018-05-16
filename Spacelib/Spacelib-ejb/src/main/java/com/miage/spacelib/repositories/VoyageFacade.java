@@ -11,6 +11,7 @@ import com.miage.spacelib.entities.Revision;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.entities.Usager;
 import com.miage.spacelib.entities.Voyage;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,10 +58,6 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
     public Voyage findPlusProcheVoyageArriveADateEtQuai(Calendar dateDepart, Quai q) {
         try {
             java.util.Date utilDate = dateDepart.getTime();
-            
-            System.out.println("Date o " + dateDepart);
-            System.out.println("Date a " + utilDate);
-            System.out.println("Quai " + q);
 
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
@@ -76,16 +73,15 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
                     .setFirstResult(0)
                     .setMaxResults(1)
                     .getSingleResult();
-        } catch (NoResultException e) {
-            System.out.println("NOP");
+        } catch (Exception e) {
             return null;
         }
     }
     
     @Override
-    public Voyage findPlusProcheVoyageDepartADateEtQuai(Calendar dateDepart, Quai q) {
+    public Voyage findPlusProcheVoyageDepartDeNavetteADateEtQuai(Calendar dateDepart, Quai q, Navette n) {
         try {
-            java.util.Date utilDate = dateDepart.getTime();
+            java.util.Date ddateDepart = dateDepart.getTime();
 
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
@@ -93,55 +89,129 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
 
             final ParameterExpression<Quai> quaiParameter = cb.parameter(Quai.class);
             final ParameterExpression<Date> dateArriveParameter = cb.parameter(Date.class);
+            final ParameterExpression<Navette> navetteParameter = cb.parameter(Navette.class);
 
             final Predicate quaiPredicate = cb.equal(root.get("quaiDepart"), quaiParameter);
-            final Path<Date> checkDateArrivePath = root.<Date>get("dateDepart");
+            final Predicate navettePredicate = cb.equal(root.get("navette"), navetteParameter);
+            final Predicate dateArrivePredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), dateArriveParameter);
 
-            final Predicate dateArrivePredicate = cb.greaterThanOrEqualTo(checkDateArrivePath, dateArriveParameter);
-
-            cq.where(cb.and(quaiPredicate, dateArrivePredicate));
+            cq.where(cb.and(quaiPredicate, dateArrivePredicate, navettePredicate));
             cq.orderBy(cb.desc(root.get("dateDepart")));
             
             return getEntityManager().createQuery(cq)
                     .setParameter(quaiParameter, q)
-                    .setParameter(dateArriveParameter, utilDate, TemporalType.DATE)
+                    .setParameter(navetteParameter, n)
+                    .setParameter(dateArriveParameter, ddateDepart, TemporalType.DATE)
                     .setFirstResult(0)
                     .setMaxResults(1)
                     .getSingleResult();
-        } catch (NoResultException e) {
+            
+        } catch (Exception e) {
             return null;
         }
     }
     
     @Override
-    public Voyage findVoyageDepartDeNavetteEntreDatesAQuai(Navette n, Calendar dArrivee, Quai q) {
+    public List<Voyage> findAllVoyagesPrevusByUsager(Usager usager) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+        Root<Voyage> root = cq.from(Voyage.class);
+        cq.where(cb.equal(root.get("usager"), usager));
+        cq.where(cb.equal(root.get("statut"), Voyage.statutDebutVoyage));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public boolean verifierSiAutresVoyagesPrevusSurNavetteADate(Calendar Cdate, Navette n) {
+        boolean autresVoyages = false;
+        java.util.Date date = Cdate.getTime();
+        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+        Root<Voyage> root = cq.from(Voyage.class);
+        
+        final Predicate navettePredicate = cb.equal(root.get("navette"), n);
+        
+        // la date départ de la navette est plus petite ou égal au date de départ souhaitée 
+        final Predicate dateDebutPredicate = cb.lessThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus petit ou égal au second
+        
+        // la date d'arrivée de la navette est strictement plus grande que la date de départ souhaitée 
+        final Predicate dateFinPredicate = cb.greaterThan(root.<Date>get("dateArrivee"), date); // premier plus grand ou égal au second
+        
+        //cq.where(cb.and(navettePredicate, cb.or(dateDebutPredicate, dateFinPredicate)));
+        cq.where(cb.and(navettePredicate, dateDebutPredicate, dateFinPredicate));
+        
+        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
+            autresVoyages = true;
+        }
+  
+        return autresVoyages;
+    }
+    
+    
+    @Override
+    public Voyage findVoyageDepartJourDateEtQuai(Calendar dateDepart, Quai q) {
         try {
-            java.util.Date datePrecedenteArrivee = dArrivee.getTime();
+            java.util.Date date = dateDepart.getTime();
 
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
             Root<Voyage> root = cq.from(Voyage.class);
 
-            final ParameterExpression<Quai> quaiParameter = cb.parameter(Quai.class);
-            final ParameterExpression<Date> dateArriveParameter = cb.parameter(Date.class);
-            
-            final Predicate quaiPredicate = cb.equal(root.get("quaiDepart"), quaiParameter);
-            final Path<Date> checkDateDepartPath = root.<Date>get("dateDepart");
+            final Predicate quaiPredicate = cb.equal(root.get("quai"), q);
+            final Predicate dateDebutPredicate = cb.equal(root.<Date>get("dateDepart"), date);
+    
+            cq.where(cb.and(quaiPredicate, dateDebutPredicate));
 
-            final Predicate dateArrivePredicate = cb.greaterThanOrEqualTo(checkDateDepartPath, dateArriveParameter);
-
-            cq.where(cb.and(quaiPredicate, dateArrivePredicate));
-            cq.orderBy(cb.desc(root.get("dateDepart")));
-            
-            return getEntityManager().createQuery(cq)
-                    .setParameter(quaiParameter, q)
-                    .setParameter(dateArriveParameter, datePrecedenteArrivee, TemporalType.DATE)
-                    .setFirstResult(0)
-                    .setMaxResults(1)
-                    .getSingleResult();
-        } catch (NoResultException e) {
+            return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
             return null;
         }
+    }
+    
+    
+    
+    @Override
+    public Voyage findVoyageArriveeJourDateEtQuai(Calendar dateDepart, Quai q) {
+        try {
+            java.util.Date date = dateDepart.getTime();
+
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+            Root<Voyage> root = cq.from(Voyage.class);
+
+            final Predicate quaiPredicate = cb.equal(root.get("quai"), q);
+            final Predicate dateDebutPredicate = cb.equal(root.<Date>get("dateArrivee"), date);
+    
+            cq.where(cb.and(quaiPredicate, dateDebutPredicate));
+
+            return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+
+    
+    @Override
+    public boolean verifierSiNavettePossedeDepartVoyageAvantDate(Calendar Cdate, Navette n) {
+        boolean autresVoyages = false;
+        java.util.Date date = Cdate.getTime();
+        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+        Root<Voyage> root = cq.from(Voyage.class);
+        
+        final Predicate navettePredicate = cb.equal(root.get("navette"), n);
+        final Predicate dateDebutPredicate = cb.lessThan(root.<Date>get("dateDepart"), date);
+        
+        cq.where(cb.and(navettePredicate, dateDebutPredicate));
+        
+        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
+            autresVoyages = true;
+        }
+  
+        return autresVoyages;
     }
 
 }

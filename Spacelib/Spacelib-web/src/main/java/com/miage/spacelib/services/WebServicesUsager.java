@@ -1,5 +1,6 @@
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.exceptions.QuaiInconnuException;
 import com.miage.spacelib.exceptions.QuaiIndisponibleException;
 import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.ReservationClotureeException;
@@ -45,13 +46,13 @@ public class WebServicesUsager {
     }
     
     @WebMethod(operationName = "reserverVoyage")
-    public RVoyage reserverVoyage(@WebParam(name = "idUsager") Long idUsager, @WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee, @WebParam(name = "NbPassagers") int NbPassagers, @WebParam(name = "dateDepart") Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, InvocationTargetException, IllegalAccessException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+    public RVoyage reserverVoyage(@WebParam(name = "idUsager") Long idUsager, @WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee, @WebParam(name = "NbPassagers") int NbPassagers, @WebParam(name = "dateDepart") Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
        return this.ejbRef.reserverVoyage(idUsager, idStationDepart, idStationArrivee, NbPassagers, dateDepart);
     }
 
     @WebMethod(operationName = "obtenirVoyagesUsager")
     public ArrayList<RVoyage> obtenirVoyagesUsager(@WebParam(name = "idUsager") Long idUsager) throws UsagerInconnuException {
-       return this.ejbRef.obtenirVoyagesUsager(idUsager);
+       return this.ejbRef.obtenirVoyagesPrevusUsager(idUsager);
     }
     
     @WebMethod(operationName = "annulerVoyage")
@@ -59,5 +60,8 @@ public class WebServicesUsager {
         this.ejbRef.annulerVoyage(idUsager, idVoyage);
     }
     
-    
+    @WebMethod(operationName = "obtenirStation")
+    public RStation obtenirStation(@WebParam(name = "idQuai") Long idQuai) throws StationInconnuException, QuaiInconnuException {
+        return this.ejbRef.obtenirStationParIdQuai(idQuai);
+    }
 }

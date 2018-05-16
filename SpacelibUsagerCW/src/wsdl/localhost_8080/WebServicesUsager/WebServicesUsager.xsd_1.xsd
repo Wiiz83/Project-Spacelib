@@ -4,6 +4,8 @@
 
 <xs:element name="InvocationTargetException" type="tns:InvocationTargetException"/>
 
+<xs:element name="QuaiInconnuException" type="tns:QuaiInconnuException"/>
+
 <xs:element name="QuaiIndisponibleException" type="tns:QuaiIndisponibleException"/>
 
 <xs:element name="QuaiInexistantException" type="tns:QuaiInexistantException"/>
@@ -32,6 +34,10 @@
 
 <xs:element name="loginResponse" type="tns:loginResponse"/>
 
+<xs:element name="obtenirStation" type="tns:obtenirStation"/>
+
+<xs:element name="obtenirStationResponse" type="tns:obtenirStationResponse"/>
+
 <xs:element name="obtenirStations" type="tns:obtenirStations"/>
 
 <xs:element name="obtenirStationsResponse" type="tns:obtenirStationsResponse"/>
@@ -57,74 +63,55 @@
 </xs:complexType>
 
 <xs:complexType name="rVoyage">
-<xs:complexContent>
-<xs:extension base="tns:rReservation">
-<xs:sequence>
-<xs:element name="usager" type="tns:rUsager" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="rReservation" abstract="true">
-<xs:complexContent>
-<xs:extension base="tns:rOperation">
 <xs:sequence>
 <xs:element name="dateArrivee" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="dateCreation" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="dateDepart" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="navette" type="xs:long" minOccurs="0"/>
 <xs:element name="nbPassagers" type="xs:int"/>
-<xs:element name="quaiArrivee" type="tns:rQuai" minOccurs="0"/>
-<xs:element name="quaiDepart" type="tns:rQuai" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="rOperation" abstract="true">
-<xs:sequence>
-<xs:element name="dateCreation" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="navette" type="tns:rNavette" minOccurs="0"/>
+<xs:element name="quaiArrivee" type="xs:long" minOccurs="0"/>
+<xs:element name="quaiDepart" type="xs:long" minOccurs="0"/>
 <xs:element name="statut" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="rUsager">
-<xs:complexContent>
-<xs:extension base="tns:rUtilisateur">
-<xs:sequence>
-<xs:element name="voyages" type="tns:rVoyage" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="rUtilisateur">
-<xs:sequence>
-<xs:element name="dateCreation" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="login" type="xs:string" minOccurs="0"/>
-<xs:element name="motdepasse" type="xs:string" minOccurs="0"/>
-<xs:element name="nom" type="xs:string" minOccurs="0"/>
-<xs:element name="prenom" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="rQuai">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="rNavette">
-<xs:sequence>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="nbPlaces" type="xs:int"/>
-<xs:element name="nbVoyages" type="xs:int"/>
-<xs:element name="quai" type="tns:rQuai" minOccurs="0"/>
-<xs:element name="statut" type="tns:navetteStatut" minOccurs="0"/>
+<xs:element name="usager" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="UsagerInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenirStation">
+<xs:sequence>
+<xs:element name="idQuai" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenirStationResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rStation" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rStation">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="localisation" type="xs:string" minOccurs="0"/>
+<xs:element name="nbQuais" type="xs:int"/>
+<xs:element name="nom" type="xs:string" minOccurs="0"/>
+<xs:element name="statut" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="StationInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="QuaiInconnuException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
@@ -200,6 +187,28 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="TempsTrajetInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenirStations">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="obtenirStationsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rStation" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="IllegalAccessException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="InvocationTargetException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
@@ -217,44 +226,6 @@
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="IllegalAccessException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="TempsTrajetInconnuException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="StationInconnuException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="obtenirStations">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="obtenirStationsResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:rStation" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="rStation">
-<xs:sequence>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="localisation" type="xs:string" minOccurs="0"/>
-<xs:element name="nbQuais" type="xs:int"/>
-<xs:element name="nom" type="xs:string" minOccurs="0"/>
-<xs:element name="statut" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="login">
 <xs:sequence>
 <xs:element name="login" type="xs:string" minOccurs="0"/>
@@ -267,13 +238,4 @@
 <xs:element name="return" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
-
-<xs:simpleType name="navetteStatut">
-<xs:restriction base="xs:string">
-<xs:enumeration value="Disponible"/>
-<xs:enumeration value="AReviser"/>
-<xs:enumeration value="EnRevision"/>
-<xs:enumeration value="EnVol"/>
-</xs:restriction>
-</xs:simpleType>
 </xs:schema>

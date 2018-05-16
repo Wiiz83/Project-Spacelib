@@ -1,5 +1,6 @@
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.exceptions.QuaiInconnuException;
 import com.miage.spacelib.exceptions.QuaiIndisponibleException;
 import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
@@ -30,10 +31,11 @@ public interface ServicesUsagerRemote {
 
     public ArrayList<RStation> obtenirStations() throws IllegalAccessException, InvocationTargetException;   
     
-    public ArrayList<RVoyage> obtenirVoyagesUsager(Long idUsager) throws UsagerInconnuException;  
+    public ArrayList<RVoyage> obtenirVoyagesPrevusUsager(Long idUsager) throws UsagerInconnuException;  
 
-    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, InvocationTargetException, IllegalAccessException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;
+    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;
 
     public void annulerVoyage(Long idUsager, Long idVoyage) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
 
+    public RStation obtenirStationParIdQuai(Long idQuai) throws StationInconnuException, QuaiInconnuException;
 }

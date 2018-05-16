@@ -36,8 +36,14 @@ public interface TransfertFacadeLocal {
     
     public Transfert findPlusProcheTransfertArriveADateEtQuai(Calendar dateDepart,Quai q);
     
-    public Transfert findPlusProcheTransfertDepartADateEtQuai(Calendar dateDepart, Quai q);
+    public Transfert findPlusProcheTransfertDepartDeNavetteADateEtQuai(Calendar dateDepart, Quai q, Navette n);
     
-    public Transfert findTransfertDepartDeNavetteEntreDatesAQuai(Navette n, Calendar dArrivee, Quai q);
+    public boolean verifierSiAutresTransfertsPrevusSurNavetteADate(Calendar dateDepart, Navette n);
+    
+    public boolean verifierSiNavettePossedeDepartTransfertAvantDate(Calendar Cdate, Navette n);
+    
+    public Transfert findTransfertArriveeJourDateEtQuai(Calendar dateDepart, Quai q);
+    
+    public Transfert findTransfertDepartJourDateEtQuai(Calendar dateDepart, Quai q);
     
 }

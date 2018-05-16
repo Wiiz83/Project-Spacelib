@@ -10,6 +10,7 @@ import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.entities.Usager;
 import com.miage.spacelib.entities.Voyage;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Local;
@@ -39,7 +40,15 @@ public interface VoyageFacadeLocal {
    
     public Voyage findPlusProcheVoyageArriveADateEtQuai(Calendar dateDepart,Quai q);
     
-    public Voyage findPlusProcheVoyageDepartADateEtQuai(Calendar dateDepart, Quai q);
+    public Voyage findPlusProcheVoyageDepartDeNavetteADateEtQuai(Calendar dateDepart, Quai q, Navette n);
     
-    public Voyage findVoyageDepartDeNavetteEntreDatesAQuai(Navette n, Calendar dArrivee, Quai q);
+    public List<Voyage> findAllVoyagesPrevusByUsager(Usager usager);
+    
+    public boolean verifierSiAutresVoyagesPrevusSurNavetteADate(Calendar dateDepart, Navette n);
+    
+    public boolean verifierSiNavettePossedeDepartVoyageAvantDate(Calendar Cdate, Navette n);
+    
+    public Voyage findVoyageArriveeJourDateEtQuai(Calendar dateDepart, Quai q);
+    
+    public Voyage findVoyageDepartJourDateEtQuai(Calendar dateDepart, Quai q);
 }

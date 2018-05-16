@@ -1,8 +1,5 @@
 package com.miage.spacelibusager.servlets;
 
-import com.miage.spacelib.exceptions.QuaiIndisponibleException;
-import com.miage.spacelib.services.IllegalAccessException_Exception;
-import com.miage.spacelib.services.InvocationTargetException_Exception;
 import com.miage.spacelib.services.QuaiIndisponibleException_Exception;
 import com.miage.spacelib.services.QuaiInexistantException_Exception;
 import com.miage.spacelib.services.RVoyage;
@@ -40,15 +37,15 @@ public class Reservation extends HttpServlet {
         } else {
             Long idStationDepart = Long.valueOf(request.getParameter("idStationDepart"));
             Long idStationArrivee = Long.valueOf(request.getParameter("idStationArrivee"));
-            
-            if(Objects.equals(idStationDepart, idStationArrivee)){
+
+            if (Objects.equals(idStationDepart, idStationArrivee)) {
                 request.setAttribute("messageErreur", "Erreur : Les stations de départ et d'arrivée ne peuvent pas être identiques.");
                 RequestDispatcher rd = request.getRequestDispatcher("reservation.jsp");
                 rd.forward(request, response);
             }
-            
+
             Long idUsager = (Long) session.getAttribute("idUsager");
-            
+
             int nbpassagers = Integer.parseInt(request.getParameter("nbpassagers"));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date;
@@ -69,13 +66,19 @@ public class Reservation extends HttpServlet {
             WebServicesUsager_Service service = new WebServicesUsager_Service();
             WebServicesUsager port = service.getWebServicesUsagerPort();
 
+            RVoyage vvoyage;
+
             try {
-                RVoyage vvoyage = port.reserverVoyage(idUsager, idStationDepart, idStationArrivee, nbpassagers, dateDepart);
-                System.out.println("VOYAGE RECUPEREE : " + vvoyage);
-            } catch (QuaiInexistantException_Exception | QuaiIndisponibleException_Exception | StationInconnuException_Exception | IllegalAccessException_Exception | InvocationTargetException_Exception | TempsTrajetInconnuException_Exception | UsagerInconnuException_Exception ex){
-                System.out.println("LOLILOL");
+                vvoyage = port.reserverVoyage(idUsager, idStationDepart, idStationArrivee, nbpassagers, dateDepart);
+                RequestDispatcher rd = request.getRequestDispatcher("voyages.jsp");
+                rd.forward(request, response);
+            } catch (QuaiIndisponibleException_Exception | QuaiInexistantException_Exception | StationInconnuException_Exception | TempsTrajetInconnuException_Exception | UsagerInconnuException_Exception ex) {
                 Logger.getLogger(Reservation.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+                request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
+                RequestDispatcher rd = request.getRequestDispatcher("reservation.jsp");
+                rd.forward(request, response);
+            }
+
         }
     }
 

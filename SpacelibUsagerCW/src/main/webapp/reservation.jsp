@@ -33,8 +33,9 @@
             <div id="menu">
                 <ul>
                     <li><a href="accueil.jsp">Accueil</a></li>
-                    <li><a href="reservation.jsp">Réservation</a></li>
-                    <li><a href="annulation.jsp">Annulation</a></li>
+                    <li><a href="voyages.jsp">Mes voyages</a></li>
+                    <li><a href="reservation.jsp">Réserver un voyage</a></li>
+                    <li><a href="annulation.jsp">Annuler un voyage</a></li>
                     <li><a href="index.jsp">Déconnexion</a></li>
                 </ul>
             </div>
