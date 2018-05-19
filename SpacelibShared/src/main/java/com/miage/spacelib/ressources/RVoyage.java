@@ -5,8 +5,8 @@ import java.util.Calendar;
 
 public class RVoyage implements Serializable {
     
-    public static final String statutDebutTransfert = "transfert initié";
-    public static final String statutFinTransfert = "transfert achevé";
+    public static final String statutDebutVoyage = "voyage initié";
+    public static final String statutFinVoyage = "voyage achevé";
     
     private Long usager;
     

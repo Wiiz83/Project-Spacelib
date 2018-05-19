@@ -23,7 +23,7 @@ public interface GestionVoyageLocal {
 
     public void annulerVoyage(Long idClient, Long idReservation) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
 
-    public Voyage voyageEnCours(Long idUsager) throws UsagerInconnuException;
+    public Voyage voyageEnCours(Long idUsager) throws UsagerInconnuException, VoyageInconnuException;
     
     public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException;
     

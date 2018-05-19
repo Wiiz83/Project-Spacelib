@@ -71,8 +71,16 @@ public class GestionVoyage implements GestionVoyageLocal {
     }
 
     @Override
-    public Voyage voyageEnCours(Long idUsager) throws UsagerInconnuException {
-        return null;
+    public Voyage voyageEnCours(Long idUsager) throws UsagerInconnuException, VoyageInconnuException {
+        final Usager usager = this.usagerFacade.find(idUsager);
+        if (usager == null) {
+            throw new UsagerInconnuException("Ce compte d'usager n'existe pas.");
+        }
+        final Voyage voy = this.voyageFacade.findVoyageEnCoursUsager(usager);     
+         if (voy == null) {
+            throw new VoyageInconnuException("Pas de voyage en cours.");
+        }
+         return voy; 
     }
 
     @Override
@@ -89,6 +97,7 @@ public class GestionVoyage implements GestionVoyageLocal {
 
     @Override
     public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException {
+
     }
 
     @Override
@@ -249,10 +258,9 @@ public class GestionVoyage implements GestionVoyageLocal {
                 }
             }
 
-            
             /*
                 Pour finir on vérifie que la navette remplisse les conditions nécessaires pour le voyage : nombres de places et de voyages suffisants.
-            */
+             */
             if (EstOKPassagersEtVoyagesNavette(navette, NbPassagers, prochainDepartPrevuQuaiDepartAvecNavette) == true) {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "SUCCES FINAL ! La navette a assez de voyages restants pour faire celui-ci. Quai de départ et navette validés.");
                 quaiDepartFinal = q;
@@ -263,11 +271,6 @@ public class GestionVoyage implements GestionVoyageLocal {
             }
         }
 
-        
-        
-        
-        
-        
         ////////////////////////////////////////////////// CHECKPOINT ////////////////////////////////////////////////////////
         if ((quaiDepartFinal == null) || (navetteFinale == null)) {
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Il n'y a pas de navette disponible au départ de cette station.");
@@ -278,11 +281,6 @@ public class GestionVoyage implements GestionVoyageLocal {
         }
         ////////////////////////////////////////////////// CHECKPOINT ////////////////////////////////////////////////////////
 
-        
-        
-        
-        
-        
         /*
             ALGORITHME POUR TROUVER LE QUAI D'ARRIVE
             Si il y a une navette qui arrive avant, il faut vérifier qu'elle sera parti quand la navette de l'usager arrivera !
@@ -298,8 +296,7 @@ public class GestionVoyage implements GestionVoyageLocal {
         outerloop:
         for (Quai q : quaisStationArrive) {
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Début d'analyse du quai de la station d'arrivée : " + q);
-            
-            
+
             /*
                 Le jour de l'arrivée, on vérifie qu'il n'y pas déjà un transfert ou un voyage qui arrive de ce quai
              */
@@ -309,7 +306,7 @@ public class GestionVoyage implements GestionVoyageLocal {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Il y a une réservation qui arrive déjà sur ce quai à cette date d'arrivée.");
                 continue outerloop;
             }
-            
+
 
             /*
                 Analyse de la précédente arrivée = Peut être avant ou le jour même. Si aucune arrivée avant, succès !
@@ -331,8 +328,6 @@ public class GestionVoyage implements GestionVoyageLocal {
                     break;
             }
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La navette " + autreNavette + " est arrivée au quai " + q);
-            
-            
 
             /*
             On vérifie que cette navette repart STRICTEMENT avant notre arrivée
@@ -352,8 +347,6 @@ public class GestionVoyage implements GestionVoyageLocal {
 
         }
 
-        
-        
         /////////////////////////////// FINALISATION ////////////////////////////////
         Voyage voyageFinal = null;
         if ((navetteFinale != null) && (quaiDepartFinal != null) && (quaiArriveFinal != null)) {

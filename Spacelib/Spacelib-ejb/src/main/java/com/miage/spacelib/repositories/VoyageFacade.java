@@ -215,8 +215,14 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
     }
 
     @Override
-    public Voyage findVoyageEnCoursUsager(Long idUsager) {
-        return null ; 
+    public Voyage findVoyageEnCoursUsager(Usager usager) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+        Root<Voyage> root = cq.from(Voyage.class);
+        cq.where(cb.equal(root.get("usager"), usager));
+        cq.where(cb.equal(root.get("statut"), Voyage.statutDebutVoyage));        
+        cq.orderBy(cb.asc(root.get("dateDepart")));            
+        return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
     }
 
 }

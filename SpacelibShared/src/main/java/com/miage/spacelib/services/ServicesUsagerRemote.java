@@ -24,7 +24,7 @@ public interface ServicesUsagerRemote {
 
     public Long creerCompte(String nom, String prenom, String login, String motdepasse);
 
-    public RVoyage voyageEnCours(Long idUsager);
+    public RVoyage voyageEnCours(Long idUsager) throws UsagerInconnuException, VoyageInconnuException;
 
     public void finaliserVoyage(Long idVoyage)
             throws VoyageInconnuException;

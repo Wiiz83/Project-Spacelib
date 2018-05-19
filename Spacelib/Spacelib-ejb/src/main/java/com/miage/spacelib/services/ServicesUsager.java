@@ -65,9 +65,20 @@ public class ServicesUsager implements ServicesUsagerRemote {
     }
 
     @Override
-    public RVoyage voyageEnCours(Long idUsager) {
-        RVoyage rvoy = new RVoyage();
-        return null;
+    public RVoyage voyageEnCours(Long idUsager) throws  UsagerInconnuException, VoyageInconnuException {
+        Voyage voyage = this.gestionVoyage.voyageEnCours(idUsager);
+        RVoyage rvoyage = new RVoyage();        
+        rvoyage.setDateArrivee(voyage.getDateArrivee());
+        rvoyage.setDateCreation(voyage.getDateCreation());
+        rvoyage.setDateDepart(voyage.getDateDepart());
+        rvoyage.setId(voyage.getId());
+        rvoyage.setNavette(voyage.getNavette().getId());
+        rvoyage.setNbPassagers(voyage.getNbPassagers());
+        rvoyage.setQuaiArrivee(voyage.getQuaiArrivee().getId());
+        rvoyage.setQuaiDepart(voyage.getQuaiDepart().getId());
+        rvoyage.setStatut(voyage.getStatut());
+        rvoyage.setUsager(voyage.getUsager().getId());
+        return rvoyage;
     }
 
     @Override

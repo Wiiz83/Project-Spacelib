@@ -44,7 +44,7 @@ public interface VoyageFacadeLocal {
 
     public List<Voyage> findAllVoyagesPrevusByUsager(Usager usager);
 
-    public Voyage findVoyageEnCoursUsager(Long idUsager);
+    public Voyage findVoyageEnCoursUsager(Usager usager);
 
     public boolean verifierSiAutresVoyagesPrevusSurNavetteADate(Calendar dateDepart, Navette n);
 
