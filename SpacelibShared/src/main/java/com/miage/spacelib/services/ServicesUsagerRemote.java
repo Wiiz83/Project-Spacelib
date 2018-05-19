@@ -17,25 +17,32 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.ejb.Remote;
 
-
 @Remote
 public interface ServicesUsagerRemote {
-    
-    public Long login (String nom, String pass) throws UsagerInconnuException;    
-    
-    public void creerCompte(String nom, String prenom, String login, String motdepasse);
-    
+
+    public Long login(String nom, String pass) throws UsagerInconnuException;
+
+    public Long creerCompte(String nom, String prenom, String login, String motdepasse);
+
     public RVoyage voyageEnCours(Long idUsager);
-    
-    public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException;
 
-    public ArrayList<RStation> obtenirStations() throws IllegalAccessException, InvocationTargetException;   
-    
-    public ArrayList<RVoyage> obtenirVoyagesPrevusUsager(Long idUsager) throws UsagerInconnuException;  
+    public void finaliserVoyage(Long idVoyage)
+            throws VoyageInconnuException;
 
-    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;
+    public ArrayList<RStation> obtenirStations()
+            throws IllegalAccessException, InvocationTargetException;
 
-    public void annulerVoyage(Long idUsager, Long idVoyage) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
+    public ArrayList<RVoyage> obtenirVoyagesPrevusUsager(Long idUsager)
+            throws UsagerInconnuException;
+
+    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart)
+            throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;
+
+    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers)
+            throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;
+
+    public void annulerVoyage(Long idUsager, Long idVoyage)
+            throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
 
     public RStation obtenirStationParIdQuai(Long idQuai) throws StationInconnuException, QuaiInconnuException;
 }

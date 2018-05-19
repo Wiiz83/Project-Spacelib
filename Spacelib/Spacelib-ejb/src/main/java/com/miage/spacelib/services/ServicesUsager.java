@@ -60,8 +60,8 @@ public class ServicesUsager implements ServicesUsagerRemote {
     }
 
     @Override
-    public void creerCompte(String nom, String prenom, String login, String motdepasse) {
-
+    public Long creerCompte(String nom, String prenom, String login, String motdepasse) {
+        return this.gestionUsager.creerCompte(nom, prenom, login, motdepasse);
     }
 
     @Override
@@ -72,6 +72,7 @@ public class ServicesUsager implements ServicesUsagerRemote {
 
     @Override
     public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException {
+        this.gestionVoyage.finaliserVoyage(idVoyage);
     }
 
     /**
@@ -176,6 +177,11 @@ public class ServicesUsager implements ServicesUsagerRemote {
         rstation.setStatut(s.getStatut());
 
         return rstation;
+    }
+
+    @Override
+    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

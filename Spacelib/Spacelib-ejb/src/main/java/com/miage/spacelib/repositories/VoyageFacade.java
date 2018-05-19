@@ -233,5 +233,10 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
         return voyagePasse;
     }
 
+    @Override
+    public Voyage findVoyageEnCoursUsager(Long idUsager) {
+     return null ;
+    }
+
 
 }
