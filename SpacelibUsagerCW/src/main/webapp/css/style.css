@@ -652,3 +652,10 @@ input[type="date"]{
     color: #ffffff;
     background: rgba(255, 255, 255, 0.15);
 }
+
+
+
+.main-content-nologin #voyage-form {
+    margin-left: 0 !important;
+    width : 100% !important;
+}

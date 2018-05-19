@@ -68,6 +68,22 @@ public class GestionVoyage implements GestionVoyageLocal {
 
     @Override
     public void annulerVoyage(Long idClient, Long idReservation) throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException {
+        final Usager usager = this.usagerFacade.find(idClient);
+        if (usager == null) {
+            throw new UsagerInconnuException("Ce compte d'usager n'existe pas.");
+        }
+        
+        final Voyage voyage = this.voyageFacade.find(idReservation);
+        if (voyage == null) {
+            throw new ReservationInconnuException("Ce voyage n'existe pas.");
+        }
+        
+        final boolean voyagePasse = this.voyageFacade.verifierSiVoyagePasse(voyage.getId());
+        if (voyagePasse == true) {
+            throw new ReservationPasseeException("La date de départ de ce voyage est déjà passé.");
+        }
+        
+        this.voyageFacade.remove(voyage);
     }
 
     @Override
