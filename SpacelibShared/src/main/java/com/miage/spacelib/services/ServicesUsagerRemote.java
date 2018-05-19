@@ -29,8 +29,7 @@ public interface ServicesUsagerRemote {
     public void finaliserVoyage(Long idVoyage)
             throws VoyageInconnuException;
 
-    public ArrayList<RStation> obtenirStations()
-            throws IllegalAccessException, InvocationTargetException;
+    public ArrayList<RStation> obtenirStations();
 
     public ArrayList<RVoyage> obtenirVoyagesPrevusUsager(Long idUsager)
             throws UsagerInconnuException;

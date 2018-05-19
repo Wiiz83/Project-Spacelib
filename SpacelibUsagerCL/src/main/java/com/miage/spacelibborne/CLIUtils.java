@@ -13,38 +13,54 @@ import java.util.Scanner;
  * @author Mahdi
  */
 public class CLIUtils {
-    public static Long saisirEntier(Scanner sc, String label, ArrayList<Long> range){
-        do{
-            try{
+
+    public Long saisirEntier(Scanner sc, String label, ArrayList<Long> range) {
+        do {
+            try {
                 System.out.print(label);
                 Long d = Long.parseLong(sc.next());
-                if(!range.contains(d)){
+                if (!range.contains(d)) {
                     throw new NumberFormatException("nombre incorrect");
                 }
                 return d;
-            }catch(NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 System.out.println("Erreur de saisie : " + ex.getMessage());
             }
-        }while(true);
+        } while (true);
     }
     
-    public static String saisirChaine(Scanner sc, String label){
-        do{
+        public Long saisirEntier(Scanner sc, String label, Long limiteInf, Long limiteMax) {
+        do {
+            try {
+                System.out.print(label);
+                Long d = Long.parseLong(sc.next());
+                if (d < limiteInf || d > limiteMax) {
+                    throw new NumberFormatException("nombre incorrect");
+                }
+                return d;
+            } catch (NumberFormatException ex) {
+                System.out.println("Erreur de saisie : " + ex.getMessage());
+            }
+        } while (true);
+    }
+
+    public String saisirChaine(Scanner sc, String label) {
+        do {
             System.out.print(label);
             String c = sc.next();
             c = c == null ? null : c.trim();
-            if(c == null || c.isEmpty()){
+            if (c == null || c.isEmpty()) {
                 System.out.println("Erreur de sasisie : veuillez saisir au moins un caractère.");
-            }else{
+            } else {
                 return c;
             }
-        }while(true);
+        } while (true);
     }
-    
-        public static boolean yesNoQuestion(Scanner sc, String label){
-        do{
-            String s = CLIUtils.saisirChaine(sc, label).toLowerCase();
-            switch(s){
+
+    public boolean yesNoQuestion(Scanner sc, String label) {
+        do {
+            String s = saisirChaine(sc, label).toLowerCase();
+            switch (s) {
                 case "y":
                     return true;
                 case "n":
@@ -52,7 +68,7 @@ public class CLIUtils {
                 default:
                     System.out.println("Erreur de saisie : veuillez saisir 'y' ou 'n'.");
             }
-        }while(true);
+        } while (true);
     }
-    
+
 }

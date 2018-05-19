@@ -16,7 +16,7 @@ import com.miage.spacelib.services.ServicesUsagerRemote;
 public class RMIUsagerServiceManager {
      private final static String GLASSFISH_ORB_HOST = "localhost";
     private final static String GLASSFISH_ORB_PORT = "3700";
-    private final static String SERVICES_USAGER_EJB_URI = "java:global/Spacelib-ear/Spacelib-ejb-0.0.1-SNAPSHOT/ServicesUsager!fr.miage.toulouse.spacelib.services.ServicesUsager";
+    private final static String SERVICES_USAGER_EJB_URI = "java:global/Spacelib-ear/Spacelib-ejb-1.0-SNAPSHOT/ServicesUsager!com.miage.spacelib.services.ServicesUsagerRemote";
 
     private InitialContext namingContext;
     private ServicesUsagerRemote usagerRemoteSvc;
