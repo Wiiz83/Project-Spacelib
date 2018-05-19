@@ -51,9 +51,6 @@ public class ServicesUsager implements ServicesUsagerRemote {
     @EJB
     private QuaiFacadeLocal quaiFacade;
     
-    
-
-    // RETOURNE LE LOGIN DE L'USAGER POUR LE RECUPERER DANS LE CLIENT LOURD ET WEB COMME VARIABLE DE SESSION
     @Override
     public Long login(String login, String motdepasse) throws UsagerInconnuException {
         return this.gestionUsager.authentifier(login, motdepasse);
@@ -179,9 +176,6 @@ public class ServicesUsager implements ServicesUsagerRemote {
         return rstation;
     }
 
-    @Override
-    public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
 }
