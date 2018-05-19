@@ -19,6 +19,8 @@ import java.util.Scanner;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,7 +45,7 @@ public class CLIBorne {
         ArrayList<RStation> stations = this.serviceUsager.obtenirStations();
         Long idStationCourante = ChoisirStationCourante(stations);
         Long idUsager = obtenirUsager();
-        CHOIX_PROCESS process = obtenirProcess();
+        CHOIX_PROCESS process = obtenirProcess(idUsager);
         if (process == CHOIX_PROCESS.DEPART) {
             depart(idUsager, idStationCourante, stationsArrivee(stations, idStationCourante));
         } else {
@@ -106,24 +108,19 @@ public class CLIBorne {
         return this.serviceUsager.creerCompte(nom, prenom, login, mdp);
     }
 
-    private CHOIX_PROCESS obtenirProcess() {
-        ArrayList<Long> options = new ArrayList<>();
-        options.add(new Long(1));
-        options.add(new Long(2));
-        System.out.println("1. Emprunter une navette");
-        System.out.println("2. Finaliser un voyage");
-        Long option = utils.saisirEntier(scanner, "Choissez une option: ", options);
-        if (option == 1) {
+    private CHOIX_PROCESS obtenirProcess(Long idUsager) throws UsagerInconnuException {
+        try {
+            RVoyage voyage = this.serviceUsager.voyageEnCours(idUsager);
+        } catch (VoyageInconnuException ex) {
             return CHOIX_PROCESS.DEPART;
-        } else {
-            return CHOIX_PROCESS.ARRIVEE;
         }
+        return CHOIX_PROCESS.DEPART;
     }
 
     private void depart(Long usager, Long idStationDepart, ArrayList<RStation> stationsArrivee) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
-        Long nbPassagers = utils.saisirEntier(scanner, "Nombre de passagers: ", new Long(0), new Long(16));
         afficherListeStations(stationsArrivee);
-        Long idStationArrivee = utils.saisirEntier(scanner, "Station de départ: ", getIDsStations(stationsArrivee));
+        Long idStationArrivee = utils.saisirEntier(scanner, "Station d'arrivée: ", getIDsStations(stationsArrivee));
+        Long nbPassagers = utils.saisirEntier(scanner, "Nombre de passagers: ", new Long(0), Long.MAX_VALUE);
         RVoyage voyage = this.serviceUsager.reserverVoyage(usager, idStationDepart, idStationArrivee, (int) (long) nbPassagers, Calendar.getInstance());
         System.out.println("Réservation réussie. Rendez vous au quai" + voyage.getQuaiArrivee());
     }
@@ -134,15 +131,14 @@ public class CLIBorne {
             this.serviceUsager.finaliserVoyage(voyageEncours.getId());
         }
     }
-    
-    
-    private final String ascii_spacelib =
- "   _____                           _  _  _     \n"
-+"  / ____|                         | |(_)| |    \n"
-+" | (___   _ __    __ _   ___  ___ | | _ | |__  \n"
-+"  \\___ \\ | '_ \\  / _` | / __|/ _ \\| || || '_ \\  \n"
-+"  ____) || |_) || (_| || (__|  __/| || || |_) |\n"
-+" |_____/ | .__/  \\__,_| \\___|\\___||_||_||_.__/ \n"
-+"         | |                                   \n"
-+"         |_|                \n" ;
+
+    private final String ascii_spacelib
+            = "   _____                           _  _  _     \n"
+            + "  / ____|                         | |(_)| |    \n"
+            + " | (___   _ __    __ _   ___  ___ | | _ | |__  \n"
+            + "  \\___ \\ | '_ \\  / _` | / __|/ _ \\| || || '_ \\  \n"
+            + "  ____) || |_) || (_| || (__|  __/| || || |_) |\n"
+            + " |_____/ | .__/  \\__,_| \\___|\\___||_||_||_.__/ \n"
+            + "         | |                                   \n"
+            + "         |_|                \n";
 }
