@@ -224,5 +224,25 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
         cq.orderBy(cb.asc(root.get("dateDepart")));            
         return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
     }
+       
+    @Override
+    public boolean verifierSiVoyagePasse(Long IdVoyage) {
+        boolean voyagePasse = false;
+        java.util.Date todayDate = new Date();
+    
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+        Root<Voyage> root = cq.from(Voyage.class);
+        
+        cq.where(cb.equal(root.get("id"), IdVoyage));
+        cq.where(cb.lessThan(root.<Date>get("dateDepart"), todayDate));
+        
+        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
+            voyagePasse = true;
+        }
+  
+        return voyagePasse;
+    }
+
 
 }

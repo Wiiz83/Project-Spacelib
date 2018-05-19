@@ -53,4 +53,8 @@ public interface VoyageFacadeLocal {
     public Voyage findVoyageArriveeJourDateEtQuai(Calendar dateDepart, Quai q);
 
     public Voyage findVoyageDepartJourDateEtQuai(Calendar dateDepart, Quai q);
+    
+    public boolean verifierSiVoyagePasse(Long IdVoyage);
+    
+    
 }
