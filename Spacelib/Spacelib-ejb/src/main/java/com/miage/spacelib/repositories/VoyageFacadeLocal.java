@@ -35,20 +35,22 @@ public interface VoyageFacadeLocal {
     List<Voyage> findRange(int[] range);
 
     int count();
-    
+
     public Voyage creerVoyage(Navette navette, Usager usager, Quai quaiDepart, Quai quaiArrive, int NbPassagers, Calendar dateDepart, Calendar dateArrivee);
-   
-    public Voyage findPlusProcheVoyageArriveADateEtQuai(Calendar dateDepart,Quai q);
-    
+
+    public Voyage findPlusProcheVoyageArriveADateEtQuai(Calendar dateDepart, Quai q);
+
     public Voyage findPlusProcheVoyageDepartDeNavetteADateEtQuai(Calendar dateDepart, Quai q, Navette n);
-    
+
     public List<Voyage> findAllVoyagesPrevusByUsager(Usager usager);
-    
+
+    public Voyage findVoyageEnCoursUsager(Long idUsager);
+
     public boolean verifierSiAutresVoyagesPrevusSurNavetteADate(Calendar dateDepart, Navette n);
-    
+
     public boolean verifierSiNavettePossedeDepartVoyageAvantDate(Calendar Cdate, Navette n);
-    
+
     public Voyage findVoyageArriveeJourDateEtQuai(Calendar dateDepart, Quai q);
-    
+
     public Voyage findVoyageDepartJourDateEtQuai(Calendar dateDepart, Quai q);
 }
