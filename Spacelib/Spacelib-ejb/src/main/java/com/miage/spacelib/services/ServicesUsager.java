@@ -53,6 +53,8 @@ public class ServicesUsager implements ServicesUsagerRemote {
     
     @Override
     public Long login(String login, String motdepasse) throws UsagerInconnuException {
+        System.out.println("ServicesUsager login : " +login);
+        System.out.println("ServicesUsager motdepasse : " +motdepasse);
         return this.gestionUsager.authentifier(login, motdepasse);
     }
 
@@ -88,12 +90,16 @@ public class ServicesUsager implements ServicesUsagerRemote {
      * localisation) CF 3.1
      */
     @Override
-    public ArrayList<RStation> obtenirStations() throws IllegalAccessException, InvocationTargetException {
+    public ArrayList<RStation> obtenirStations() {
         List<Station> stations = this.gestionStation.recupererListeStations();
         ArrayList<RStation> resultList = new ArrayList<>();
         for (Station station : stations) {
             RStation rstation = new RStation();
-            BeanUtils.copyProperties(rstation, station);
+            rstation.setId(station.getId());
+            rstation.setLocalisation(station.getLocalisation());
+            rstation.setNbQuais(station.getNbQuais());
+            rstation.setNom(station.getNom());
+            rstation.setStatut(station.getStatut());
             resultList.add(rstation);
         }
         return resultList;
