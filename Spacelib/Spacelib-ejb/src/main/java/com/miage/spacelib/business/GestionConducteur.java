@@ -25,12 +25,14 @@ public class GestionConducteur implements GestionConducteurLocal {
     @Override
     public Long login(String login, String motdepasse) throws UsagerInconnuException {
         final Conducteur conducteur = this.conducteurFacade.findByLoginAndPassword(login, motdepasse);
-        if(mecanicien == null) throw new MecanicienInconnuException("Ce compte de mécanicien n'existe pas.")
+        if(conducteur == null) throw new UsagerInconnuException("Ce compte de conducteur n'existe pas.");
+        return conducteur.getId();
     }
 
     @Override
     public void creerCompte(String nom, String prenom, String login, String motdepasse) {
-    
+        final Conducteur conducteur = new Conducteur( nom,  prenom,  login,  motdepasse);
+        this.conducteurFacade.create(conducteur);
     }
 
 
