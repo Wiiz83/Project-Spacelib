@@ -1,0 +1,57 @@
+équilibrer (stations):
+  stations10%=ratio_quais_disponibles_moins_de_10%(stations)
+  stations90%=ratio_quais_disponibles_plus_de_90%(stations)
+  équilibrer_stations10%(stations,stations10%,stations90%)
+  équilibrer_stations90%(stations,stations90%,stations10%)
+fin_équilibrer
+
+
+
+équilibrer_stations10%(stations,stations10%,stations90%):
+  stations_10%_équilibrées = [] /* objectif de 20% atteint */
+  retraits_interdits = stations10% /* stations où il n'est pas possible de retirer une navette */ 
+  tant_que (stations10% - stations_10%_équilibrées != vide):
+    s_inf = station_moins_occupée ( stations10% - stations_10%_équilibrées)
+    si (ratio_apres_ajout(s_inf)>90%) /*calcul prévisionnel, pas de transfert */
+        stations_10%_équilibrées.ajouter(s_inf)
+        continue;
+    finsi.
+    tant_que (s_inf !€  stations_10%_équilibrées)  :      
+      s_sup = station_plus_occupée_priorité ( stations90%, stations,retraits_interdits)  
+      /* une station à équilibrer ( € stations90%) est prioritaire si son ratio d'occupation n'a pas atteint 80% */  
+      si (s_sup == null)
+        retourner; /* quitter, pas de navettes disponibles pour équilibrer */ 
+      sinon si (ratio_apres_retrait(s_sup)<10% ) /*calcul prévisionnel, pas de transfert */
+        retraits_interdits.ajouter(s_sup)
+        continue;
+      sinon
+        transférer_navette(s_sup, s_inf)
+        si (ratio_quais_dispos(s_inf)>=20%)
+          stations_10%_équilibrées.ajouter(s_inf);
+     fin_tant_que
+  fin_tant_que
+fin_équilibrer_stations10%
+
+
+équilibrer_stations90%(stations,stations90%,stations10%):
+  stations_90%_équilibrées = []
+  ajouts_interdits = stations90% /* stations où il n'est pas possible d'ajouter une navette */ 
+  tant_que (stations90% - stations_90%_équilibrées != vide):  
+    s_sup = station_plus_occupée ( stations90% - stations_90%_équilibrées))
+    si (ratio_apres_retrait(s_sup)<10%)
+        stations_90%_équilibrées.ajouter(s_sup)
+        continue;
+    tant_que (s_sup !€  stations_90%_équilibrées) :
+      s_inf = station_moins_occupée_priorité ( stations10%, stations,ajouts_interdits)  /* */  
+      si (s_inf == null)
+        retourner
+      sinon si (ratio_apres_ajout(s_inf)>90% )
+        ajouts_interdits.ajouter(s_inf)
+        continue;
+      sinon
+        transférer_navette(s_sup, s_inf)
+        si (ratio_quais_dispos(s_sup)<=80%)
+          stations_90%_équilibrées.ajouter(s_sup);
+     fin_tant_que
+  fin_tant_que
+fin_équilibrer_stations90%
