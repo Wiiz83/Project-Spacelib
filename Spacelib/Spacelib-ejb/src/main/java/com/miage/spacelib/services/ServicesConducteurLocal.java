@@ -14,7 +14,7 @@ public interface ServicesConducteurLocal {
     
     public void creerCompte(String nom, String prenom, String login, String motdepasse);
 
-    public ArrayList<RTransfert> obtenirTransfertsNecessaires(Long idStationDepart, Long idStationArrivee) throws StationInconnuException;
+    public ArrayList<RTransfert> obtenirTransfertsNecessaires();
     
     public RTransfert reserverTransfert(Long idConducteur, Long idTransfert) throws UsagerInconnuException, TransfertInconnuException;
     

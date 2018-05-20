@@ -5,6 +5,7 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Conducteur;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Transfert;
@@ -13,6 +14,7 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionRolledbackLocalException;
 import javax.naming.NamingException;
@@ -198,6 +200,16 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
         }
   
         return autresVoyages;
+    }
+    
+    @Override
+    public List<Transfert> findAllTransfertsPrevusByConducteur(Conducteur conducteur) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Transfert> cq = cb.createQuery(Transfert.class);
+        Root<Transfert> root = cq.from(Transfert.class);
+        cq.where(cb.equal(root.get("conducteur"), conducteur));
+        cq.where(cb.equal(root.get("statut"), Transfert.statutDebutTransfert));
+        return getEntityManager().createQuery(cq).getResultList();
     }
     
 

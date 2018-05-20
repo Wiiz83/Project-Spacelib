@@ -30,8 +30,8 @@ public class WebServicesConducteur {
     }
     
     @WebMethod(operationName = "obtenirTransfertsNecessaires")
-    public ArrayList<RTransfert> obtenirTransfertsNecessaires(@WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee) throws StationInconnuException {
-        return this.ejbRef.obtenirTransfertsNecessaires(idStationDepart, idStationArrivee);
+    public ArrayList<RTransfert> obtenirTransfertsNecessaires() {
+        return this.ejbRef.obtenirTransfertsNecessaires();
     }
     
     @WebMethod(operationName = "reserverTransfert")

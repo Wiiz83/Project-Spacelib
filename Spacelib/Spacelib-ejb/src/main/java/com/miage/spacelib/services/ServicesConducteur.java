@@ -31,8 +31,8 @@ public class ServicesConducteur implements ServicesConducteurLocal {
     }
 
     @Override
-    public ArrayList<RTransfert> obtenirTransfertsNecessaires(Long idStationDepart, Long idStationArrivee) throws StationInconnuException {
-        ArrayList<Transfert> transferts = this.gestionTransfert.obtenirTransfertsNecessaires(idStationDepart, idStationArrivee);
+    public ArrayList<RTransfert> obtenirTransfertsNecessaires() {
+        ArrayList<Transfert> transferts = this.gestionTransfert.obtenirTransfertsNecessaires();
         ArrayList<RTransfert> rtransferts = new ArrayList<>();
         for (Transfert transfert : transferts) {
             RTransfert rtransfert = new RTransfert(transfert.getId(), transfert.getNbPassagers(), transfert.getNavette().getId(), transfert.getStatut(), transfert.getConducteur().getId(), transfert.getDateCreation(), transfert.getDateDepart(), transfert.getDateArrivee(), transfert.getQuaiDepart().getId(), transfert.getQuaiArrivee().getId());

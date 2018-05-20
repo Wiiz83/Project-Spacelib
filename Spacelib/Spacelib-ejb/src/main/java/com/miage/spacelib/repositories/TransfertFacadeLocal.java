@@ -5,6 +5,7 @@
  */
 package com.miage.spacelib.repositories;
 
+import com.miage.spacelib.entities.Conducteur;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Transfert;
@@ -45,5 +46,7 @@ public interface TransfertFacadeLocal {
     public Transfert findTransfertArriveeJourDateEtQuai(Calendar dateDepart, Quai q);
     
     public Transfert findTransfertDepartJourDateEtQuai(Calendar dateDepart, Quai q);
+    
+    public List<Transfert> findAllTransfertsPrevusByConducteur(Conducteur conducteur);
     
 }
