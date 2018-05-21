@@ -51,7 +51,7 @@ public class Navette implements Serializable {
         
     }
     
-    public Navette(int nb, String s){
+    public Navette(int nb){
         this.nbPlaces = nb;
         this.nbVoyages = 0;
         this.statut = NavetteStatut.Disponible;

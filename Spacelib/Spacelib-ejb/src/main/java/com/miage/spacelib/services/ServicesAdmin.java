@@ -5,15 +5,30 @@
  */
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.business.GestionStationLocal;
+import com.miage.spacelib.entities.Navette;
+import com.miage.spacelib.entities.Quai;
+import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
+import com.miage.spacelib.ressources.RNavette;
+import com.miage.spacelib.ressources.RQuai;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
  *
- * @author uzanl
+ * @author mahdi
  */
 @Stateless
 public class ServicesAdmin implements ServicesAdminRemote {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @EJB
+    GestionStationLocal gestionStation;
+
+    @Override
+    public Long creerStation(String localisation, String nom, Long nbquais, ArrayList<Integer> nbPlacesNavettes) throws NombreNavettesInvalideException {
+        return this.gestionStation.creerStation(localisation, nom, nbquais, nbPlacesNavettes);
+    }
+
 }
