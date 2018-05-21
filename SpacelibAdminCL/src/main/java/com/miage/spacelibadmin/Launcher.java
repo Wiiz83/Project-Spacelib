@@ -26,10 +26,10 @@ public class Launcher {
     public static void main(String[] args) {
         try {
             RMIAdminServiceManager rmiMgr = new RMIAdminServiceManager();
-            ServicesAdminRemote serviceUsager = rmiMgr.getAdminRemoteSvc();
+            ServicesAdminRemote serviceAdmin = rmiMgr.getAdminRemoteSvc();
             while (true) {
                 try {
-                    (new CLIAdmin(serviceUsager)).run();
+                    (new CLIAdmin(serviceAdmin)).run();
                 } catch ( NombreNavettesInvalideException ex) {
                     erreur(ex);
                 }

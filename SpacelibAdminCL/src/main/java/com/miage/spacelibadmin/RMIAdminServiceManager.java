@@ -9,17 +9,19 @@ import java.util.Properties;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import com.miage.spacelib.services.ServicesAdminRemote;
+
 /**
  *
  * @author Mahdi
  */
 public class RMIAdminServiceManager {
-     private final static String GLASSFISH_ORB_HOST = "localhost";
+
+    private final static String GLASSFISH_ORB_HOST = "localhost";
     private final static String GLASSFISH_ORB_PORT = "3700";
-    private final static String SERVICES_USAGER_EJB_URI = "java:global/Spacelib-ear/Spacelib-ejb-1.0-SNAPSHOT/ServicesAdmin!com.miage.spacelib.services.ServicesAdminRemote";
+    private final static String SERVICES_ADMIN_EJB_URI = "java:global/Spacelib-ear/Spacelib-ejb-1.0-SNAPSHOT/ServicesAdmin!com.miage.spacelib.services.ServicesAdminRemote";
 
     private InitialContext namingContext;
-    private ServicesAdminRemote usagerRemoteSvc;
+    private ServicesAdminRemote adminRemoteSvc;
 
     public RMIAdminServiceManager() throws NamingException {
         this.initJndi();
@@ -35,10 +37,10 @@ public class RMIAdminServiceManager {
     }
 
     private void retrieveRemoteServicesAdmin() throws NamingException {
-        this.usagerRemoteSvc = (ServicesAdminRemote) this.namingContext.lookup(SERVICES_USAGER_EJB_URI);
+        this.adminRemoteSvc = (ServicesAdminRemote) this.namingContext.lookup(SERVICES_ADMIN_EJB_URI);
     }
 
     public ServicesAdminRemote getAdminRemoteSvc() {
-        return usagerRemoteSvc;
+        return adminRemoteSvc;
     }
 }

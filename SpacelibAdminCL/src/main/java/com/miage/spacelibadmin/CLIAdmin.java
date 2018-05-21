@@ -27,23 +27,23 @@ public class CLIAdmin {
     public void run() throws NombreNavettesInvalideException {
         System.out.println(ascii_spacelib);
         System.out.println("Création de station");
-        String nomStation = utils.saisirChaine(scanner, "Nom de la station");
+        String nomStation = utils.saisirChaine(scanner, "Nom de la station: ");
         String localisation = utils.saisirChaine(scanner, "Localisation: ");
-        Long nb_quais = utils.saisirEntier(scanner, "Nombre de quais:", new Long(0), Long.MAX_VALUE);
-        Long nb_navettes = utils.saisirEntier(scanner, "Nombre de navettes:", new Long(0), Long.MAX_VALUE);
+        Long nb_quais = utils.saisirEntier(scanner, "Nombre de quais: ", new Long(0), Long.MAX_VALUE);
+        Long nb_navettes = utils.saisirEntier(scanner, "Nombre de navettes: ", new Long(0), Long.MAX_VALUE);
         ArrayList<Long> capacites_possibles = new ArrayList<>();
-        capacites_possibles.add(new Long (2));
-        capacites_possibles.add(new Long (5));
-        capacites_possibles.add(new Long (10));
-        capacites_possibles.add(new Long (15));
-                ArrayList<Integer> capacites = new ArrayList<>();
+        capacites_possibles.add(new Long(2));
+        capacites_possibles.add(new Long(5));
+        capacites_possibles.add(new Long(10));
+        capacites_possibles.add(new Long(15));
+        ArrayList<Integer> capacites = new ArrayList<>();
 
-        for (int i = 0 ; i<nb_navettes ; i++)
-            capacites.add((Integer)  (int) (long)  utils.saisirEntier(scanner, "Capcité navette "+i+1 + ": ",capacites_possibles));
-
-        //    public Long creerStation(String localisation, String nom, Long nbquais, ArrayList<Integer> nbPlacesNavettes) throws NombreNavettesInvalideException {
+        for (int i = 0; i < nb_navettes; i++) {
+            capacites.add((Integer) (int) (long) utils.saisirEntier(scanner, "Capcité navette " + (i + 1) + ": ", capacites_possibles));
+        }
+        
         this.serviceAdmibn.creerStation(nomStation, localisation, nb_quais, capacites);
-
+        System.out.println("Succès.");
     }
 
     private final String ascii_spacelib

@@ -6,13 +6,8 @@
 package com.miage.spacelib.services;
 
 import com.miage.spacelib.business.GestionStationLocal;
-import com.miage.spacelib.entities.Navette;
-import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
-import com.miage.spacelib.ressources.RNavette;
-import com.miage.spacelib.ressources.RQuai;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 

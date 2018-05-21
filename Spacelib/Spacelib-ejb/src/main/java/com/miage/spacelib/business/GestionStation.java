@@ -44,7 +44,7 @@ public class GestionStation implements GestionStationLocal {
     public Long creerStation(String localisation, String nom, Long nb_quais, ArrayList<Integer> nbPlacesNavettes) throws NombreNavettesInvalideException {
         int nb_navettes = nbPlacesNavettes.size();
         if (nb_quais < nb_navettes || nb_navettes * 2 + 1 < nb_quais) {
-            throw new NombreNavettesInvalideException("Nombre de quais invalide");
+            throw new NombreNavettesInvalideException("Nombre de quais / navettes invalide.");
         }
 
         Station station = new Station(localisation, (int) (long) nb_quais, nom);

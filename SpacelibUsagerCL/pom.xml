@@ -21,7 +21,6 @@
             <groupId>org.glassfish.main.appclient</groupId>
             <artifactId>gf-client</artifactId>
             <version>5.0</version>
-
         </dependency>
     </dependencies>
 </project>
