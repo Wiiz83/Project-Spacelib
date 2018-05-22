@@ -13,6 +13,7 @@ import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Local;
 
 /**
@@ -24,5 +25,5 @@ public interface GestionStationLocal {
     
     public List<Station> recupererListeStations();
  
-    public Long creerStation (String localisation, String nom, Long nbquais, ArrayList<Integer> nbPlacesNavettes ) throws NombreNavettesInvalideException;    
+    public Long creerStation (String localisation, String nom, Long nbquais, ArrayList<Integer> nbPlacesNavettes, Map<Long,Integer> tempsTrajets ) throws NombreNavettesInvalideException;    
 }

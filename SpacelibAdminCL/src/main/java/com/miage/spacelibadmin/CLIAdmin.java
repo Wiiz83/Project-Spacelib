@@ -6,8 +6,12 @@
 package com.miage.spacelibadmin;
 
 import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
+import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.services.ServicesAdminRemote;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -16,17 +20,19 @@ import java.util.Scanner;
  */
 public class CLIAdmin {
 
-    private final ServicesAdminRemote serviceAdmibn;
+    private final ServicesAdminRemote servicesAdmin;
     private final Scanner scanner = new Scanner(System.in);
     private final CLIUtils utils = new CLIUtils();
 
     public CLIAdmin(ServicesAdminRemote serviceAdmibn) {
-        this.serviceAdmibn = serviceAdmibn;
+        this.servicesAdmin = serviceAdmibn;
     }
 
     public void run() throws NombreNavettesInvalideException {
         System.out.println(ascii_spacelib);
         System.out.println("Création de station");
+        List<RStation> stations = this.servicesAdmin.obtenirStations();
+        
         String nomStation = utils.saisirChaine(scanner, "Nom de la station: ");
         String localisation = utils.saisirChaine(scanner, "Localisation: ");
         Long nb_quais = utils.saisirEntier(scanner, "Nombre de quais: ", new Long(0), Long.MAX_VALUE);
@@ -41,8 +47,13 @@ public class CLIAdmin {
         for (int i = 0; i < nb_navettes; i++) {
             capacites.add((Integer) (int) (long) utils.saisirEntier(scanner, "Capcité navette " + (i + 1) + ": ", capacites_possibles));
         }
+        Map<Long,Integer> tempsTrajets = new HashMap<>();
+        stations.forEach((station) -> {
+            tempsTrajets.put(station.getId(), (Integer) (int) (long) utils.saisirEntier(scanner, "Temps du trajet vers " + station.getNom() + ": ", new Long (0),Long.MAX_VALUE));
+        });
         
-        this.serviceAdmibn.creerStation(nomStation, localisation, nb_quais, capacites);
+        
+        this.servicesAdmin.creerStation(nomStation, localisation, nb_quais, capacites,tempsTrajets);
         System.out.println("Succès.");
     }
 
