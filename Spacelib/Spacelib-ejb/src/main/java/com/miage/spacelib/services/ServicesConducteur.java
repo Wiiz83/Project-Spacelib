@@ -43,9 +43,10 @@ public class ServicesConducteur implements ServicesConducteurLocal {
 
     @Override
     public RTransfert reserverTransfert(Long idConducteur, Long idTransfert) throws UsagerInconnuException, TransfertInconnuException {
-        Transfert transfert = this.gestionTransfert.reserverTransfert(idConducteur, idTransfert);
-        RTransfert rtransfert = new RTransfert(transfert.getId(), transfert.getNbPassagers(), transfert.getNavette().getId(), transfert.getStatut(), transfert.getConducteur().getId(), transfert.getDateCreation(), transfert.getDateDepart(), transfert.getDateArrivee(), transfert.getQuaiDepart().getId(), transfert.getQuaiArrivee().getId());
-        return rtransfert;
+       // Transfert transfert = this.gestionTransfert.reserverTransfert(idConducteur, idTransfert);
+        //RTransfert rtransfert = new RTransfert(transfert.getId(), transfert.getNbPassagers(), transfert.getNavette().getId(), transfert.getStatut(), transfert.getConducteur().getId(), transfert.getDateCreation(), transfert.getDateDepart(), transfert.getDateArrivee(), transfert.getQuaiDepart().getId(), transfert.getQuaiArrivee().getId());
+        //return rtransfert;
+        return null;
     }
 
     @Override

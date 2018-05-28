@@ -9,13 +9,12 @@ import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
-import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.repositories.NavetteFacadeLocal;
 import com.miage.spacelib.repositories.QuaiFacadeLocal;
-import com.miage.spacelib.repositories.RevisionFacadeLocal;
 import com.miage.spacelib.repositories.StationFacadeLocal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -41,7 +40,7 @@ public class GestionStation implements GestionStationLocal {
     }
 
     @Override
-    public Long creerStation(String localisation, String nom, Long nb_quais, ArrayList<Integer> nbPlacesNavettes) throws NombreNavettesInvalideException {
+    public Long creerStation(String localisation, String nom, Long nb_quais, ArrayList<Integer> nbPlacesNavettes, Map<Long,Integer> tempsTrajets ) throws NombreNavettesInvalideException {
         int nb_navettes = nbPlacesNavettes.size();
         if (nb_quais < nb_navettes || nb_navettes * 2 + 1 < nb_quais) {
             throw new NombreNavettesInvalideException("Nombre de quais / navettes invalide.");
