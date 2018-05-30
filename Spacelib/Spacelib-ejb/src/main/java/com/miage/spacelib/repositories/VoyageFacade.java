@@ -116,8 +116,13 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
         Root<Voyage> root = cq.from(Voyage.class);
-        cq.where(cb.equal(root.get("usager"), usager));
-        cq.where(cb.equal(root.get("statut"), Voyage.statutDebutVoyage));
+        cq.where(
+                cb.and(
+                        cb.equal(root.get("usager"), usager),
+                        cb.equal(root.get("statut"), Voyage.statutDebutVoyage)
+                )
+        );
+        
         return getEntityManager().createQuery(cq).getResultList();
     }
 
@@ -213,8 +218,12 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
         Root<Voyage> root = cq.from(Voyage.class);
-        cq.where(cb.equal(root.get("usager"), usager));
-        cq.where(cb.equal(root.get("statut"), Voyage.statutDebutVoyage));        
+        cq.where(
+                cb.and(
+                        cb.equal(root.get("usager"), usager),
+                        cb.equal(root.get("statut"), Voyage.statutDebutVoyage)
+                )
+        );
         cq.orderBy(cb.asc(root.get("dateDepart")));            
         return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
     }
@@ -227,9 +236,13 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
         Root<Voyage> root = cq.from(Voyage.class);
-        
-        cq.where(cb.equal(root.get("id"), IdVoyage));
-        cq.where(cb.lessThan(root.<Date>get("dateDepart"), todayDate));
+
+        cq.where(
+                cb.and(
+                        cb.equal(root.get("id"), IdVoyage),
+                        cb.lessThan(root.<Date>get("dateDepart"), todayDate)
+                )
+        );
         
         if(getEntityManager().createQuery(cq).getResultList().size() > 0){
             voyagePasse = true;

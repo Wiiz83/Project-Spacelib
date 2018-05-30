@@ -49,13 +49,10 @@ public class Reservation extends HttpServlet {
             int nbpassagers = Integer.parseInt(request.getParameter("nbpassagers"));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date date;
-            //Calendar dateDepart;
             XMLGregorianCalendar dateDepart = null;
 
             try {
                 date = sdf.parse(request.getParameter("ddepart"));
-                //dateDepart = Calendar.getInstance();
-                //dateDepart.setTime(date);
                 GregorianCalendar c = new GregorianCalendar();
                 c.setTime(date);
                 dateDepart = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
@@ -70,7 +67,7 @@ public class Reservation extends HttpServlet {
 
             try {
                 vvoyage = port.reserverVoyage(idUsager, idStationDepart, idStationArrivee, nbpassagers, dateDepart);
-                RequestDispatcher rd = request.getRequestDispatcher("voyages.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("annulation.jsp");
                 rd.forward(request, response);
             } catch (QuaiIndisponibleException_Exception | QuaiInexistantException_Exception | StationInconnuException_Exception | TempsTrajetInconnuException_Exception | UsagerInconnuException_Exception ex) {
                 Logger.getLogger(Reservation.class.getName()).log(Level.SEVERE, null, ex);

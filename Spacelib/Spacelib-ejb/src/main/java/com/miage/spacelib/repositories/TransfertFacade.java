@@ -202,10 +202,13 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Transfert> cq = cb.createQuery(Transfert.class);
         Root<Transfert> root = cq.from(Transfert.class);
-        cq.where(cb.equal(root.get("conducteur"), conducteur));
-        cq.where(cb.equal(root.get("statut"), Transfert.statutDebutTransfert));
+        cq.where(
+                cb.and(
+                        cb.equal(root.get("conducteur"), conducteur),
+                        cb.equal(root.get("statut"), Transfert.statutDebutTransfert)
+                )
+        );
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
 
 }

@@ -106,9 +106,7 @@ public class GestionVoyage implements GestionVoyageLocal {
         if (usager == null) {
             throw new UsagerInconnuException("Ce compte d'usager n'existe pas.");
         }
-
         ArrayList<Voyage> voyages = new ArrayList(voyageFacade.findAllVoyagesPrevusByUsager(usager));
-
         return voyages;
     }
 
@@ -144,6 +142,10 @@ public class GestionVoyage implements GestionVoyageLocal {
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param idStationArrivee : " + idStationArrivee);
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param NbPassagers : " + NbPassagers);
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param dateDepart : " + dateDepart);
+        
+        if(NbPassagers > 15){
+            throw new QuaiIndisponibleException("Le nombre de passagers excède le nombre de places limite de nos navettes.");
+        }
 
         final Usager usager = this.usagerFacade.find(idUsager);
         if (usager == null) {
@@ -195,6 +197,8 @@ public class GestionVoyage implements GestionVoyageLocal {
             Voyage precedentVoyage = this.voyageFacade.findPlusProcheVoyageArriveADateEtQuai(dateDepart, q);
             Transfert precedentTransfert = this.transfertFacade.findPlusProcheTransfertArriveADateEtQuai(dateDepart, q);
             String lePlusTard = lequelEstLePlusTard(precedentVoyage, precedentTransfert);
+            Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "lePlusTard = " +lePlusTard);
+            
             switch (lePlusTard) {
                 case estAucun:
                     // est ce que le quai possède une navette arrimée au moment de la réservation ?
@@ -206,11 +210,11 @@ public class GestionVoyage implements GestionVoyageLocal {
                         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Il n'y a jamais eu de voyage ni de transfert sur ce quai. Il n'y a donc pas de navette disponible sur ce quai. On passe au prochain quai.");
                         continue outerloop;
                     }
+                    break;
                 case estVoyage:
                     navette = precedentVoyage.getNavette();
                     dateArriveePrecedenteReservation = precedentVoyage.getDateArrivee();
                     break;
-
                 case estTransfert:
                     navette = precedentTransfert.getNavette();
                     dateArriveePrecedenteReservation = precedentTransfert.getDateArrivee();
@@ -242,8 +246,7 @@ public class GestionVoyage implements GestionVoyageLocal {
 
         ////////////////////////////////////////////////// CHECKPOINT ////////////////////////////////////////////////////////
         if ((quaiDepartFinal == null) || (navetteFinale == null)) {
-            Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Il n'y a pas de navette disponible au départ de cette station.");
-            throw new QuaiIndisponibleException("Il n'y a pas de navette disponible au départ de cette station.");
+            throw new QuaiIndisponibleException("Il n'y a aucune navette disponible répondant à ces critères.");
         } else {
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Le quai de départ choisi est le " + quaiDepartFinal);
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La navette pour le voyage est la " + navetteFinale);
@@ -321,6 +324,8 @@ public class GestionVoyage implements GestionVoyageLocal {
     
     private boolean EstOKPassagersEtVoyagesNavette(Navette n, int nb) {
         boolean result = false;
+        System.out.println("n.getNbPlaces() = " + n.getNbPlaces());
+        System.out.println("n.getNbVoyages() = " + n.getNbVoyages());
         if ((n.getNbPlaces() >= nb) && (n.getNbVoyages() > 0)) {
             result = true;
         }
@@ -342,7 +347,9 @@ public class GestionVoyage implements GestionVoyageLocal {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La dernière arrivée la plus récente sur ce quai est un transfert.");
                 resa = estTransfert;
             } else {
-                Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Un problème est apparu pour déterminer la date d'arrivée du dernier voyage et transfert la plus récente sur ce quai.");
+                Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Le transfert et le voyage ont la même date.");
+                System.out.println("dateVoyage = " +dateVoyage.getTime());
+                System.out.println("dateTransfert = " +dateTransfert.getTime());
                 resa = estAucun;
             }
         } else if ((voyage == null) && (transfert == null)) {

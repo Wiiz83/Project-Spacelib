@@ -120,7 +120,6 @@
                     <th>Identifiant</th>
                     <th>Nombre de places</th>
                     <th>Nombre de voyages restants</th>
-                    <th>Statut</th>
                 </tr>
                 <%
                     rs = stmt.executeQuery("SELECT * FROM NAVETTE");
@@ -130,7 +129,6 @@
                     <td><%= rs.getInt("ID")%></td>
                     <td><%= rs.getInt("NBPLACES")%></td>
                     <td><%= rs.getInt("NBVOYAGES")%></td>
-                    <td><%= rs.getString("STATUT")%></td>
                 </tr>
                 <%
                     }
@@ -143,7 +141,6 @@
             <table>
                 <tr>
                     <th>Identifiant</th>
-                    <th>Statut</th>
                     <th>Identifiant de station</th>
                     <th>Identifiant de navette</th>
                 </tr>
@@ -153,7 +150,6 @@
                 %>
                 <tr>
                     <td><%= rs.getInt("ID")%></td>
-                    <td><%= rs.getString("STATUT")%></td>
                     <td><%= rs.getInt("ID_STATION")%></td>
                     <td><%= rs.getInt("ID_NAVETTE")%></td>
                 </tr>
@@ -200,7 +196,6 @@
                     <th>Localisation</th>
                     <th>Nombre de quais</th>
                     <th>Nom de station</th>
-                    <th>Statut</th>
                 </tr>
                 <%
                     rs = stmt.executeQuery("SELECT * FROM STATION");
@@ -211,7 +206,6 @@
                     <td><%= rs.getString("LOCALISATION")%></td>
                     <td><%= rs.getInt("NOMBRE_QUAIS")%></td>
                     <td><%= rs.getString("NOM")%></td>
-                    <td><%= rs.getString("STATUT")%></td>
                 </tr>
                 <%
                     }

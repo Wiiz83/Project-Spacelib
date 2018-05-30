@@ -112,9 +112,6 @@ public class ServicesUsager implements ServicesUsagerRemote {
         Voyage voyage = this.gestionVoyage.reserverVoyage(idClient, idStationDepart, idStationArrivee, NbPassagers, dateDepart);
         System.out.println("Voyage = " + voyage);
         RVoyage rvoyage = new RVoyage();
-        System.out.println("rvoyage" + voyage.getStatut());
-        System.out.println("rvoyage" + voyage.getDateArrivee());
-        System.out.println("rvoyage" + voyage.getNavette());
 
         rvoyage.setDateArrivee(voyage.getDateArrivee());
         rvoyage.setDateCreation(voyage.getDateCreation());
@@ -127,12 +124,7 @@ public class ServicesUsager implements ServicesUsagerRemote {
         rvoyage.setStatut(voyage.getStatut());
         rvoyage.setUsager(voyage.getUsager().getId());
 
-        System.out.println("rvoyage" + rvoyage.getStatut());
-        System.out.println("rvoyage" + rvoyage.getDateArrivee());
-        System.out.println("rvoyage" + rvoyage.getNavette());
-
-        //BeanUtils.copyProperties(rvoyage, voyage);
-        System.out.println("rvoyage2" + rvoyage);
+        System.out.println("RVoyage = " + rvoyage);
         return rvoyage;
     }
 
