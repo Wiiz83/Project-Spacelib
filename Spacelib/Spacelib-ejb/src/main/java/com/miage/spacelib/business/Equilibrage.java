@@ -25,11 +25,11 @@ public class Equilibrage {
     public List<Entry<Station, Station>> calculerTrajets(List<Station> stations) {
         List<Station> stations_occ_10p = filtrer(
                 stations,
-                s -> filtrer(s.getQuais(), q -> q.getStatut() == QuaiStatut.Occupe).size() / s.getNbQuais() < 0.10
+                s -> nbNavettesStation(s) / s.getNbQuais() < 0.10
         );
         List<Station> stations_occ_90p = filtrer(
                 stations,
-                s -> filtrer(s.getQuais(), q -> q.getStatut() == QuaiStatut.Occupe).size() / s.getNbQuais() > 0.90
+                s -> nbNavettesStation(s) / s.getNbQuais() > 0.90
         );
         List<Entry<Station, Station>> trajets_10p = equilibrer_stations_moins_10p(stations, stations_occ_10p, stations_occ_90p, new ArrayList<>());
         return equilibrer_stations_plus_90p(stations, stations_occ_90p, stations_occ_10p, trajets_10p);
@@ -37,7 +37,7 @@ public class Equilibrage {
 
     private List<Entry<Station, Station>> equilibrer_stations_moins_10p(List<Station> stations, List<Station> stations_occ_10p, List<Station> stations_occ_90p, ArrayList<Entry<Station, Station>> transferts) {
         List<Station> stations_10p_equilibrees = new ArrayList<>();
-        List<Station> retraits_interdits=stations_occ_90p;
+        List<Station> retraits_interdits = stations_occ_90p;
         while (stations_occ_10p.size() >= stations_10p_equilibrees.size()) {
             Station s_inf = stationLaMoinsOccupee(stations_occ_10p, stations_10p_equilibrees);
             if (ratioApresAjout(s_inf) > 0.9) {
@@ -45,16 +45,15 @@ public class Equilibrage {
                 continue;
             }
             while (!stations_10p_equilibrees.contains(s_inf)) {
-                Station s_sup = stationPlusOccupee(stations,retraits_interdits,stations_occ_90p );
-                if  (s_sup == null) {
+                Station s_sup = stationPlusOccupee(stations, retraits_interdits, stations_occ_90p);
+                if (s_sup == null) {
                     return transferts;
                 }
-                if ( ratioApresRetrait(s_sup)<0.10) {
+                if (ratioApresRetrait(s_sup) < 0.10) {
                     retraits_interdits.add(s_sup);
-                }
-                else {
-                    transferts.add(transfert(s_sup,s_inf));
-                    if (ratioDispo(s_inf)>=0.20){
+                } else {
+                    transferts.add(transfert(s_sup, s_inf));
+                    if (ratioDispo(s_inf) >= 0.20) {
                         stations_10p_equilibrees.add(s_inf);
                     }
                 }
@@ -67,22 +66,8 @@ public class Equilibrage {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
-        ArrayList<E> filtered = all.stream().filter(filter).collect(Collectors.toCollection(ArrayList::new));
-        if (c == null) {
-            return filtered;
-        } else {
-            filtered.sort(c);
-        }
-        return filtered;
-    }
-
-    private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter) {
-        return filtrer(all, filter, null);
-    }
-
     private Entry<Station, Station> transfert(Station depart, Station arrivee) {
-        return new AbstractMap.SimpleEntry<Station, Station>(depart, arrivee);
+        return new AbstractMap.SimpleEntry<>(depart, arrivee);
     }
 
     private Station stationLaMoinsOccupee(List<Station> stations_occ_10p, List<Station> stations_10p_equilibrees) {
@@ -103,5 +88,23 @@ public class Equilibrage {
 
     private double ratioDispo(Station s_inf) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private int nbNavettesStation(Station station) {
+        return filtrer(station.getQuais(), q -> q.getStatut() == QuaiStatut.Occupe).size();
+    }
+
+    private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
+        ArrayList<E> filtered = all.stream().filter(filter).collect(Collectors.toCollection(ArrayList::new));
+        if (c == null) {
+            return filtered;
+        } else {
+            filtered.sort(c);
+        }
+        return filtered;
+    }
+
+    private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter) {
+        return filtrer(all, filter, null);
     }
 }
