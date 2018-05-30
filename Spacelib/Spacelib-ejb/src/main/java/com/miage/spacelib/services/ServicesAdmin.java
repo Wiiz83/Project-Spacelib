@@ -41,7 +41,6 @@ public class ServicesAdmin implements ServicesAdminRemote {
             rstation.setLocalisation(station.getLocalisation());
             rstation.setNbQuais(station.getNbQuais());
             rstation.setNom(station.getNom());
-            rstation.setStatut(station.getStatut());
             resultList.add(rstation);
         }
         return resultList;

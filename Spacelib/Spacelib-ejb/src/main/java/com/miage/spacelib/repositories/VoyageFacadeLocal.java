@@ -46,7 +46,7 @@ public interface VoyageFacadeLocal {
 
     public Voyage findVoyageEnCoursUsager(Usager usager);
 
-    public boolean verifierSiAutresVoyagesPrevusSurNavetteADate(Calendar dateDepart, Navette n);
+    public boolean verifierSiAutresVoyagesPrevusSurNavette(Calendar dateDepart, Navette n);
 
     public boolean verifierSiNavettePossedeDepartVoyageAvantDate(Calendar Cdate, Navette n);
 

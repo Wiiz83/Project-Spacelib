@@ -2,7 +2,6 @@ package com.miage.spacelib.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -23,13 +21,9 @@ public class Station implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "station")
     private List<Quai> quais;
-    
-   // @OneToOne(mappedBy = "station", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-   // private TempsTrajet tpsTrajet;
     
     @Column(name="LOCALISATION", nullable = false)
     private String localisation;
@@ -40,11 +34,6 @@ public class Station implements Serializable {
     @Column(name="NOM", nullable = false)
     private String nom;
     
-    //public enum StationStatut {Disponible,Complet}
-    //@Enumerated(EnumType.STRING)
-    @Column(name="STATUT", nullable = false)
-    private String statut;
-    
     public Station(){
         
     }
@@ -52,7 +41,6 @@ public class Station implements Serializable {
     public Station(String l, int nb, String n){
         this.localisation = l;
         this.nbQuais = nb;
-        this.statut = "Disponible";
         this.nom = n;
     }
    
@@ -86,14 +74,6 @@ public class Station implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
     }
 
     @XmlTransient

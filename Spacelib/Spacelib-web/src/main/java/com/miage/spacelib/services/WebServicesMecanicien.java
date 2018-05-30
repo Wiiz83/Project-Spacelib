@@ -1,6 +1,5 @@
 package com.miage.spacelib.services;
 
-import com.miage.spacelib.business.InitDatas;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Revision;
@@ -26,15 +25,7 @@ public class WebServicesMecanicien {
 
     @EJB
     private ServicesMecanicienLocal ejbRef;
-    
-    @EJB
-    private InitDatas ejbRefInitDatas;
- 
-    @WebMethod(operationName = "initDatas")
-    public int initDatas() {
-        return ejbRefInitDatas.DEV_ONLY_InitBD();
-    }
-    
+   
     @WebMethod(operationName = "authentifier")
     public void authentifier(@WebParam(name = "login") String login, @WebParam(name = "motdepasse") String motdepasse) throws MecanicienInconnuException {
         ejbRef.authentifier(login, motdepasse);

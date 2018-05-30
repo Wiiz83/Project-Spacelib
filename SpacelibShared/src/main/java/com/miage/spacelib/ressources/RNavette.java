@@ -7,9 +7,6 @@ public class RNavette implements Serializable {
     
     private Long id;
     
-    private enum NavetteStatut {Disponible,AReviser,EnRevision,EnVol}
-    private NavetteStatut statut;
-    
     private RQuai quai;
     
     // 2, 5, 10 ou 15 places
@@ -30,7 +27,6 @@ public class RNavette implements Serializable {
     public RNavette(int nb, String s){
         this.nbPlaces = nb;
         this.nbVoyages = 0;
-        this.statut = NavetteStatut.Disponible;
     }
 
     public Long getId() {
@@ -39,14 +35,6 @@ public class RNavette implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public NavetteStatut getStatut() {
-        return statut;
-    }
-
-    public void setStatut(NavetteStatut statut) {
-        this.statut = statut;
     }
 
     public int getNbPlaces() {

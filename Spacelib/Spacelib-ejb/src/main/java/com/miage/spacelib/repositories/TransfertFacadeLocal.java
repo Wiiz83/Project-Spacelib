@@ -39,7 +39,7 @@ public interface TransfertFacadeLocal {
     
     public Transfert findPlusProcheTransfertDepartDeNavetteADateEtQuai(Calendar dateDepart, Quai q, Navette n);
     
-    public boolean verifierSiAutresTransfertsPrevusSurNavetteADate(Calendar dateDepart, Navette n);
+    public boolean verifierSiAutresTransfertsPrevusSurNavette(Calendar dateDepart, Navette n);
     
     public boolean verifierSiNavettePossedeDepartTransfertAvantDate(Calendar Cdate, Navette n);
     

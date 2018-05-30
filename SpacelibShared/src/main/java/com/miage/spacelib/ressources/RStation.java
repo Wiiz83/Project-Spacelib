@@ -7,15 +7,11 @@ public class RStation implements Serializable {
    
     private Long id;
     
-   // private List<RQuai> quais;
-
     private String localisation;
     
     private int nbQuais;
 
     private String nom;
-    
-    private String statut;
     
     public RStation(){
         
@@ -24,7 +20,6 @@ public class RStation implements Serializable {
     public RStation(String l, int nb, String n){
         this.localisation = l;
         this.nbQuais = nb;
-        this.statut = "Disponible";
         this.nom = n;
     }
    
@@ -60,22 +55,6 @@ public class RStation implements Serializable {
         this.nom = nom;
     }
 
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
-/*
-    public List<RQuai> getQuais() {
-        return quais;
-    }
-
-    public void setQuais(List<RQuai> quais) {
-        this.quais = quais;
-    }
-*/
     @Override
     public int hashCode() {
         int hash = 0;

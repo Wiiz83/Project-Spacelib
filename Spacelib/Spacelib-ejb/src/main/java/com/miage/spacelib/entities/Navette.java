@@ -23,11 +23,6 @@ public class Navette implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    public enum NavetteStatut {Disponible,AReviser,EnRevision,EnVol}
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private NavetteStatut statut;
-    
     @OneToOne(mappedBy = "navette", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Quai quai;
     
@@ -53,8 +48,7 @@ public class Navette implements Serializable {
     
     public Navette(int nb){
         this.nbPlaces = nb;
-        this.nbVoyages = 0;
-        this.statut = NavetteStatut.Disponible;
+        this.nbVoyages = 3;
     }
 
     public Long getId() {
@@ -63,14 +57,6 @@ public class Navette implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public NavetteStatut getStatut() {
-        return statut;
-    }
-
-    public void setStatut(NavetteStatut statut) {
-        this.statut = statut;
     }
 
     public int getNbPlaces() {

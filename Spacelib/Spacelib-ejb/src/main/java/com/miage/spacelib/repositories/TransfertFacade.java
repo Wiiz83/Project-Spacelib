@@ -113,7 +113,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
     }
 
     @Override
-    public boolean verifierSiAutresTransfertsPrevusSurNavetteADate(Calendar Cdate, Navette n) {
+    public boolean verifierSiAutresTransfertsPrevusSurNavette(Calendar Cdate, Navette n) {
         boolean autresVoyages = false;
         java.util.Date date = Cdate.getTime();
         
@@ -122,14 +122,9 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
         Root<Transfert> root = cq.from(Transfert.class);
         
         final Predicate navettePredicate = cb.equal(root.get("navette"), n);
-        
-        // la date départ de la navette est plus petite ou égal au date de départ souhaitée 
-        final Predicate dateDebutPredicate = cb.lessThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus petit ou égal au second
-        
-        // la date d'arrivée de la navette est strictement plus grande que la date de départ souhaitée 
-        final Predicate dateFinPredicate = cb.greaterThan(root.<Date>get("dateArrivee"), date); // premier plus grand ou égal au second
-        
-        cq.where(cb.and(navettePredicate, dateDebutPredicate, dateFinPredicate));
+        final Predicate dateDebutPredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus grand ou égal au second
+
+        cq.where(cb.and(navettePredicate, dateDebutPredicate));
         
         if(getEntityManager().createQuery(cq).getResultList().size() > 0){
             autresVoyages = true;

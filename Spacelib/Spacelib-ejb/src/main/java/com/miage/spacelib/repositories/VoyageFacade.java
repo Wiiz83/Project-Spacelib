@@ -122,7 +122,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
     }
 
     @Override
-    public boolean verifierSiAutresVoyagesPrevusSurNavetteADate(Calendar Cdate, Navette n) {
+    public boolean verifierSiAutresVoyagesPrevusSurNavette(Calendar Cdate, Navette n) {
         boolean autresVoyages = false;
         java.util.Date date = Cdate.getTime();
         
@@ -131,15 +131,9 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
         Root<Voyage> root = cq.from(Voyage.class);
         
         final Predicate navettePredicate = cb.equal(root.get("navette"), n);
-        
-        // la date départ de la navette est plus petite ou égal au date de départ souhaitée 
-        final Predicate dateDebutPredicate = cb.lessThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus petit ou égal au second
-        
-        // la date d'arrivée de la navette est strictement plus grande que la date de départ souhaitée 
-        final Predicate dateFinPredicate = cb.greaterThan(root.<Date>get("dateArrivee"), date); // premier plus grand ou égal au second
-        
-        //cq.where(cb.and(navettePredicate, cb.or(dateDebutPredicate, dateFinPredicate)));
-        cq.where(cb.and(navettePredicate, dateDebutPredicate, dateFinPredicate));
+        final Predicate dateDebutPredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus grand ou égal au second
+
+        cq.where(cb.and(navettePredicate, dateDebutPredicate));
         
         if(getEntityManager().createQuery(cq).getResultList().size() > 0){
             autresVoyages = true;

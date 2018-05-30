@@ -99,7 +99,6 @@ public class ServicesUsager implements ServicesUsagerRemote {
             rstation.setLocalisation(station.getLocalisation());
             rstation.setNbQuais(station.getNbQuais());
             rstation.setNom(station.getNom());
-            rstation.setStatut(station.getStatut());
             resultList.add(rstation);
         }
         return resultList;
@@ -188,7 +187,6 @@ public class ServicesUsager implements ServicesUsagerRemote {
         rstation.setLocalisation(s.getLocalisation());
         rstation.setNbQuais(s.getNbQuais());
         rstation.setNom(s.getNom());
-        rstation.setStatut(s.getStatut());
 
         return rstation;
     }

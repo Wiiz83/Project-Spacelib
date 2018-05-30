@@ -6,7 +6,6 @@
 package com.miage.spacelib.business;
 
 import com.miage.spacelib.entities.Quai;
-import com.miage.spacelib.entities.Quai.QuaiStatut;
 import com.miage.spacelib.entities.Station;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -91,7 +90,15 @@ public class Equilibrage {
     }
 
     private int nbNavettesStation(Station station) {
-        return filtrer(station.getQuais(), q -> q.getStatut() == QuaiStatut.Occupe).size();
+        //return filtrer(station.getQuais(), q -> q.getStatut() == QuaiStatut.Occupe).size();
+        
+        // --> commenté par Lucas le 30/05 : 
+        // la méthode getStatut() n'existe plus sur l'entité Quai 
+        // car l'attribut statut a été supprimé 
+        // car il n'était pas manipulé et géré dans le backend
+        // et n'est pas demandé dans les specs
+        
+        return 0;
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
