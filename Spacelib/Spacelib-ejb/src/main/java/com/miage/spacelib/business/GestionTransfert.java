@@ -109,25 +109,180 @@ public class GestionTransfert implements GestionTransfertLocal {
     
     @Override
     public Transfert reserverTransfert(Long idConducteur, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
-//
-//        final Conducteur conducteur = this.conducteurFacade.find(idConducteur);
-//        if(conducteur == null) throw new UsagerInconnuException("Ce compte de conducteur n'existe pas.");
-//              
-//        final Station stationDepart = this.stationFacade.find(idStationDepart);
-//        if(stationDepart == null) throw new StationInconnuException("La station de départ n'existe pas.");
-//
-//        final Station stationArrive = this.stationFacade.find(idStationArrivee);
-//        if(stationArrive == null) throw new StationInconnuException("La station d'arrivée n'existe pas.");
-//        
-//        final TempsTrajet tpsTrajet = this.tpstrajetFacade.findByStations(stationDepart, stationArrive);
-//        if(tpsTrajet == null) throw new TempsTrajetInconnuException("Le temps de trajet n'existe pas entre ces deux stations.");
-//
-//        List<Quai> quaisStationDepart = this.quaiFacade.recupererListeQuaisParStation(stationDepart);
-//        if(quaisStationDepart.size() <= 0) throw new QuaiInexistantException("Il n'existe pas de quais pour la station de départ.");
-//
-//        List<Quai> quaisStationArrive = this.quaiFacade.recupererListeQuaisParStation(stationArrive);
-//        if(quaisStationArrive.size() <= 0) throw new QuaiInexistantException("Il n'existe pas de quais pour la station d'arrivée.");
-//
+		
+		// est ce que le conducteur existe ?
+        final Conducteur conducteur = this.conducteurFacade.find(idConducteur);
+        if(conducteur == null) throw new UsagerInconnuException("Ce compte de conducteur n'existe pas.");
+              
+		// est ce que la station de départ existe ?
+        final Station stationDepart = this.stationFacade.find(idStationDepart);
+        if(stationDepart == null) throw new StationInconnuException("La station de départ n'existe pas.");
+
+		// est ce que la station d'arrivée existe ?
+       final Station stationArrive = this.stationFacade.find(idStationArrivee);
+       if(stationArrive == null) throw new StationInconnuException("La station d'arrivée n'existe pas.");
+       
+	   // est ce que le temps de trajet entre la station d'arrivée et la station de départ existe ?
+       final TempsTrajet tpsTrajet = this.tpstrajetFacade.findByStations(stationDepart, stationArrive);
+       if(tpsTrajet == null) throw new TempsTrajetInconnuException("Le temps de trajet n'existe pas entre ces deux stations.");
+
+	   // est ce que la station de départ a au moins un quai ?
+       List<Quai> quaisStationDepart = this.quaiFacade.recupererListeQuaisParStation(stationDepart);
+       if(quaisStationDepart.size() <= 0) throw new QuaiInexistantException("Il n'existe pas de quais pour la station de départ.");
+
+	   // est ce que la station d'arrivée a au moins un quai ?
+       List<Quai> quaisStationArrive = this.quaiFacade.recupererListeQuaisParStation(stationArrive);
+       if(quaisStationArrive.size() <= 0) throw new QuaiInexistantException("Il n'existe pas de quais pour la station d'arrivée.");
+	   
+	   
+		outerloop:
+		for (Quai q : quaisStationDepart) {
+			
+				// on récupère la navette de la précédente arrivée du quai en cours
+					// si existant : on select la navette 
+					// si inexistant :
+						// est ce que le quai possède une navette arrimée au moment de la réservation ?
+							// si oui : on select la navette 
+							// si non : NEXT QUAI 
+				Voyage precedentVoyage = this.voyageFacade.findPlusProcheVoyageArriveADateEtQuai(dateDepart, q);
+			   Transfert precedentTransfert = this.transfertFacade.findPlusProcheTransfertArriveADateEtQuai(dateDepart, q);
+			   Navette navette = null;
+			   Calendar dateArriveePrecedenteReservation = null;
+			   String lePlusTard = lequelEstLePlusTard(precedentVoyage, precedentTransfert);
+			   switch (lePlusTard) {
+				   case estAucun:
+					   // est ce que le quai possède une navette arrimée au moment de la réservation ?
+					   // --> TODO 
+					   
+					   // si oui : on select la navette 
+					   // --> TODO 
+					   
+						// si non : NEXT QUAI 
+					   Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Il n'y a jamais eu de voyage ni de transfert sur ce quai. Il n'y a donc pas de navette disponible sur ce quai. On passe au prochain quai.");
+					   continue outerloop;
+				   case estVoyage:
+					   navette = precedentVoyage.getNavette();
+					   dateArriveePrecedenteReservation = precedentVoyage.getDateArrivee();
+					   break;
+				   case estTransfert:
+					   navette = precedentTransfert.getNavette();
+					   dateArriveePrecedenteReservation = precedentTransfert.getDateArrivee();
+					   break;
+			   }
+				
+				// est ce que cette navette a déjà un voyage ou un transfert prévu après sa date d'arrivée ?
+					// oui, next quai !
+					// non, OK 
+			   boolean autresVoyagesPrevus = false;
+			   boolean autresTransfertPrevus = false;
+			   autresVoyagesPrevus = this.voyageFacade.verifierSiAutresVoyagesPrevusSurNavette(dateArriveePrecedenteReservation, navette);
+			   autresTransfertPrevus = this.transfertFacade.verifierSiAutresTransfertsPrevusSurNavette(dateArriveePrecedenteReservation, navette);
+			   if ((autresVoyagesPrevus == false) && (autresTransfertPrevus == false)) {
+				   Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Il n'y a pas de réservations prévus à cette date de départ.");
+			   } else {
+				   Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La navette " + navette + " a déjà des réservations prévus. On passe au prochain quai.");
+				   continue;
+			   }
+			   
+            // Pour finir on vérifie que la navette remplisse les conditions nécessaires pour le voyage : nombres de places et de voyages suffisants.
+            if (EstOKPassagersEtVoyagesNavette(navette, NbPassagers, prochainDepartPrevuQuaiDepartAvecNavette) == true) {
+               Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "SUCCES FINAL ! La navette a assez de voyages restants pour faire celui-ci. Quai de départ et navette validés.");
+               quaiDepartFinal = q;
+               navetteFinale = navette;
+               break outerloop;
+           } else {
+               continue outerloop;
+           }
+		}
+		
+		////////////////////////////////////////////////// CHECKPOINT ////////////////////////////////////////////////////////
+       if ((quaiDepartFinal == null) || (navetteFinale == null)) {
+           Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Il n'y a pas de navette disponible au départ de cette station.");
+           throw new QuaiIndisponibleException("Il n'y a pas de navette disponible au départ de cette station.");
+       } else {
+           Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Le quai de départ choisi est le " + quaiDepartFinal);
+           Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La navette pour le voyage est la " + navetteFinale);
+       }
+	   
+	   /*
+           ALGORITHME POUR TROUVER LE QUAI D'ARRIVE
+           Si il y a une navette qui arrive avant, il faut vérifier qu'elle sera parti quand la navette de l'usager arrivera !
+        */
+       Calendar dateArrivee = (Calendar) dateDepart.clone();
+       dateArrivee.add(Calendar.DATE, (tpsTrajet.getTemps()));
+       Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "DATE DE DEPART PREVU = " + dateDepart);
+       Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "TEMPS TRAJET = " + tpsTrajet.getTemps());
+       Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "DATE D'ARRIVEE CALCULEE = " + dateArrivee);
+
+       Quai quaiArriveFinal = null;
+
+       outerloop:
+       for (Quai q : quaisStationArrive) {
+           Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Début d'analyse du quai de la station d'arrivée : " + q);
+
+           /*
+               Analyse de la précédente arrivée = Peut être avant ou le jour même. Si aucune arrivée avant, succès !
+            */
+           Voyage precedentVoyage = this.voyageFacade.findPlusProcheVoyageArriveADateEtQuai(dateArrivee, q);
+           Transfert precedentTransfert = this.transfertFacade.findPlusProcheTransfertArriveADateEtQuai(dateArrivee, q);
+           Navette autreNavette = null;
+           String lePlusTard = lequelEstLePlusTard(precedentVoyage, precedentTransfert);
+           switch (lePlusTard) {
+               case estAucun:
+                   Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "SUCCES ! Il n'y a pas de précédent voyage ni transfert sur le quai d'arrivée.");
+                   quaiArriveFinal = q;
+                   break outerloop;
+               case estVoyage:
+                   autreNavette = precedentVoyage.getNavette();
+                   break;
+               case estTransfert:
+                   autreNavette = precedentTransfert.getNavette();
+                   break;
+           }
+           Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La navette " + autreNavette + " est arrivée au quai " + q);
+
+           /*
+           On vérifie que cette navette repart STRICTEMENT avant notre arrivée
+            */
+           boolean autresVoyagesPrevus = false;
+           boolean autresTransfertPrevus = false;
+           autresVoyagesPrevus = this.voyageFacade.verifierSiNavettePossedeDepartVoyageAvantDate(dateArrivee, autreNavette);
+           autresTransfertPrevus = this.transfertFacade.verifierSiNavettePossedeDepartTransfertAvantDate(dateArrivee, autreNavette);
+           if ((autresVoyagesPrevus == false) && (autresTransfertPrevus == false)) {
+               Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "ECHEC ! La navette " + autreNavette + " sera encore arrimée au quai quand nous allons arriver.");
+               continue;
+           } else {
+               Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "SUCCES ! La navette " + autreNavette + " ne sera plus arrimée au quai quand nous allons arriver.");
+               quaiArriveFinal = q;
+               break outerloop;
+           }
+       }
+
+       /////////////////////////////// FINALISATION ////////////////////////////////
+       Voyage voyageFinal = null;
+       if ((navetteFinale != null) && (quaiDepartFinal != null) && (quaiArriveFinal != null)) {
+           voyageFinal = this.voyageFacade.creerVoyage(navetteFinale, usager, quaiDepartFinal, quaiArriveFinal, NbPassagers, dateDepart, dateArrivee);
+       } else {
+
+           if (quaiDepartFinal != null) {
+               Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "ECHEC FINAL ! Il n'y a pas de quai de départ disponible.");
+               throw new QuaiIndisponibleException("Il n'y a pas de quai de départ disponible.");
+           } else if (quaiArriveFinal != null) {
+               Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "ECHEC FINAL ! Il n'y a pas de quai d'arrivée disponible.");
+               throw new QuaiIndisponibleException("Il n'y a pas de quai d'arrivée disponible.");
+           } else if (navetteFinale != null) {
+               Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "ECHEC FINAL ! Il n'y a pas de navette disponible.");
+               throw new QuaiIndisponibleException("Il n'y a pas de navette disponible.");
+           }
+       }
+
+
+       return voyageFinal; 
+	}
+	   
+	   
+	   
+	
 //        /*
 //             RAPPEL : 1 ARRIVEE MAX A LIEU LE MATIN ET 1 DEPART MAX A LIEU L'APRES MIDI
 //         */
@@ -344,26 +499,7 @@ public class GestionTransfert implements GestionTransfertLocal {
 //
 //        return voyageFinal;
 //
-//    }
-//
-//    private boolean EstOKPassagersEtVoyagesNavette(Navette n, int nb, boolean alleretour) {
-//        boolean result = false;
-//
-//        if (n.getNbPlaces() >= nb) {
-//            if (alleretour == true) {
-//                if (n.getNbVoyages() > 1) { // car allée et retour = 2 voyages !
-//                    result = true;
-//                }
-//            } else {
-//                if (n.getNbVoyages() > 0) {
-//                    result = true;
-//                }
-//            }
-//        }
-//
-//        return result;
-//    }
-//
+//    }     
 //    private String lequelEstLePlusTot(Voyage voyage, Transfert transfert) {
 //
 //        String resa = null;
@@ -398,20 +534,32 @@ public class GestionTransfert implements GestionTransfertLocal {
 //        }
 //
 //        return resa;
-return null;
+//    }
+    
+    private boolean EstOKPassagersEtVoyagesNavette(Navette n, int nb, boolean alleretour) {
+        boolean result = false;
+        if (n.getNbPlaces() >= nb) {
+            if (alleretour == true) {
+                if (n.getNbVoyages() > 1) { // car allée et retour = 2 voyages !
+                    result = true;
+                }
+            } else {
+                if (n.getNbVoyages() > 0) {
+                    result = true;
+                }
+            }
+        }
+        return result;
     }
 
     private String lequelEstLePlusTard(Voyage voyage, Transfert transfert) {
-
         String resa = null;
         Calendar dateVoyage = null;
         Calendar dateTransfert = null;
-
         if ((voyage != null) && (transfert != null)) {
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Il y au moins un voyage ET un transfert prévus pour cette navette sur ce quai.");
             dateVoyage = voyage.getDateArrivee();
             dateTransfert = transfert.getDateArrivee();
-
             if (dateVoyage.compareTo(dateTransfert) > 0) {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La dernière arrivée la plus récente sur ce quai est un voyage.");
                 resa = estVoyage;
@@ -422,7 +570,6 @@ return null;
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Un problème est apparu pour déterminer la date d'arrivée du dernier voyage et transfert la plus récente sur ce quai.");
                 resa = estAucun;
             }
-
         } else if ((voyage == null) && (transfert == null)) {
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Il n'y a n'y a ni voyage ni transfert prévus prochainement pour cette navette sur ce quai.");
             resa = estAucun;
@@ -433,13 +580,11 @@ return null;
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Il y a au moins un voyage prévus pour cette navette sur ce quai.");
             resa = estVoyage;
         }
-
         return resa;
     }
 
     private String DateLaPlusTot(Calendar voyageEnCours, Calendar prochaineReservation) {
         String datePlusTot = null;
-
         if (voyageEnCours.compareTo(prochaineReservation) > 0) {
             datePlusTot = estVoyageEnCours;
         } else if (voyageEnCours.compareTo(prochaineReservation) < 0) {
@@ -447,14 +592,6 @@ return null;
         } else if (voyageEnCours.compareTo(prochaineReservation) == 0) {
             datePlusTot = estAucun;
         }
-
         return datePlusTot;
     }
-
-    
-    
-    
-    
-    
-
 }
