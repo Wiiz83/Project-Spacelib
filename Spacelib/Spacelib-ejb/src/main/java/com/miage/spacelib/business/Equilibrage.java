@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -21,16 +22,18 @@ import java.util.stream.Collectors;
  * @author Mahdi
  */
 public class Equilibrage {
-    
-    private List<Station> stations;
-    private Map<Station,Map<Station, Integer> >  transferts ;
-    
+
+    private final List<Station> stations;
+    private final Map<Station, Map<Station, Integer>> transfertsSortants;
+    private final Map<Station, Integer> compteurTransfertsEntrants;
+
     public Equilibrage(List<Station> stations) {
-        this.stations=stations;
-        this.transferts = new HashMap<>();
+        this.stations = stations;
+        this.transfertsSortants = new HashMap<>();
+        compteurTransfertsEntrants = new HashMap<>();
     }
-    
-    public  void  calculerTrajets() {
+
+    public void obtenirTrajets() {
         List<Station> stations_occ_10p = filtrer(
                 stations,
                 s -> nbNavettesStation(s) / s.getNbQuais() < 0.10
@@ -47,7 +50,7 @@ public class Equilibrage {
         List<Station> stations_10p_equilibrees = new ArrayList<>();
         List<Station> retraits_interdits = stations_occ_90p;
         while (stations_occ_10p.size() >= stations_10p_equilibrees.size()) {
-            Station s_inf = stationLaMoinsOccupee( stations_occ_10p, stations_10p_equilibrees);
+            Station s_inf = stationLaMoinsOccupee(stations_occ_10p, stations_10p_equilibrees);
             if (ratioApresAjout(s_inf) > 0.9) {
                 stations_10p_equilibrees.add(s_inf);
                 continue;
@@ -55,7 +58,7 @@ public class Equilibrage {
             while (!stations_10p_equilibrees.contains(s_inf)) {
                 Station s_sup = stationPlusOccupeePriorite(stations, retraits_interdits, stations_occ_90p);
                 if (s_sup == null) {
-                    return ;
+                    return;
                 }
                 if (ratioApresRetrait(s_sup) < 0.10) {
                     retraits_interdits.add(s_sup);
@@ -96,23 +99,43 @@ public class Equilibrage {
     }
 
     private void transfert(Station depart, Station arrivee) {
-        Map<Station, Integer> dest = transferts.get(depart);
+        Map<Station, Integer> dest = transfertsSortants.get(depart);
         if (dest == null) {
             dest = new HashMap<>();
-            dest.put(arrivee, 0);
-            this.transferts.put(depart, dest);
-        }
-        else {
+            dest.put(arrivee, 1);
+            this.transfertsSortants.put(depart, dest);
+        } else {
             Integer cnt = dest.get(arrivee);
-            dest.put(arrivee, cnt+1);
+            dest.put(arrivee, cnt + 1);
         }
+        Integer cpt_entrants = this.compteurTransfertsEntrants.getOrDefault(arrivee, 0);
+        this.compteurTransfertsEntrants.put(arrivee, cpt_entrants + 1);
     }
-    
+
     private Station stationLaMoinsOccupee(List<Station> stations, List<Station> stations_interdites) {
         return stations
                 .stream()
                 .filter(s -> !stations_interdites.contains(s))
                 .min((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
+    }
+
+    private Station stationPlusOccupee(List<Station> stations, List<Station> stations_interdites) {
+        return stations
+                .stream()
+                .filter(s -> !stations_interdites.contains(s))
+                .max((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
+    }
+
+    private Station stationPlusOccupeePriorite(List<Station> stations, List<Station> stations_interdites, List<Station> stations_prioritaires) {
+        Optional<Station> result = stations_prioritaires
+                .stream()
+                .filter(s -> !stations_interdites.contains(s))
+                .max((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)));
+        if (result.isPresent()) 
+            return result.get();
+        
+        else 
+            return stationPlusOccupee(stations,stations_interdites);
     }
 
     private double ratioApresAjout(Station s) {
@@ -128,9 +151,10 @@ public class Equilibrage {
     }
 
     private int nbNavettesStation(Station station) {
-        int nb_db= filtrer(station.getQuais(), q -> q.getNavette() != null).size();
-        return nb_db 
-                - transferts.get(station).entrySet().size();
+        int nb_db = filtrer(station.getQuais(), q -> q.getNavette() != null).size();
+        return nb_db
+                - transfertsSortants.get(station).entrySet().size()
+                + compteurTransfertsEntrants.getOrDefault(station, 0);
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
@@ -145,13 +169,5 @@ public class Equilibrage {
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter) {
         return filtrer(all, filter, null);
-    }
-
-    private Station stationPlusOccupeePriorite(List<Station> stations, List<Station> stations_interdites, List<Station> stations_prioritaires) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private Station stationPlusOccupee(List<Station> stations, List<Station> stations_interdites) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
