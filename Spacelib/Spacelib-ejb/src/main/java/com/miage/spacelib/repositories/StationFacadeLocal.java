@@ -7,7 +7,9 @@ package com.miage.spacelib.repositories;
 
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Local;
 
 /**
@@ -30,4 +32,11 @@ public interface StationFacadeLocal {
     List<Station> findRange(int[] range);
 
     int count();
+
+    public int nbNavetteSortantes(Long idStation, Calendar date_sup);
+
+    public int nbNavetteEntrantes(Long idStation, Calendar date_sup);
+
+    public int nbNavettes(Long idStation);
+
 }

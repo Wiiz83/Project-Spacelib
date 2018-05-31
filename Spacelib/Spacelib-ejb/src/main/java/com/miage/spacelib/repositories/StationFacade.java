@@ -6,11 +6,17 @@
 package com.miage.spacelib.repositories;
 
 import com.miage.spacelib.entities.Quai;
+import com.miage.spacelib.entities.Revision;
 import com.miage.spacelib.entities.Station;
+import com.miage.spacelib.entities.Voyage;
+import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -33,5 +39,44 @@ public class StationFacade extends AbstractFacade<Station> implements StationFac
     public StationFacade() {
         super(Station.class);
     }
-    
+
+    @Override
+    public int nbNavetteSortantes(Long idStation, Calendar date_sup) {
+        Query query = getEntityManager().createNativeQuery(
+                "SELECT COUNT(*)"
+                + "FROM TRANSFERT , VOYAGE, QUAI"
+                + "WHERE TRANSFERT.QUAI_DEPART=QUAI.ID AND VOYAGE.QUAI_DEPART=QUAI.ID AND QUAI.ID_STATION=?1"
+                + "AND TRANSFERT.DATE_DEPART < ?2 AND VOYAGE.DATE_DEPART < ?2"
+                + "AND TRANSFERT.DATE_DEPART > CURRENT_DATE AND VOYAGE.DATE_DEPART > CURRENT_DATE"
+        );
+        query.setParameter(1, idStation);
+        query.setParameter(2, date_sup, TemporalType.DATE);
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public int nbNavetteEntrantes(Long idStation, Calendar date_sup) {
+        Query query = getEntityManager().createNativeQuery(
+                "SELECT COUNT(*)"
+                + "FROM TRANSFERT , VOYAGE, QUAI"
+                + "WHERE TRANSFERT.QUAI_ARRIVEE=QUAI.ID AND VOYAGE.ARRIVEE=QUAI.ID AND QUAI.ID_STATION=?1"
+                + "AND TRANSFERT.ARRIVEE < ?2 AND VOYAGE.ARRIVEE < ?2"
+                + "AND TRANSFERT.ARRIVEE > CURRENT_DATE AND VOYAGE.ARRIVEE > CURRENT_DATE"
+        );
+        query.setParameter(1, idStation);
+        query.setParameter(2, date_sup, TemporalType.DATE);
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public int nbNavettes(Long idStation) {
+        Query query = getEntityManager().createNativeQuery(
+                "SELECT COUNT(*)"
+                + "FROM QUAI"
+                + "QUAI.ID_STATION=?1"
+                + "AND ID_NAVETTE IS NOT NULL"
+        );
+        query.setParameter(1, idStation);
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
 }

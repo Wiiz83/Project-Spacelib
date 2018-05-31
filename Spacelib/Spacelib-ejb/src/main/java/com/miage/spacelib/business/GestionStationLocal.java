@@ -5,13 +5,12 @@
  */
 package com.miage.spacelib.business;
 
-import com.miage.spacelib.entities.Navette;
-import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Local;
@@ -25,5 +24,8 @@ public interface GestionStationLocal {
     
     public List<Station> recupererListeStations();
  
-    public Long creerStation (String localisation, String nom, Long nbquais, ArrayList<Integer> nbPlacesNavettes, Map<Long,Integer> tempsTrajets ) throws NombreNavettesInvalideException;    
+    public Long creerStation (String localisation, String nom, Long nbquais, ArrayList<Integer> nbPlacesNavettes, Map<Long,Integer> tempsTrajets ) throws NombreNavettesInvalideException;   
+    
+//    public List<Station> stationsAEquilibrer(Long idStationDepart) throws StationInconnuException ;
+    public int variationNbNavettesDans10Jours (Long idStation) ;
 }

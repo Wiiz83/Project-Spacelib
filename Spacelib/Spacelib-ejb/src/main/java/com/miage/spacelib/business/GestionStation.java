@@ -5,16 +5,19 @@
  */
 package com.miage.spacelib.business;
 
+import com.miage.spacelib.business.equilibrage.Equilibrage;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.entities.TempsTrajet;
 import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
+import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.repositories.NavetteFacadeLocal;
 import com.miage.spacelib.repositories.QuaiFacadeLocal;
 import com.miage.spacelib.repositories.StationFacadeLocal;
 import com.miage.spacelib.repositories.TempsTrajetFacadeLocal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -35,7 +38,7 @@ public class GestionStation implements GestionStationLocal {
 
     @EJB
     private NavetteFacadeLocal navetteFacade;
-    
+
     @EJB
     private TempsTrajetFacadeLocal tempsTrajetFacade;
 
@@ -45,17 +48,17 @@ public class GestionStation implements GestionStationLocal {
     }
 
     @Override
-    public Long creerStation(String localisation, String nom, Long nb_quais, ArrayList<Integer> nbPlacesNavettes, Map<Long,Integer> tempsTrajets ) throws NombreNavettesInvalideException {
+    public Long creerStation(String localisation, String nom, Long nb_quais, ArrayList<Integer> nbPlacesNavettes, Map<Long, Integer> tempsTrajets) throws NombreNavettesInvalideException {
         int nb_navettes = nbPlacesNavettes.size();
         if (nb_quais < nb_navettes || nb_navettes * 2 + 1 < nb_quais) {
             throw new NombreNavettesInvalideException("Nombre de quais / navettes invalide.");
         }
         Station station = new Station(localisation, (int) (long) nb_quais, nom);
-        
 
         List<Navette> navettes = new ArrayList<>();
         for (Integer places : nbPlacesNavettes) {
             Navette navette = new Navette(places);
+            navette.setNbVoyages(3);
             this.navetteFacade.create(navette);
             navettes.add(navette);
         }
@@ -72,14 +75,34 @@ public class GestionStation implements GestionStationLocal {
         }
         station.setQuais(quais);
         this.stationFacade.create(station);
-        
+
         for (Map.Entry<Long, Integer> entry : tempsTrajets.entrySet()) {
             Station station_arrivee = this.stationFacade.find(entry.getKey());
-            TempsTrajet temps = new TempsTrajet (station,station_arrivee,entry.getValue());
+            TempsTrajet temps = new TempsTrajet(station, station_arrivee, entry.getValue());
             tempsTrajetFacade.create(temps);
-            TempsTrajet temps_sym = new TempsTrajet (station_arrivee,station,entry.getValue());
+            TempsTrajet temps_sym = new TempsTrajet(station_arrivee, station, entry.getValue());
             tempsTrajetFacade.create(temps_sym);
-        }        
+        }
         return station.getId();
+    }
+
+    /*
+    @Override
+    public List<Station> stationsAEquilibrer(Long idStationDepart) throws StationInconnuException {
+        List<Station> stations = this.stationFacade.findAll();
+        Station station_depart = stations
+                .stream()
+                .filter(s -> s.getId().equals(idStationDepart))
+                .findFirst()
+                .orElseThrow(StationInconnuException::new);
+        Equilibrage eq = new Equilibrage(stations);
+        return eq.obtenirResultats().transfertsOrdonnes(station_depart);
+    }
+     */
+    @Override
+    public int variationNbNavettesDans10Jours(Long idStation) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 10);        
+        return this.stationFacade.nbNavetteEntrantes(idStation, cal) - this.stationFacade.nbNavetteSortantes(idStation, cal) ;
     }
 }
