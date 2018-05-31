@@ -47,7 +47,7 @@ public class Equilibrage {
         List<Station> stations_10p_equilibrees = new ArrayList<>();
         List<Station> retraits_interdits = stations_occ_90p;
         while (stations_occ_10p.size() >= stations_10p_equilibrees.size()) {
-            Station s_inf = stationLaMoinsOccupeePriorite(stations, stations_occ_10p, stations_10p_equilibrees);
+            Station s_inf = stationLaMoinsOccupee( stations_occ_10p, stations_10p_equilibrees);
             if (ratioApresAjout(s_inf) > 0.9) {
                 stations_10p_equilibrees.add(s_inf);
                 continue;
@@ -73,7 +73,7 @@ public class Equilibrage {
         List<Station> stations_90p_equilibrees = new ArrayList<>();
         List<Station> ajouts_interdits = stations_occ_10p;
         while (stations_occ_90p.size() >= stations_90p_equilibrees.size()) {
-            Station s_sup = stationPlusOccupee(stations, stations_occ_90p, stations_90p_equilibrees);
+            Station s_sup = stationPlusOccupee(stations_occ_90p, stations_90p_equilibrees);
             if (ratioApresRetrait(s_sup) < 0.10) {
                 stations_90p_equilibrees.add(s_sup);
                 continue;
@@ -107,19 +107,12 @@ public class Equilibrage {
             dest.put(arrivee, cnt+1);
         }
     }
-
-    private Station stationLaMoinsOccupee(List<Station> stations, List<Station> stations_10p_equilibrees) {
+    
+    private Station stationLaMoinsOccupee(List<Station> stations, List<Station> stations_interdites) {
         return stations
                 .stream()
-                .filter(s -> !stations_10p_equilibrees.contains(s))
+                .filter(s -> !stations_interdites.contains(s))
                 .min((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
-    }
-
-    private Station stationPlusOccupee(List<Station> stations, List<Station> retraits_interdits, List<Station> stations_occ_90p) {
-        return stations
-                .stream()
-                .filter(s -> !retraits_interdits.contains(s))
-                .max((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
     }
 
     private double ratioApresAjout(Station s) {
@@ -135,7 +128,9 @@ public class Equilibrage {
     }
 
     private int nbNavettesStation(Station station) {
-        return filtrer(station.getQuais(), q -> q.getNavette() != null).size();
+        int nb_db= filtrer(station.getQuais(), q -> q.getNavette() != null).size();
+        return nb_db 
+                - transferts.get(station).entrySet().size();
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
@@ -152,11 +147,11 @@ public class Equilibrage {
         return filtrer(all, filter, null);
     }
 
-    private Station stationPlusOccupeePriorite(List<Station> stations, List<Station> retraits_interdits, List<Station> stations_occ_90p) {
+    private Station stationPlusOccupeePriorite(List<Station> stations, List<Station> stations_interdites, List<Station> stations_prioritaires) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private Station stationLaMoinsOccupeePriorite(List<Station> stations, List<Station> stations_occ_10p, List<Station> stations_10p_equilibrees) {
+    private Station stationPlusOccupee(List<Station> stations, List<Station> stations_interdites) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
