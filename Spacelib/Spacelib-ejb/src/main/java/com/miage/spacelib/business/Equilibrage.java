@@ -5,12 +5,13 @@
  */
 package com.miage.spacelib.business;
 
-import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -20,8 +21,16 @@ import java.util.stream.Collectors;
  * @author Mahdi
  */
 public class Equilibrage {
-
-    public List<Entry<Station, Station>> calculerTrajets(List<Station> stations) {
+    
+    private List<Station> stations;
+    private Map<Station,Map<Station, Integer> >  transferts ;
+    
+    public Equilibrage(List<Station> stations) {
+        this.stations=stations;
+        this.transferts = new HashMap<>();
+    }
+    
+    public  void  calculerTrajets() {
         List<Station> stations_occ_10p = filtrer(
                 stations,
                 s -> nbNavettesStation(s) / s.getNbQuais() < 0.10
@@ -30,75 +39,103 @@ public class Equilibrage {
                 stations,
                 s -> nbNavettesStation(s) / s.getNbQuais() > 0.90
         );
-        List<Entry<Station, Station>> trajets_10p = equilibrer_stations_moins_10p(stations, stations_occ_10p, stations_occ_90p, new ArrayList<>());
-        return equilibrer_stations_plus_90p(stations, stations_occ_90p, stations_occ_10p, trajets_10p);
+        equilibrer_stations_moins_10p(stations, stations_occ_10p, stations_occ_90p);
+        equilibrer_stations_plus_90p(stations, stations_occ_90p, stations_occ_10p);
     }
 
-    private List<Entry<Station, Station>> equilibrer_stations_moins_10p(List<Station> stations, List<Station> stations_occ_10p, List<Station> stations_occ_90p, ArrayList<Entry<Station, Station>> transferts) {
+    private void equilibrer_stations_moins_10p(List<Station> stations, List<Station> stations_occ_10p, List<Station> stations_occ_90p) {
         List<Station> stations_10p_equilibrees = new ArrayList<>();
         List<Station> retraits_interdits = stations_occ_90p;
         while (stations_occ_10p.size() >= stations_10p_equilibrees.size()) {
-            Station s_inf = stationLaMoinsOccupee(stations_occ_10p, stations_10p_equilibrees);
+            Station s_inf = stationLaMoinsOccupeePriorite(stations, stations_occ_10p, stations_10p_equilibrees);
             if (ratioApresAjout(s_inf) > 0.9) {
                 stations_10p_equilibrees.add(s_inf);
                 continue;
             }
             while (!stations_10p_equilibrees.contains(s_inf)) {
-                Station s_sup = stationPlusOccupee(stations, retraits_interdits, stations_occ_90p);
+                Station s_sup = stationPlusOccupeePriorite(stations, retraits_interdits, stations_occ_90p);
                 if (s_sup == null) {
-                    return transferts;
+                    return ;
                 }
                 if (ratioApresRetrait(s_sup) < 0.10) {
                     retraits_interdits.add(s_sup);
                 } else {
-                    transferts.add(transfert(s_sup, s_inf));
+                    transfert(s_sup, s_inf);
                     if (ratioDispo(s_inf) >= 0.20) {
                         stations_10p_equilibrees.add(s_inf);
                     }
                 }
             }
         }
-        return transferts;
     }
 
-    private List<Entry<Station, Station>> equilibrer_stations_plus_90p(List<Station> stations, List<Station> stations_occ_90p, List<Station> stations_occ_10p, List<Entry<Station, Station>> trajets_10p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void equilibrer_stations_plus_90p(List<Station> stations, List<Station> stations_occ_90p, List<Station> stations_occ_10p) {
+        List<Station> stations_90p_equilibrees = new ArrayList<>();
+        List<Station> ajouts_interdits = stations_occ_10p;
+        while (stations_occ_90p.size() >= stations_90p_equilibrees.size()) {
+            Station s_sup = stationPlusOccupee(stations, stations_occ_90p, stations_90p_equilibrees);
+            if (ratioApresRetrait(s_sup) < 0.10) {
+                stations_90p_equilibrees.add(s_sup);
+                continue;
+            }
+            while (!stations_90p_equilibrees.contains(s_sup)) {
+                Station s_inf = stationLaMoinsOccupee(stations, ajouts_interdits);
+                if (s_inf == null) {
+                    return;
+                }
+                if (ratioApresAjout(s_inf) > 0.90) {
+                    ajouts_interdits.add(s_inf);
+                } else {
+                    transfert(s_sup, s_inf);
+                    if (ratioDispo(s_sup) <= 0.80) {
+                        stations_90p_equilibrees.add(s_sup);
+                    }
+                }
+            }
+        }
     }
 
-    private Entry<Station, Station> transfert(Station depart, Station arrivee) {
-        return new AbstractMap.SimpleEntry<>(depart, arrivee);
+    private void transfert(Station depart, Station arrivee) {
+        Map<Station, Integer> dest = transferts.get(depart);
+        if (dest == null) {
+            dest = new HashMap<>();
+            dest.put(arrivee, 0);
+            this.transferts.put(depart, dest);
+        }
+        else {
+            Integer cnt = dest.get(arrivee);
+            dest.put(arrivee, cnt+1);
+        }
     }
 
-    private Station stationLaMoinsOccupee(List<Station> stations_occ_10p, List<Station> stations_10p_equilibrees) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private double ratioApresAjout(Station s_inf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Station stationLaMoinsOccupee(List<Station> stations, List<Station> stations_10p_equilibrees) {
+        return stations
+                .stream()
+                .filter(s -> !stations_10p_equilibrees.contains(s))
+                .min((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
     }
 
     private Station stationPlusOccupee(List<Station> stations, List<Station> retraits_interdits, List<Station> stations_occ_90p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return stations
+                .stream()
+                .filter(s -> !retraits_interdits.contains(s))
+                .max((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
     }
 
-    private double ratioApresRetrait(Station s_sup) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private double ratioApresAjout(Station s) {
+        return (nbNavettesStation(s) + 1) / s.getNbQuais();
     }
 
-    private double ratioDispo(Station s_inf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private double ratioApresRetrait(Station s) {
+        return (nbNavettesStation(s) - 1) / s.getNbQuais();
+    }
+
+    private double ratioDispo(Station s) {
+        return nbNavettesStation(s) / s.getNbQuais();
     }
 
     private int nbNavettesStation(Station station) {
-        //return filtrer(station.getQuais(), q -> q.getStatut() == QuaiStatut.Occupe).size();
-        
-        // --> commenté par Lucas le 30/05 : 
-        // la méthode getStatut() n'existe plus sur l'entité Quai 
-        // car l'attribut statut a été supprimé 
-        // car il n'était pas manipulé et géré dans le backend
-        // et n'est pas demandé dans les specs
-        
-        return 0;
+        return filtrer(station.getQuais(), q -> q.getNavette() != null).size();
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
@@ -113,5 +150,13 @@ public class Equilibrage {
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter) {
         return filtrer(all, filter, null);
+    }
+
+    private Station stationPlusOccupeePriorite(List<Station> stations, List<Station> retraits_interdits, List<Station> stations_occ_90p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private Station stationLaMoinsOccupeePriorite(List<Station> stations, List<Station> stations_occ_10p, List<Station> stations_10p_equilibrees) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
