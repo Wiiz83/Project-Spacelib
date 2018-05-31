@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.spacelib.business;
+package com.miage.spacelib.business.equilibrage;
 
 import com.miage.spacelib.entities.Station;
 import java.util.ArrayList;
@@ -27,8 +27,16 @@ public class EquilibrageResultat {
         this.transfertsSortants = new HashMap<>();
         compteurTransfertsEntrants = new HashMap<>();
     }
+    
+    public List<Station> transfertsOrdonnes(Station station_depart) {
+        return transfertsSortants.get(station_depart)
+                .keySet()
+                .stream()
+                .sorted((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 
-    public void ajouterTransfert(Station depart, Station arrivee) {
+    void ajouterTransfert(Station depart, Station arrivee) {
         Map<Station, Integer> dest = transfertsSortants.get(depart);
         if (dest == null) {
             dest = new HashMap<>();
@@ -42,23 +50,15 @@ public class EquilibrageResultat {
         this.compteurTransfertsEntrants.put(arrivee, cpt_entrants + 1);
     }
 
-    public int nbTransfertsSortants(Station station) {
+    int nbTransfertsSortants(Station station) {
         return transfertsSortants.get(station).entrySet().size();
     }
 
-    public int nbTransfertsEntrants(Station station) {
+    int nbTransfertsEntrants(Station station) {
         return compteurTransfertsEntrants.getOrDefault(station, 0);
-    }
+    }    
 
-    public List<Station> transfertsOrdonnes(Station station_depart) {
-        return transfertsSortants.get(station_depart)
-                .keySet()
-                .stream()
-                .sorted((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
-                .collect(Collectors.toCollection(ArrayList::new));                
-    }
-
-    private double ratioDispo(Station s) {
+    double ratioDispo(Station s) {
         return (double) s.getQuais().stream().filter(q -> q.getNavette() != null).count() / s.getNbQuais();
     }
 }
