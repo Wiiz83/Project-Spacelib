@@ -1,5 +1,7 @@
 package com.miage.spacelib.business;
 
+import com.miage.spacelib.business.equilibrage.Equilibrage;
+import com.miage.spacelib.business.equilibrage.EquilibrageResultat;
 import com.miage.spacelib.entities.Conducteur;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
@@ -23,7 +25,9 @@ import com.miage.spacelib.repositories.UsagerFacadeLocal;
 import com.miage.spacelib.repositories.VoyageFacadeLocal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -67,23 +71,23 @@ public class GestionTransfert implements GestionTransfertLocal {
 
     @Override
     public ArrayList<Transfert> obtenirTransfertsNecessaires() {
+        throw new UnsupportedOperationException("Utiliser transfertsEquilibrage()");
+    }
 
-        // 1) Navettes qui doivent partir car pas assez de quais dispo
-        // pour chaque station
-        // pour chaque quai 
-        // pour chaque jour de today à today + 10
-        // si ce jour là, le quai n'est pas disponible (occupé par une navette) alors on l'insère dans notre liste   
-        // on compte combien de quais pas dispo au total ce jour là 
-        // on compare ce nombre de quais non dispo par rapport au nombre de quais total de la station 
-        // si quantité quai dispo plus petit ou égal à 10% alors 
-        // création de plusieurs transfert pour que la station récupère 20% ou plus de quais dispo pendant les 10 prochaines jours
-        // 2) Navettes qui doivent venir car manque de navettes 
-        // pour chaque station
-        // pour chaque jour de today à today + 10
-        // pour chaque navette dans la station
-        // si dispo :
-        // si pas dispo : 
-        return null;
+    public List<Map.Entry<Station, Station>> transfertsEquilibrage() {
+        List<Station> stations = stationFacade.findAll();
+        Map<Station, Integer> variations = new HashMap<>();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 10);
+        stations.forEach((s) -> {
+            variations.put(s,
+                    this.stationFacade.nbNavetteEntrantes(s.getId(), cal)
+                    - this.stationFacade.nbNavetteSortantes(s.getId(), cal)
+            );
+        });
+        Equilibrage eq = new Equilibrage(variations);
+        EquilibrageResultat res = eq.obtenirResultats();
+        return res.listeTransferts();
     }
 
     @Override

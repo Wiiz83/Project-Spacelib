@@ -99,10 +99,5 @@ public class GestionStation implements GestionStationLocal {
         return eq.obtenirResultats().transfertsOrdonnes(station_depart);
     }
      */
-    @Override
-    public int variationNbNavettesDans10Jours(Long idStation) {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 10);        
-        return this.stationFacade.nbNavetteEntrantes(idStation, cal) - this.stationFacade.nbNavetteSortantes(idStation, cal) ;
-    }
+  
 }

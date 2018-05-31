@@ -6,13 +6,10 @@
 package com.miage.spacelib.business.equilibrage;
 
 import com.miage.spacelib.entities.Station;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -24,19 +21,20 @@ import java.util.stream.Collectors;
 public class Equilibrage {
 
     private final List<Station> stations;
-    private final EquilibrageResultat resultat ;
+    private final EquilibrageResultat resultat;
+    private final Map<Station, Integer> variations;
 
-    public Equilibrage(List<Station> stations) {
-        this.stations = stations;
+    public Equilibrage(Map<Station, Integer> stationsEtVariations) {
+        this.stations = new ArrayList<>(stationsEtVariations.keySet());
         resultat = new EquilibrageResultat();
+        this.variations=stationsEtVariations;
     }
-    
-    
-    public EquilibrageResultat obtenirResultats () {
+
+    public EquilibrageResultat obtenirResultats() {
         calculerTrajets();
         return resultat;
     }
-    
+
     private void calculerTrajets() {
         List<Station> stations_occ_10p = filtrer(
                 stations,
@@ -103,7 +101,7 @@ public class Equilibrage {
     }
 
     private void transfert(Station depart, Station arrivee) {
-       this.resultat.ajouterTransfert(depart,arrivee);
+        this.resultat.ajouterTransfert(depart, arrivee);
     }
 
     private Station stationLaMoinsOccupee(List<Station> stations, List<Station> stations_interdites) {
@@ -125,11 +123,11 @@ public class Equilibrage {
                 .stream()
                 .filter(s -> !stations_interdites.contains(s))
                 .max((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)));
-        if (result.isPresent()) 
+        if (result.isPresent()) {
             return result.get();
-        
-        else 
-            return stationPlusOccupee(stations,stations_interdites);
+        } else {
+            return stationPlusOccupee(stations, stations_interdites);
+        }
     }
 
     private double ratioApresAjout(Station s) {
@@ -147,8 +145,9 @@ public class Equilibrage {
     private int nbNavettesStation(Station station) {
         int nb_db = filtrer(station.getQuais(), q -> q.getNavette() != null).size();
         return nb_db
-                - this.resultat.nbTransfertsSortants(station)                
-                + this.resultat.nbTransfertsEntrants(station);
+                - this.resultat.nbTransfertsSortants(station)
+                + this.resultat.nbTransfertsEntrants(station)
+                + this.variations.get(station) ;
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {

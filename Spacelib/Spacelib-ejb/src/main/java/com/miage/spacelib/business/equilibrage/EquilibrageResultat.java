@@ -6,6 +6,8 @@
 package com.miage.spacelib.business.equilibrage;
 
 import com.miage.spacelib.entities.Station;
+import com.miage.spacelib.entities.Transfert;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,21 @@ public class EquilibrageResultat {
                 .stream()
                 .sorted((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+    
+    public List<Entry<Station,Station>> listeTransferts() {
+        List<Entry<Station,Station>> transferts = new ArrayList<>();
+        List<Station> stations_ordonnees = transfertsSortants
+                .keySet()
+                .stream()
+                .sorted((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
+                .collect(Collectors.toCollection(ArrayList::new));
+        stations_ordonnees.forEach((Station s) -> {  
+            transfertsSortants.keySet().forEach((dest) -> {
+                transferts.add( new AbstractMap.SimpleEntry<>(s,dest));
+            });
+        });
+        return transferts;
     }
 
     void ajouterTransfert(Station depart, Station arrivee) {

@@ -27,5 +27,5 @@ public interface GestionStationLocal {
     public Long creerStation (String localisation, String nom, Long nbquais, ArrayList<Integer> nbPlacesNavettes, Map<Long,Integer> tempsTrajets ) throws NombreNavettesInvalideException;   
     
 //    public List<Station> stationsAEquilibrer(Long idStationDepart) throws StationInconnuException ;
-    public int variationNbNavettesDans10Jours (Long idStation) ;
+
 }
