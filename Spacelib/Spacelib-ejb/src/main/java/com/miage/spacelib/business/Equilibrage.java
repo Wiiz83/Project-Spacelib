@@ -24,16 +24,20 @@ import java.util.stream.Collectors;
 public class Equilibrage {
 
     private final List<Station> stations;
-    private final Map<Station, Map<Station, Integer>> transfertsSortants;
-    private final Map<Station, Integer> compteurTransfertsEntrants;
+    private final EquilibrageResultat resultat ;
 
     public Equilibrage(List<Station> stations) {
         this.stations = stations;
-        this.transfertsSortants = new HashMap<>();
-        compteurTransfertsEntrants = new HashMap<>();
+        resultat = new EquilibrageResultat();
     }
-
-    public void obtenirTrajets() {
+    
+    
+    public EquilibrageResultat obtenirResultats () {
+        calculerTrajets();
+        return resultat;
+    }
+    
+    private void calculerTrajets() {
         List<Station> stations_occ_10p = filtrer(
                 stations,
                 s -> nbNavettesStation(s) / s.getNbQuais() < 0.10
@@ -99,17 +103,7 @@ public class Equilibrage {
     }
 
     private void transfert(Station depart, Station arrivee) {
-        Map<Station, Integer> dest = transfertsSortants.get(depart);
-        if (dest == null) {
-            dest = new HashMap<>();
-            dest.put(arrivee, 1);
-            this.transfertsSortants.put(depart, dest);
-        } else {
-            Integer cnt = dest.get(arrivee);
-            dest.put(arrivee, cnt + 1);
-        }
-        Integer cpt_entrants = this.compteurTransfertsEntrants.getOrDefault(arrivee, 0);
-        this.compteurTransfertsEntrants.put(arrivee, cpt_entrants + 1);
+       this.resultat.ajouterTransfert(depart,arrivee);
     }
 
     private Station stationLaMoinsOccupee(List<Station> stations, List<Station> stations_interdites) {
@@ -153,8 +147,8 @@ public class Equilibrage {
     private int nbNavettesStation(Station station) {
         int nb_db = filtrer(station.getQuais(), q -> q.getNavette() != null).size();
         return nb_db
-                - transfertsSortants.get(station).entrySet().size()
-                + compteurTransfertsEntrants.getOrDefault(station, 0);
+                - this.resultat.nbTransfertsSortants(station)                
+                + this.resultat.nbTransfertsEntrants(station);
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
