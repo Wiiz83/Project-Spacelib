@@ -27,7 +27,7 @@ public class Equilibrage {
     public Equilibrage(Map<Station, Integer> stationsEtVariations) {
         this.stations = new ArrayList<>(stationsEtVariations.keySet());
         resultat = new EquilibrageResultat();
-        this.variations=stationsEtVariations;
+        this.variations = stationsEtVariations;
     }
 
     public EquilibrageResultat obtenirResultats() {
@@ -57,11 +57,8 @@ public class Equilibrage {
                 stations_10p_equilibrees.add(s_inf);
                 continue;
             }
-            while (!stations_10p_equilibrees.contains(s_inf)) {
+            while (!stations_10p_equilibrees.contains(s_inf) && stations.size() < retraits_interdits.size()) {
                 Station s_sup = stationPlusOccupeePriorite(stations, retraits_interdits, stations_occ_90p);
-                if (s_sup == null) {
-                    return;
-                }
                 if (ratioApresRetrait(s_sup) < 0.10) {
                     retraits_interdits.add(s_sup);
                 } else {
@@ -83,11 +80,8 @@ public class Equilibrage {
                 stations_90p_equilibrees.add(s_sup);
                 continue;
             }
-            while (!stations_90p_equilibrees.contains(s_sup)) {
+            while (!stations_90p_equilibrees.contains(s_sup) && stations.size() < ajouts_interdits.size()) {
                 Station s_inf = stationLaMoinsOccupee(stations, ajouts_interdits);
-                if (s_inf == null) {
-                    return;
-                }
                 if (ratioApresAjout(s_inf) > 0.90) {
                     ajouts_interdits.add(s_inf);
                 } else {
@@ -147,7 +141,7 @@ public class Equilibrage {
         return nb_db
                 - this.resultat.nbTransfertsSortants(station)
                 + this.resultat.nbTransfertsEntrants(station)
-                + this.variations.get(station) ;
+                + this.variations.get(station);
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {

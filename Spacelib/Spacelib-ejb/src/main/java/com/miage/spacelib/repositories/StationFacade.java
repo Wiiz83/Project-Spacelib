@@ -43,29 +43,27 @@ public class StationFacade extends AbstractFacade<Station> implements StationFac
     @Override
     public int nbNavetteSortantes(Long idStation, Calendar date_sup) {
         Query query = getEntityManager().createNativeQuery(
-                "SELECT COUNT(*)"
-                + "FROM TRANSFERT , VOYAGE, QUAI"
-                + "WHERE TRANSFERT.QUAI_DEPART=QUAI.ID AND VOYAGE.QUAI_DEPART=QUAI.ID AND QUAI.ID_STATION=?1"
-                + "AND TRANSFERT.DATE_DEPART < ?2 AND VOYAGE.DATE_DEPART < ?2"
-                + "AND TRANSFERT.DATE_DEPART > CURRENT_DATE AND VOYAGE.DATE_DEPART > CURRENT_DATE"
-        );
-        query.setParameter(1, idStation);
-        query.setParameter(2, date_sup, TemporalType.DATE);
-        return ((BigInteger) query.getSingleResult()).intValue();
+                "SELECT COUNT(*) "
+                + "FROM TRANSFERT , VOYAGE, QUAI "
+                + "WHERE TRANSFERT.ID_QUAI_DEPART=QUAI.ID AND VOYAGE.ID_QUAI_DEPART=QUAI.ID AND QUAI.ID_STATION=?1 "
+                + "AND TRANSFERT.DATE_DEPART < ?2 AND VOYAGE.DATE_DEPART < ?2 "
+                + "AND TRANSFERT.DATE_DEPART > CURRENT_DATE AND VOYAGE.DATE_DEPART > CURRENT_DATE "
+        ).setParameter(1, idStation)
+                .setParameter(2, date_sup, TemporalType.DATE);
+        return (int) (query.getSingleResult());
     }
 
     @Override
     public int nbNavetteEntrantes(Long idStation, Calendar date_sup) {
         Query query = getEntityManager().createNativeQuery(
-                "SELECT COUNT(*)"
-                + "FROM TRANSFERT , VOYAGE, QUAI"
-                + "WHERE TRANSFERT.QUAI_ARRIVEE=QUAI.ID AND VOYAGE.ARRIVEE=QUAI.ID AND QUAI.ID_STATION=?1"
-                + "AND TRANSFERT.ARRIVEE < ?2 AND VOYAGE.ARRIVEE < ?2"
-                + "AND TRANSFERT.ARRIVEE > CURRENT_DATE AND VOYAGE.ARRIVEE > CURRENT_DATE"
-        );
-        query.setParameter(1, idStation);
-        query.setParameter(2, date_sup, TemporalType.DATE);
-        return ((BigInteger) query.getSingleResult()).intValue();
+                "SELECT COUNT(*) "
+                + "FROM TRANSFERT, VOYAGE, QUAI "
+                + "WHERE TRANSFERT.ID_QUAI_ARRIVE=QUAI.ID AND VOYAGE.ID_QUAI_ARRIVE=QUAI.ID AND QUAI.ID_STATION=?1 "
+                + "AND TRANSFERT.DATE_ARRIVEE < ?2 AND VOYAGE.DATE_ARRIVEE < ?2 "
+                + "AND TRANSFERT.DATE_ARRIVEE > CURRENT_DATE AND VOYAGE.DATE_ARRIVEE > CURRENT_DATE "
+        ).setParameter(1, idStation)
+                .setParameter(2, date_sup, TemporalType.DATE);
+        return (int) (query.getSingleResult());
     }
 
     @Override
@@ -77,6 +75,6 @@ public class StationFacade extends AbstractFacade<Station> implements StationFac
                 + "AND ID_NAVETTE IS NOT NULL"
         );
         query.setParameter(1, idStation);
-        return ((BigInteger) query.getSingleResult()).intValue();
+        return (int) (query.getSingleResult());
     }
 }

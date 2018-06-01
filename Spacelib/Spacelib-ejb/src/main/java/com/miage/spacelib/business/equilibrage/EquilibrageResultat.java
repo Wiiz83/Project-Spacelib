@@ -29,7 +29,7 @@ public class EquilibrageResultat {
         this.transfertsSortants = new HashMap<>();
         compteurTransfertsEntrants = new HashMap<>();
     }
-    
+
     public List<Station> transfertsOrdonnes(Station station_depart) {
         return transfertsSortants.get(station_depart)
                 .keySet()
@@ -37,17 +37,17 @@ public class EquilibrageResultat {
                 .sorted((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-    
-    public List<Entry<Station,Station>> listeTransferts() {
-        List<Entry<Station,Station>> transferts = new ArrayList<>();
+
+    public List<Entry<Station, Station>> listeTransferts() {
+        List<Entry<Station, Station>> transferts = new ArrayList<>();
         List<Station> stations_ordonnees = transfertsSortants
                 .keySet()
                 .stream()
                 .sorted((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
                 .collect(Collectors.toCollection(ArrayList::new));
-        stations_ordonnees.forEach((Station s) -> {  
+        stations_ordonnees.forEach((Station s) -> {
             transfertsSortants.keySet().forEach((dest) -> {
-                transferts.add( new AbstractMap.SimpleEntry<>(s,dest));
+                transferts.add(new AbstractMap.SimpleEntry<>(s, dest));
             });
         });
         return transferts;
@@ -68,12 +68,20 @@ public class EquilibrageResultat {
     }
 
     int nbTransfertsSortants(Station station) {
-        return transfertsSortants.get(station).entrySet().size();
+        if (transfertsSortants.containsKey(station)) {
+            return transfertsSortants.get(station).entrySet().size();
+        } else {
+            return 0;
+        }
     }
 
     int nbTransfertsEntrants(Station station) {
-        return compteurTransfertsEntrants.getOrDefault(station, 0);
-    }    
+        if (transfertsSortants.containsKey(station)) {
+            return compteurTransfertsEntrants.getOrDefault(station, 0);
+        } else {
+            return 0;
+        }
+    }
 
     double ratioDispo(Station s) {
         return (double) s.getQuais().stream().filter(q -> q.getNavette() != null).count() / s.getNbQuais();
