@@ -44,12 +44,14 @@ public class CLIBorne {
         System.out.println(ascii_spacelib);
         ArrayList<RStation> stations = this.serviceUsager.obtenirStations();
         Long idStationCourante = ChoisirStationCourante(stations);
-        Long idUsager = obtenirUsager();
-        CHOIX_PROCESS process = obtenirProcess(idUsager);
-        if (process == CHOIX_PROCESS.DEPART) {
-            depart(idUsager, idStationCourante, stationsArrivee(stations, idStationCourante));
-        } else {
-            arrivee(idUsager);
+        while (true) {
+            Long idUsager = obtenirUsager();
+            CHOIX_PROCESS process = obtenirProcess(idUsager);
+            if (process == CHOIX_PROCESS.DEPART) {
+                depart(idUsager, idStationCourante, stationsArrivee(stations, idStationCourante));
+            } else {
+                arrivee(idUsager);
+            }
         }
     }
 
@@ -80,7 +82,7 @@ public class CLIBorne {
 
     private Long ChoisirStationCourante(ArrayList<RStation> stations) throws IllegalAccessException, InvocationTargetException {
         afficherListeStations(stations);
-        return utils.saisirEntier(scanner, "Station de départ: ", getIDsStations(stations));
+        return utils.saisirEntier(scanner, "Station courante: ", getIDsStations(stations));
     }
 
     private Long obtenirUsager() throws UsagerInconnuException {
@@ -111,6 +113,9 @@ public class CLIBorne {
     private CHOIX_PROCESS obtenirProcess(Long idUsager) throws UsagerInconnuException {
         try {
             RVoyage voyage = this.serviceUsager.voyageEnCours(idUsager);
+            if (voyage == null) {
+                return CHOIX_PROCESS.DEPART;
+            }
         } catch (VoyageInconnuException ex) {
             return CHOIX_PROCESS.DEPART;
         }

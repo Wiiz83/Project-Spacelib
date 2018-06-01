@@ -39,4 +39,6 @@ public interface StationFacadeLocal {
 
     public int nbNavettes(Long idStation);
 
+    public int nbQuais(Long id);
+
 }

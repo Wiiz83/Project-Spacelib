@@ -38,8 +38,9 @@ public class StatsStations {
                     + " Navettes entrantes (10 jours): " + s.nbNavettesSortantes10jours
             );
         }*/
+      System.out.println("Equilibrages proposés:");
          List<Map.Entry<RStation, RStation>> eq = this.servicesAdmin.transfertsEquilibrage();
-        System.out.println("Equilibrages proposés:");
+        
         for (Map.Entry<RStation, RStation> s : eq) {
             System.out.println(s.getKey().getNom()
                     + " --> "

@@ -2,6 +2,7 @@ package com.miage.spacelib.business;
 
 import com.miage.spacelib.business.equilibrage.Equilibrage;
 import com.miage.spacelib.business.equilibrage.EquilibrageResultat;
+import com.miage.spacelib.business.equilibrage.InfoStation;
 import com.miage.spacelib.entities.Conducteur;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
@@ -85,7 +86,17 @@ public class GestionTransfert implements GestionTransfertLocal {
                     - this.stationFacade.nbNavetteSortantes(s.getId(), cal)
             );
         });
-        Equilibrage eq = new Equilibrage(variations);
+
+        Map<Station, InfoStation> infos = new HashMap<>();
+        stations.forEach((s) -> {
+            infos.put(s,
+                    new InfoStation( this.stationFacade.nbNavettes(s.getId())
+                            , this.stationFacade.nbQuais(s.getId())
+                    )
+            );
+        });        
+
+        Equilibrage eq = new Equilibrage(variations, infos);
         EquilibrageResultat res = eq.obtenirResultats();
         return res.listeTransferts();
     }

@@ -53,7 +53,7 @@ public class CLIAdmin {
         });
         
         
-        this.servicesAdmin.creerStation(nomStation, localisation, nb_quais, capacites,tempsTrajets);
+        this.servicesAdmin.creerStation(localisation,nomStation, nb_quais, capacites,tempsTrajets);
         System.out.println("Succès.");
     }
 

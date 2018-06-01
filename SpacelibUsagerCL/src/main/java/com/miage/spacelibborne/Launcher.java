@@ -35,12 +35,11 @@ public class Launcher {
         try {
             RMIUsagerServiceManager rmiMgr = new RMIUsagerServiceManager();
             ServicesUsagerRemote serviceUsager = rmiMgr.getUsagerRemoteSvc();
-            while (true) {
-                try {
-                    (new CLIBorne(serviceUsager)).run();
-                } catch (VoyageInconnuException | IllegalAccessException | InvocationTargetException | UsagerInconnuException | QuaiInexistantException | QuaiIndisponibleException | TempsTrajetInconnuException | StationInconnuException ex) {
-                    erreur(ex);
-                }
+            try {
+                (new CLIBorne(serviceUsager)).run();
+            } catch (VoyageInconnuException | IllegalAccessException | InvocationTargetException | UsagerInconnuException | QuaiInexistantException | QuaiIndisponibleException | TempsTrajetInconnuException | StationInconnuException ex) {
+                erreur(ex);
+
             }
 
         } catch (NamingException ex) {

@@ -23,17 +23,11 @@ public class Launcher {
         erreur(ex.getMessage());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NombreNavettesInvalideException {
         try {
             RMIAdminServiceManager rmiMgr = new RMIAdminServiceManager();
             ServicesAdminRemote serviceAdmin = rmiMgr.getAdminRemoteSvc();
-            while (true) {
-                try {
-                    (new CLIAdmin(serviceAdmin)).run();
-                } catch ( NombreNavettesInvalideException ex) {
-                    erreur(ex);
-                }
-            }
+            (new CLIAdmin(serviceAdmin)).run();
 
         } catch (NamingException ex) {
             System.err.println("Erreur d'initialisation RMI : " + ex.getMessage());

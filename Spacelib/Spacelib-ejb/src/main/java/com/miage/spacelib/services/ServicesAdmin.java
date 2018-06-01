@@ -8,6 +8,7 @@ package com.miage.spacelib.services;
 import com.miage.spacelib.business.GestionStationLocal;
 import com.miage.spacelib.business.equilibrage.Equilibrage;
 import com.miage.spacelib.business.equilibrage.EquilibrageResultat;
+import com.miage.spacelib.business.equilibrage.InfoStation;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
 import com.miage.spacelib.repositories.StationFacadeLocal;
@@ -64,11 +65,19 @@ public class ServicesAdmin implements ServicesAdminRemote {
                     - this.stationFacade.nbNavetteSortantes(s.getId(), cal)
             );
         });
-        Equilibrage eq = new Equilibrage(variations);
+        Map<Station, InfoStation> infos = new HashMap<>();
+        stations.forEach((s) -> {
+            infos.put(s,
+                    new InfoStation(this.stationFacade.nbNavettes(s.getId()),
+                             this.stationFacade.nbQuais(s.getId())
+                    )
+            );
+        });
+        Equilibrage eq = new Equilibrage(variations, infos);
         EquilibrageResultat eqr = eq.obtenirResultats();
         List<Map.Entry<RStation, RStation>> dto = new ArrayList<>();
-        List<Map.Entry<Station, Station>> res = eqr.listeTransferts();        
-        for (Map.Entry<Station, Station> entry : res ) {
+        List<Map.Entry<Station, Station>> res = eqr.listeTransferts();
+        for (Map.Entry<Station, Station> entry : res) {
             dto.add(new AbstractMap.SimpleEntry<>(rs(entry.getKey()), rs(entry.getValue())));
         }
         return dto;

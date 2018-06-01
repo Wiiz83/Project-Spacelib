@@ -22,12 +22,14 @@ public class Equilibrage {
 
     private final List<Station> stations;
     private final EquilibrageResultat resultat;
+    private final Map<Station, InfoStation> infosStations;
     private final Map<Station, Integer> variations;
 
-    public Equilibrage(Map<Station, Integer> stationsEtVariations) {
+    public Equilibrage(Map<Station, Integer> stationsEtVariations, Map<Station, InfoStation> infoStations) {
         this.stations = new ArrayList<>(stationsEtVariations.keySet());
         resultat = new EquilibrageResultat();
         this.variations = stationsEtVariations;
+        this.infosStations = infoStations;
     }
 
     public EquilibrageResultat obtenirResultats() {
@@ -38,11 +40,11 @@ public class Equilibrage {
     private void calculerTrajets() {
         List<Station> stations_occ_10p = filtrer(
                 stations,
-                s -> nbNavettesStation(s) / s.getNbQuais() < 0.10
+                s -> nbNavettesStation(s) / nbQuaisStation(s) < 0.10
         );
         List<Station> stations_occ_90p = filtrer(
                 stations,
-                s -> nbNavettesStation(s) / s.getNbQuais() > 0.90
+                s -> nbNavettesStation(s) / nbQuaisStation(s) > 0.90
         );
         equilibrer_stations_moins_10p(stations, stations_occ_10p, stations_occ_90p);
         equilibrer_stations_plus_90p(stations, stations_occ_90p, stations_occ_10p);
@@ -125,19 +127,19 @@ public class Equilibrage {
     }
 
     private double ratioApresAjout(Station s) {
-        return (nbNavettesStation(s) + 1) / s.getNbQuais();
+        return (nbNavettesStation(s) + 1) / nbQuaisStation(s);
     }
 
     private double ratioApresRetrait(Station s) {
-        return (nbNavettesStation(s) - 1) / s.getNbQuais();
+        return (nbNavettesStation(s) - 1) / nbQuaisStation(s);
     }
 
     private double ratioDispo(Station s) {
-        return nbNavettesStation(s) / s.getNbQuais();
+        return nbNavettesStation(s) / nbQuaisStation(s);
     }
 
     private int nbNavettesStation(Station station) {
-        int nb_db = filtrer(station.getQuais(), q -> q.getNavette() != null).size();
+        int nb_db = this.infosStations.get(station).nbNavettes;
         return nb_db
                 - this.resultat.nbTransfertsSortants(station)
                 + this.resultat.nbTransfertsEntrants(station)
@@ -156,5 +158,9 @@ public class Equilibrage {
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter) {
         return filtrer(all, filter, null);
+    }
+
+    private int nbQuaisStation(Station s) {
+        return this.infosStations.get(s).nbQuais;
     }
 }

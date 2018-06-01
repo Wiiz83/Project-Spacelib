@@ -65,7 +65,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
 
             final Predicate quaiPredicate = cb.equal(root.get("quaiArrivee"), q);
             final Predicate dateArrivePredicate = cb.lessThanOrEqualTo(root.<Date>get("dateArrivee"), utilDate);
-            
+
             cq.where(cb.and(quaiPredicate, dateArrivePredicate));
             cq.orderBy(cb.asc(root.get("dateArrivee")));
 
@@ -77,7 +77,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
             return null;
         }
     }
-    
+
     @Override
     public Voyage findPlusProcheVoyageDepartDeNavetteADateEtQuai(Calendar dateDepart, Quai q, Navette n) {
         try {
@@ -97,7 +97,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
 
             cq.where(cb.and(quaiPredicate, dateArrivePredicate, navettePredicate));
             cq.orderBy(cb.desc(root.get("dateDepart")));
-            
+
             return getEntityManager().createQuery(cq)
                     .setParameter(quaiParameter, q)
                     .setParameter(navetteParameter, n)
@@ -105,12 +105,12 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
                     .setFirstResult(0)
                     .setMaxResults(1)
                     .getSingleResult();
-            
+
         } catch (Exception e) {
             return null;
         }
     }
-    
+
     @Override
     public List<Voyage> findAllVoyagesPrevusByUsager(Usager usager) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -122,7 +122,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
                         cb.equal(root.get("statut"), Voyage.statutDebutVoyage)
                 )
         );
-        
+
         return getEntityManager().createQuery(cq).getResultList();
     }
 
@@ -130,24 +130,23 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
     public boolean verifierSiAutresVoyagesPrevusSurNavette(Calendar Cdate, Navette n) {
         boolean autresVoyages = false;
         java.util.Date date = Cdate.getTime();
-        
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
         Root<Voyage> root = cq.from(Voyage.class);
-        
+
         final Predicate navettePredicate = cb.equal(root.get("navette"), n);
         final Predicate dateDebutPredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus grand ou égal au second
 
         cq.where(cb.and(navettePredicate, dateDebutPredicate));
-        
-        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
+
+        if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
             autresVoyages = true;
         }
-  
+
         return autresVoyages;
     }
-    
-    
+
     @Override
     public Voyage findVoyageDepartJourDateEtQuai(Calendar dateDepart, Quai q) {
         try {
@@ -159,7 +158,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
 
             final Predicate quaiPredicate = cb.equal(root.get("quai"), q);
             final Predicate dateDebutPredicate = cb.equal(root.<Date>get("dateDepart"), date);
-    
+
             cq.where(cb.and(quaiPredicate, dateDebutPredicate));
 
             return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
@@ -167,9 +166,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
             return null;
         }
     }
-    
-    
-    
+
     @Override
     public Voyage findVoyageArriveeJourDateEtQuai(Calendar dateDepart, Quai q) {
         try {
@@ -181,7 +178,7 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
 
             final Predicate quaiPredicate = cb.equal(root.get("quai"), q);
             final Predicate dateDebutPredicate = cb.equal(root.<Date>get("dateArrivee"), date);
-    
+
             cq.where(cb.and(quaiPredicate, dateDebutPredicate));
 
             return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
@@ -189,27 +186,25 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
             return null;
         }
     }
-    
 
-    
     @Override
     public boolean verifierSiNavettePossedeDepartVoyageAvantDate(Calendar Cdate, Navette n) {
         boolean autresVoyages = false;
         java.util.Date date = Cdate.getTime();
-        
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
         Root<Voyage> root = cq.from(Voyage.class);
-        
+
         final Predicate navettePredicate = cb.equal(root.get("navette"), n);
         final Predicate dateDebutPredicate = cb.lessThan(root.<Date>get("dateDepart"), date);
-        
+
         cq.where(cb.and(navettePredicate, dateDebutPredicate));
-        
-        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
+
+        if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
             autresVoyages = true;
         }
-  
+
         return autresVoyages;
     }
 
@@ -224,15 +219,21 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
                         cb.equal(root.get("statut"), Voyage.statutDebutVoyage)
                 )
         );
-        cq.orderBy(cb.asc(root.get("dateDepart")));            
-        return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
+        cq.orderBy(cb.asc(root.get("dateDepart")));
+        Voyage res;
+        try {
+            res = getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
+        } catch (NoResultException ex) {
+            res = null;
+        }
+        return res;
     }
-       
+
     @Override
     public boolean verifierSiVoyagePasse(Long IdVoyage) {
         boolean voyagePasse = false;
         java.util.Date todayDate = new Date();
-    
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
         Root<Voyage> root = cq.from(Voyage.class);
@@ -243,13 +244,12 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
                         cb.lessThan(root.<Date>get("dateDepart"), todayDate)
                 )
         );
-        
-        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
+
+        if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
             voyagePasse = true;
         }
-  
+
         return voyagePasse;
     }
-
 
 }

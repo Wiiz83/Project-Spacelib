@@ -69,10 +69,21 @@ public class StationFacade extends AbstractFacade<Station> implements StationFac
     @Override
     public int nbNavettes(Long idStation) {
         Query query = getEntityManager().createNativeQuery(
-                "SELECT COUNT(*)"
-                + "FROM QUAI"
-                + "QUAI.ID_STATION=?1"
-                + "AND ID_NAVETTE IS NOT NULL"
+                "SELECT COUNT(*) "
+                + "FROM QUAI "
+                + "WHERE QUAI.ID_STATION=?1 "
+                + "AND ID_NAVETTE IS NOT NULL "
+        );
+        query.setParameter(1, idStation);
+        return (int) (query.getSingleResult());
+    }
+
+    @Override
+    public int nbQuais(Long idStation) {
+        Query query = getEntityManager().createNativeQuery(
+                "SELECT COUNT(*) "
+                + "FROM QUAI "
+                + "WHERE QUAI.ID_STATION=?1"
         );
         query.setParameter(1, idStation);
         return (int) (query.getSingleResult());
