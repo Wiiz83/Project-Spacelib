@@ -46,7 +46,7 @@ public class EquilibrageResultat {
                 .sorted((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
                 .collect(Collectors.toCollection(ArrayList::new));
         stations_ordonnees.forEach((Station s) -> {
-            transfertsSortants.keySet().forEach((dest) -> {
+            transfertsSortants.get(s).keySet().forEach((dest) -> {
                 transferts.add(new AbstractMap.SimpleEntry<>(s, dest));
             });
         });

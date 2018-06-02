@@ -40,26 +40,26 @@ public class Equilibrage {
     private void calculerTrajets() {
         List<Station> stations_occ_10p = filtrer(
                 stations,
-                s -> nbNavettesStation(s) / nbQuaisStation(s) < 0.10
+                s -> (double)nbNavettesStation(s) / (double)nbQuaisStation(s) < 0.10
         );
         List<Station> stations_occ_90p = filtrer(
                 stations,
-                s -> nbNavettesStation(s) / nbQuaisStation(s) > 0.90
+                s -> (double)nbNavettesStation(s) / (double)nbQuaisStation(s) > 0.90
         );
         equilibrer_stations_moins_10p(stations, stations_occ_10p, stations_occ_90p);
-        equilibrer_stations_plus_90p(stations, stations_occ_90p, stations_occ_10p);
+        equilibrer_stations_plus_90p(stations, stations_occ_90p);
     }
 
     private void equilibrer_stations_moins_10p(List<Station> stations, List<Station> stations_occ_10p, List<Station> stations_occ_90p) {
         List<Station> stations_10p_equilibrees = new ArrayList<>();
-        List<Station> retraits_interdits = stations_occ_90p;
-        while (stations_occ_10p.size() >= stations_10p_equilibrees.size()) {
+        List<Station> retraits_interdits = stations_occ_10p;
+        while (stations_occ_10p.size() > stations_10p_equilibrees.size()) {
             Station s_inf = stationLaMoinsOccupee(stations_occ_10p, stations_10p_equilibrees);
             if (ratioApresAjout(s_inf) > 0.9) {
                 stations_10p_equilibrees.add(s_inf);
                 continue;
             }
-            while (!stations_10p_equilibrees.contains(s_inf) && stations.size() < retraits_interdits.size()) {
+            while (!stations_10p_equilibrees.contains(s_inf) && stations.size() > retraits_interdits.size()) {
                 Station s_sup = stationPlusOccupeePriorite(stations, retraits_interdits, stations_occ_90p);
                 if (ratioApresRetrait(s_sup) < 0.10) {
                     retraits_interdits.add(s_sup);
@@ -73,16 +73,16 @@ public class Equilibrage {
         }
     }
 
-    private void equilibrer_stations_plus_90p(List<Station> stations, List<Station> stations_occ_90p, List<Station> stations_occ_10p) {
+    private void equilibrer_stations_plus_90p(List<Station> stations, List<Station> stations_occ_90p) {
         List<Station> stations_90p_equilibrees = new ArrayList<>();
-        List<Station> ajouts_interdits = stations_occ_10p;
-        while (stations_occ_90p.size() >= stations_90p_equilibrees.size()) {
+        List<Station> ajouts_interdits = stations_occ_90p;
+        while (stations_occ_90p.size() > stations_90p_equilibrees.size()) {
             Station s_sup = stationPlusOccupee(stations_occ_90p, stations_90p_equilibrees);
             if (ratioApresRetrait(s_sup) < 0.10) {
                 stations_90p_equilibrees.add(s_sup);
                 continue;
             }
-            while (!stations_90p_equilibrees.contains(s_sup) && stations.size() < ajouts_interdits.size()) {
+            while (!stations_90p_equilibrees.contains(s_sup) && stations.size() > ajouts_interdits.size()) {
                 Station s_inf = stationLaMoinsOccupee(stations, ajouts_interdits);
                 if (ratioApresAjout(s_inf) > 0.90) {
                     ajouts_interdits.add(s_inf);
@@ -127,15 +127,15 @@ public class Equilibrage {
     }
 
     private double ratioApresAjout(Station s) {
-        return (nbNavettesStation(s) + 1) / nbQuaisStation(s);
+        return ((double)nbNavettesStation(s) + 1.0) / (double)nbQuaisStation(s);
     }
 
     private double ratioApresRetrait(Station s) {
-        return (nbNavettesStation(s) - 1) / nbQuaisStation(s);
+        return ((double)nbNavettesStation(s) - 1.0) / (double)nbQuaisStation(s);
     }
 
     private double ratioDispo(Station s) {
-        return nbNavettesStation(s) / nbQuaisStation(s);
+        return (double)nbNavettesStation(s) / (double) nbQuaisStation(s);
     }
 
     private int nbNavettesStation(Station station) {

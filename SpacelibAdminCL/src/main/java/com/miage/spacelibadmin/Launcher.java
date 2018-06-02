@@ -7,6 +7,8 @@ package com.miage.spacelibadmin;
 
 import com.miage.spacelib.exceptions.NombreNavettesInvalideException;
 import com.miage.spacelib.services.ServicesAdminRemote;
+import java.util.ArrayList;
+import java.util.Scanner;
 import javax.naming.NamingException;
 
 /**
@@ -27,7 +29,18 @@ public class Launcher {
         try {
             RMIAdminServiceManager rmiMgr = new RMIAdminServiceManager();
             ServicesAdminRemote serviceAdmin = rmiMgr.getAdminRemoteSvc();
-            (new CLIAdmin(serviceAdmin)).run();
+            System.err.println("Ajout de stations : 1 \nStats et équilibrages proposés: 2 ");
+            CLIUtils utils = new CLIUtils();
+            Scanner scanner = new Scanner(System.in);
+            ArrayList<Long> choix = new ArrayList<>();
+            choix.add(new Long(1));
+            choix.add(new Long(2));
+            Long c = utils.saisirEntier(scanner, "Choix: ", choix);
+            if (c == 2) {
+                (new EquilibragesStats(serviceAdmin)).run();
+            } else {
+                (new CLIAdmin(serviceAdmin)).run();
+            }
 
         } catch (NamingException ex) {
             System.err.println("Erreur d'initialisation RMI : " + ex.getMessage());
