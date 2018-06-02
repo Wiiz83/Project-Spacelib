@@ -36,7 +36,8 @@ public class EquilibragesStats {
                     + "/" + s.station.getNbQuais() + ")"
                     + "  Dans 10 jours: +" + s.nbNavettesEntrantes10jours
                     + " | -" + s.nbNavettesSortantes10jours
-                    + "  ==> " + (double) (s.nbNavettesArrimees + s.nbNavettesEntrantes10jours - s.nbNavettesSortantes10jours) / (double) s.station.getNbQuais()
+                    + "  ==> " + (double) (s.nbNavettesArrimees + s.nbNavettesEntrantes10jours - s.nbNavettesSortantes10jours)*100.0 / (double) s.station.getNbQuais()
+                    +"%"
             );
         }
         System.out.println("Equilibrages proposés:");
