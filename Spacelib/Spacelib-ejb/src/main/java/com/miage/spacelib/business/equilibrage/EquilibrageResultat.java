@@ -60,7 +60,7 @@ public class EquilibrageResultat {
             dest.put(arrivee, 1);
             this.transfertsSortants.put(depart, dest);
         } else {
-            Integer cnt = dest.get(arrivee);
+            Integer cnt = dest.getOrDefault(arrivee, 0);
             dest.put(arrivee, cnt + 1);
         }
         Integer cpt_entrants = this.compteurTransfertsEntrants.getOrDefault(arrivee, 0);
@@ -76,11 +76,7 @@ public class EquilibrageResultat {
     }
 
     int nbTransfertsEntrants(Station station) {
-        if (transfertsSortants.containsKey(station)) {
-            return compteurTransfertsEntrants.getOrDefault(station, 0);
-        } else {
-            return 0;
-        }
+        return compteurTransfertsEntrants.getOrDefault(station, 0);
     }
 
     double ratioDispo(Station s) {
