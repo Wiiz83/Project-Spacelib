@@ -35,7 +35,7 @@ public class Launcher {
             ArrayList<Long> choix = new ArrayList<>();
             choix.add(new Long(1));
             choix.add(new Long(2));
-            Long c = new Long(2) ;//utils.saisirEntier(scanner, "Choix: ", choix);
+            Long c= utils.saisirEntier(scanner, "Choix: ", choix);
             if (c == 2) {
                 (new EquilibragesStats(serviceAdmin)).run();
             } else {
