@@ -27,8 +27,7 @@ public class EquilibrageResultat {
     EquilibrageResultat(Map<Station, InfoStation> infoStations) {
         this.transfertsSortants = new HashMap<>();
         compteurTransfertsEntrants = new HashMap<>();
-                this.infosStations = infoStations;
-
+        this.infosStations = infoStations;
     }
 
     public List<Station> transfertsOrdonnes(Station station_depart) {
@@ -55,25 +54,24 @@ public class EquilibrageResultat {
     }
 
     void ajouterTransfert(Station depart, Station arrivee) {
-        Map<Station, Integer> dest = transfertsSortants.get(depart);
-        if (dest == null) {
-            dest = new HashMap<>();
-            dest.put(arrivee, 1);
-            this.transfertsSortants.put(depart, dest);
-        } else {
-            Integer cnt = dest.getOrDefault(arrivee, 0);
-            dest.put(arrivee, cnt + 1);
-        }
-        Integer cpt_entrants = this.compteurTransfertsEntrants.getOrDefault(arrivee, 0);
-        this.compteurTransfertsEntrants.put(arrivee, cpt_entrants + 1);
+        Map<Station, Integer> arriv_cpt = transfertsSortants.getOrDefault(depart, new HashMap<>());
+        arriv_cpt.put(arrivee, arriv_cpt.getOrDefault(arrivee, 0) + 1);
+        this.transfertsSortants.put(depart, arriv_cpt);
+        this.compteurTransfertsEntrants.put(arrivee, this.compteurTransfertsEntrants.getOrDefault(arrivee, 0) + 1);
     }
 
     int nbTransfertsSortants(Station station) {
+        int n = 0;
         if (transfertsSortants.containsKey(station)) {
-            return transfertsSortants.get(station).entrySet().size();
-        } else {
-            return 0;
+            n = transfertsSortants
+                    .get(station)
+                    .values()
+                    .stream()
+                    .mapToInt(Integer::intValue)
+                    .sum();
         }
+        return n;
+
     }
 
     int nbTransfertsEntrants(Station station) {
@@ -81,13 +79,14 @@ public class EquilibrageResultat {
     }
 
     private double ratioDispo(Station s) {
-        return (double)nbNavettesStation(s) / (double) nbQuaisStation(s);
+        return (double) nbNavettesStation(s) / (double) nbQuaisStation(s);
     }
-    
+
     private int nbQuaisStation(Station s) {
         return this.infosStations.get(s).nbQuais;
     }
-    private int nbNavettesStation(Station station) {       
-        return this.infosStations.get(station).nbNavettes;              
+
+    private int nbNavettesStation(Station station) {
+        return this.infosStations.get(station).nbNavettes;
     }
 }

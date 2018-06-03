@@ -40,11 +40,11 @@ public class Equilibrage {
     private void calculerTrajets() {
         List<Station> stations_occ_10p = filtrer(
                 stations,
-                s -> (double)nbNavettesStation(s) / (double)nbQuaisStation(s) < 0.10
+                s -> (double) nbNavettesStation(s) / (double) nbQuaisStation(s) < 0.10
         );
         List<Station> stations_occ_90p = filtrer(
                 stations,
-                s -> (double)nbNavettesStation(s) / (double)nbQuaisStation(s) > 0.90
+                s -> (double) nbNavettesStation(s) / (double) nbQuaisStation(s) > 0.90
         );
         equilibrer_stations_moins_10p(stations, stations_occ_10p, stations_occ_90p);
         equilibrer_stations_plus_90p(stations, stations_occ_90p);
@@ -57,7 +57,6 @@ public class Equilibrage {
             Station s_inf = stationLaMoinsOccupee(stations_occ_10p, stations_10p_equilibrees);
             if (ratioApresAjout(s_inf) > 0.9) {
                 stations_10p_equilibrees.add(s_inf);
-                continue;
             }
             while (!stations_10p_equilibrees.contains(s_inf) && stations.size() > retraits_interdits.size()) {
                 Station s_sup = stationPlusOccupeePriorite(stations, retraits_interdits, stations_occ_90p);
@@ -80,7 +79,6 @@ public class Equilibrage {
             Station s_sup = stationPlusOccupee(stations_occ_90p, stations_90p_equilibrees);
             if (ratioApresRetrait(s_sup) < 0.10) {
                 stations_90p_equilibrees.add(s_sup);
-                continue;
             }
             while (!stations_90p_equilibrees.contains(s_sup) && stations.size() > ajouts_interdits.size()) {
                 Station s_inf = stationLaMoinsOccupee(stations, ajouts_interdits);
@@ -104,14 +102,16 @@ public class Equilibrage {
         return stations
                 .stream()
                 .filter(s -> !stations_interdites.contains(s))
-                .min((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
+                .min((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
+                .get();
     }
 
     private Station stationPlusOccupee(List<Station> stations, List<Station> stations_interdites) {
         return stations
                 .stream()
                 .filter(s -> !stations_interdites.contains(s))
-                .max((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2))).get();
+                .max((s1, s2) -> Double.compare(ratioDispo(s1), ratioDispo(s2)))
+                .get();
     }
 
     private Station stationPlusOccupeePriorite(List<Station> stations, List<Station> stations_interdites, List<Station> stations_prioritaires) {
@@ -127,23 +127,26 @@ public class Equilibrage {
     }
 
     private double ratioApresAjout(Station s) {
-        return ((double)nbNavettesStation(s) + 1.0) / (double)nbQuaisStation(s);
+        return ((double) nbNavettesStation(s) + 1.0) / (double) nbQuaisStation(s);
     }
 
     private double ratioApresRetrait(Station s) {
-        return ((double)nbNavettesStation(s) - 1.0) / (double)nbQuaisStation(s);
+        return ((double) nbNavettesStation(s) - 1.0) / (double) nbQuaisStation(s);
     }
 
     private double ratioDispo(Station s) {
-        return (double)nbNavettesStation(s) / (double) nbQuaisStation(s);
+        return (double) nbNavettesStation(s) / (double) nbQuaisStation(s);
     }
 
     private int nbNavettesStation(Station station) {
-        int nb_db = this.infosStations.get(station).nbNavettes;
-        return nb_db
+        return this.infosStations.get(station).nbNavettes
                 - this.resultat.nbTransfertsSortants(station)
                 + this.resultat.nbTransfertsEntrants(station)
                 + this.variations.get(station);
+    }
+    
+    private int nbQuaisStation(Station s) {
+        return this.infosStations.get(s).nbQuais;
     }
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter, Comparator<E> c) {
@@ -158,9 +161,5 @@ public class Equilibrage {
 
     private <E> ArrayList<E> filtrer(List<E> all, Predicate<E> filter) {
         return filtrer(all, filter, null);
-    }
-
-    private int nbQuaisStation(Station s) {
-        return this.infosStations.get(s).nbQuais;
-    }
+    }    
 }
