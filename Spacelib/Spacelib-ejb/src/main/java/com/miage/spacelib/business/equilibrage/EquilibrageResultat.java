@@ -6,7 +6,6 @@
 package com.miage.spacelib.business.equilibrage;
 
 import com.miage.spacelib.entities.Station;
-import com.miage.spacelib.entities.Transfert;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  *
@@ -24,10 +22,13 @@ public class EquilibrageResultat {
 
     private final Map<Station, Map<Station, Integer>> transfertsSortants;
     private final Map<Station, Integer> compteurTransfertsEntrants;
+    private final Map<Station, InfoStation> infosStations;
 
-    public EquilibrageResultat() {
+    EquilibrageResultat(Map<Station, InfoStation> infoStations) {
         this.transfertsSortants = new HashMap<>();
         compteurTransfertsEntrants = new HashMap<>();
+                this.infosStations = infoStations;
+
     }
 
     public List<Station> transfertsOrdonnes(Station station_depart) {
@@ -79,7 +80,14 @@ public class EquilibrageResultat {
         return compteurTransfertsEntrants.getOrDefault(station, 0);
     }
 
-    double ratioDispo(Station s) {
-        return (double) s.getQuais().stream().filter(q -> q.getNavette() != null).count() / s.getNbQuais();
+    private double ratioDispo(Station s) {
+        return (double)nbNavettesStation(s) / (double) nbQuaisStation(s);
+    }
+    
+    private int nbQuaisStation(Station s) {
+        return this.infosStations.get(s).nbQuais;
+    }
+    private int nbNavettesStation(Station station) {       
+        return this.infosStations.get(station).nbNavettes;              
     }
 }

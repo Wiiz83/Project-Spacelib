@@ -29,7 +29,7 @@ public class Launcher {
         try {
             RMIAdminServiceManager rmiMgr = new RMIAdminServiceManager();
             ServicesAdminRemote serviceAdmin = rmiMgr.getAdminRemoteSvc();
-            System.err.println("Ajout de stations : 1 \nStats et équilibrages proposés: 2 ");
+            System.err.println("Ajout de stations : 1 \nStats et équilibrage de charge: 2 ");
             CLIUtils utils = new CLIUtils();
             Scanner scanner = new Scanner(System.in);
             ArrayList<Long> choix = new ArrayList<>();

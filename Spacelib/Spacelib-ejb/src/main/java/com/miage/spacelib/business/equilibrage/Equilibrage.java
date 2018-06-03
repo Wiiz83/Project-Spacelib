@@ -27,7 +27,7 @@ public class Equilibrage {
 
     public Equilibrage(Map<Station, Integer> stationsEtVariations, Map<Station, InfoStation> infoStations) {
         this.stations = new ArrayList<>(stationsEtVariations.keySet());
-        resultat = new EquilibrageResultat();
+        resultat = new EquilibrageResultat(infoStations);
         this.variations = stationsEtVariations;
         this.infosStations = infoStations;
     }

@@ -40,7 +40,7 @@ public class EquilibragesStats {
                     +"%"
             );
         }
-        System.out.println("Equilibrages proposés:");
+        System.out.println("Transferts prioritaires pour équilibrer les charges:");
         List<Map.Entry<RStation, RStation>> eq = this.servicesAdmin.transfertsEquilibrage();
 
         for (Map.Entry<RStation, RStation> s : eq) {
