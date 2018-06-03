@@ -43,11 +43,17 @@ public class StationFacade extends AbstractFacade<Station> implements StationFac
     @Override
     public int nbNavetteSortantes(Long idStation, Calendar date_sup) {
         Query query = getEntityManager().createNativeQuery(
-                "SELECT COUNT(*) "
-                + "FROM TRANSFERT, VOYAGE, QUAI "
-                + "WHERE QUAI.ID_STATION=?1  AND ("
-                + "(TRANSFERT.ID_QUAI_DEPART=QUAI.ID AND TRANSFERT.DATE_DEPART <= ?2 AND TRANSFERT.DATE_DEPART > CURRENT_DATE) "
-                + "OR  (VOYAGE.ID_QUAI_DEPART=QUAI.ID AND VOYAGE.DATE_DEPART <= ?2 AND VOYAGE.DATE_DEPART > CURRENT_DATE ) )"
+                "	SELECT COUNT(*) FROM (	"
+                + "	SELECT QUAI.*	"
+                + "	FROM TRANSFERT, QUAI 	"
+                + "	WHERE QUAI.ID_STATION=?1  AND 	"
+                + "	(TRANSFERT.ID_QUAI_DEPART=QUAI.ID AND TRANSFERT.DATE_DEPART <= ?2 AND TRANSFERT.DATE_DEPART >= CURRENT_DATE) 	"
+                + "	UNION ALL	"
+                + "	SELECT QUAI.*	"
+                + "	FROM VOYAGE, QUAI                  	"
+                + "	 WHERE QUAI.ID_STATION=?1 AND  	"
+                + "	(VOYAGE.ID_QUAI_DEPART=QUAI.ID AND VOYAGE.DATE_DEPART <= ?2 AND VOYAGE.DATE_DEPART >= CURRENT_DATE ) 	"
+                + "	) as quais_liberes	"
         ).setParameter(1, idStation)
                 .setParameter(2, date_sup, TemporalType.DATE);
         return (int) (query.getSingleResult());
@@ -55,12 +61,18 @@ public class StationFacade extends AbstractFacade<Station> implements StationFac
 
     @Override
     public int nbNavetteEntrantes(Long idStation, Calendar date_sup) {
-        Query query = getEntityManager().createNativeQuery(
-                "SELECT COUNT(*) "
-                + "FROM TRANSFERT, VOYAGE, QUAI "
-                + "WHERE QUAI.ID_STATION=?1  AND ("
-                + "(TRANSFERT.ID_QUAI_ARRIVE=QUAI.ID AND TRANSFERT.DATE_ARRIVEE  <= ?2 AND TRANSFERT.DATE_ARRIVEE  > CURRENT_DATE) "
-                + "OR  (VOYAGE.ID_QUAI_ARRIVE=QUAI.ID AND VOYAGE.DATE_ARRIVEE  <= ?2 AND VOYAGE.DATE_ARRIVEE  > CURRENT_DATE ) )"
+        Query query = getEntityManager().createNativeQuery(	"	SELECT COUNT(*) FROM (	"
++	"	SELECT QUAI.*	"
++	"	FROM TRANSFERT, QUAI 	"
++	"	WHERE QUAI.ID_STATION=?1  AND 	"
++	"	(TRANSFERT.ID_QUAI_ARRIVE=QUAI.ID AND TRANSFERT.DATE_ARRIVEE   <= ?2 AND TRANSFERT.DATE_ARRIVEE   >= CURRENT_DATE) 	"
++	"	UNION ALL	"
++	"	SELECT QUAI.*	"
++	"	FROM VOYAGE, QUAI                  	"
++	"	 WHERE QUAI.ID_STATION=?1 AND  	"
++	"	(VOYAGE.ID_QUAI_ARRIVE=QUAI.ID AND VOYAGE.DATE_ARRIVEE   <= ?2 AND VOYAGE.DATE_ARRIVEE   >= CURRENT_DATE ) 	"
++	"	) as quais_occupes	"
+
         ).setParameter(1, idStation)
                 .setParameter(2, date_sup, TemporalType.DATE);
         return (int) (query.getSingleResult());
