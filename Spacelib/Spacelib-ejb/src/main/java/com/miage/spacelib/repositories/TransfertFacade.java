@@ -47,7 +47,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
     public TransfertFacade() {
         super(Transfert.class);
     }
-    
+
     @Override
     public Transfert findPlusProcheTransfertArriveADateEtQuai(Calendar dateDepart, Quai q) {
         try {
@@ -64,7 +64,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
             final Path<Date> checkDateArrivePath = root.<Date>get("dateArrivee");
 
             final Predicate dateArrivePredicate = cb.lessThanOrEqualTo(checkDateArrivePath, dateArriveParameter);
-            
+
             cq.where(cb.and(quaiPredicate, dateArrivePredicate));
 
             cq.orderBy(cb.asc(root.get("dateArrivee")));
@@ -79,7 +79,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
             return null;
         }
     }
-    
+
     @Override
     public Transfert findPlusProcheTransfertDepartDeNavetteADateEtQuai(Calendar dateDepart, Quai q, Navette n) {
         try {
@@ -106,7 +106,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
                     .setFirstResult(0)
                     .setMaxResults(1)
                     .getSingleResult();
-            
+
         } catch (Exception e) {
             return null;
         }
@@ -114,27 +114,29 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
 
     @Override
     public boolean verifierSiAutresTransfertsPrevusSurNavette(Calendar Cdate, Navette n) {
-        boolean autresVoyages = false;
-        java.util.Date date = Cdate.getTime();
-        
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Transfert> cq = cb.createQuery(Transfert.class);
-        Root<Transfert> root = cq.from(Transfert.class);
-        
-        final Predicate navettePredicate = cb.equal(root.get("navette"), n);
-        final Predicate dateDebutPredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus grand ou égal au second
+        try {
+            boolean autresVoyages = false;
+            java.util.Date date = Cdate.getTime();
 
-        cq.where(cb.and(navettePredicate, dateDebutPredicate));
-        
-        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
-            autresVoyages = true;
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Transfert> cq = cb.createQuery(Transfert.class);
+            Root<Transfert> root = cq.from(Transfert.class);
+
+            final Predicate navettePredicate = cb.equal(root.get("navette"), n);
+            final Predicate dateDebutPredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus grand ou égal au second
+
+            cq.where(cb.and(navettePredicate, dateDebutPredicate));
+
+            if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
+                autresVoyages = true;
+            }
+
+            return autresVoyages;
+        } catch (Exception e) {
+            return false;
         }
-  
-        return autresVoyages;
     }
-    
-    
-    
+
     @Override
     public Transfert findTransfertDepartJourDateEtQuai(Calendar dateDepart, Quai q) {
         try {
@@ -146,7 +148,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
 
             final Predicate quaiPredicate = cb.equal(root.get("quai"), q);
             final Predicate dateDebutPredicate = cb.equal(root.<Date>get("dateDepart"), date);
-    
+
             cq.where(cb.and(quaiPredicate, dateDebutPredicate));
 
             return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
@@ -154,8 +156,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
             return null;
         }
     }
-    
-    
+
     @Override
     public Transfert findTransfertArriveeJourDateEtQuai(Calendar dateDepart, Quai q) {
         try {
@@ -167,7 +168,7 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
 
             final Predicate quaiPredicate = cb.equal(root.get("quai"), q);
             final Predicate dateDebutPredicate = cb.equal(root.<Date>get("dateArrivee"), date);
-    
+
             cq.where(cb.and(quaiPredicate, dateDebutPredicate));
 
             return getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
@@ -175,28 +176,28 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
             return null;
         }
     }
-    
+
     @Override
     public boolean verifierSiNavettePossedeDepartTransfertAvantDate(Calendar Cdate, Navette n) {
         boolean autresVoyages = false;
         java.util.Date date = Cdate.getTime();
-        
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Transfert> cq = cb.createQuery(Transfert.class);
         Root<Transfert> root = cq.from(Transfert.class);
-        
+
         final Predicate navettePredicate = cb.equal(root.get("navette"), n);
         final Predicate dateDebutPredicate = cb.lessThan(root.<Date>get("dateDepart"), date);
-        
+
         cq.where(cb.and(navettePredicate, dateDebutPredicate));
-        
-        if(getEntityManager().createQuery(cq).getResultList().size() > 0){
+
+        if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
             autresVoyages = true;
         }
-  
+
         return autresVoyages;
     }
-    
+
     @Override
     public List<Transfert> findAllTransfertsPrevusByConducteur(Conducteur conducteur) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

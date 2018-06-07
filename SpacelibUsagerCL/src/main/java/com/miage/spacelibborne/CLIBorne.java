@@ -127,7 +127,7 @@ public class CLIBorne {
         Long idStationArrivee = utils.saisirEntier(scanner, "Station d'arrivée: ", getIDsStations(stationsArrivee));
         Long nbPassagers = utils.saisirEntier(scanner, "Nombre de passagers: ", new Long(0), Long.MAX_VALUE);
         RVoyage voyage = this.serviceUsager.reserverVoyage(usager, idStationDepart, idStationArrivee, (int) (long) nbPassagers, Calendar.getInstance());
-        System.out.println("Réservation réussie. Rendez vous au quai" + voyage.getQuaiDepart());
+        System.out.println("Réservation réussie. Rendez vous au quai " + voyage.getQuaiDepart());
     }
 
     private void arrivee(Long usager) throws UsagerInconnuException, VoyageInconnuException {

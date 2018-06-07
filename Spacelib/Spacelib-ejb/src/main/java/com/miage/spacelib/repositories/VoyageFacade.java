@@ -128,23 +128,27 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
 
     @Override
     public boolean verifierSiAutresVoyagesPrevusSurNavette(Calendar Cdate, Navette n) {
-        boolean autresVoyages = false;
-        java.util.Date date = Cdate.getTime();
+        try {
+            boolean autresVoyages = false;
+            java.util.Date date = Cdate.getTime();
 
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
-        Root<Voyage> root = cq.from(Voyage.class);
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+            Root<Voyage> root = cq.from(Voyage.class);
 
-        final Predicate navettePredicate = cb.equal(root.get("navette"), n);
-        final Predicate dateDebutPredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus grand ou égal au second
+            final Predicate navettePredicate = cb.equal(root.get("navette"), n);
+            final Predicate dateDebutPredicate = cb.greaterThanOrEqualTo(root.<Date>get("dateDepart"), date); // premier plus grand ou égal au second
 
-        cq.where(cb.and(navettePredicate, dateDebutPredicate));
+            cq.where(cb.and(navettePredicate, dateDebutPredicate));
 
-        if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
-            autresVoyages = true;
+            if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
+                autresVoyages = true;
+            }
+
+            return autresVoyages;
+        } catch (Exception e) {
+            return false;
         }
-
-        return autresVoyages;
     }
 
     @Override
