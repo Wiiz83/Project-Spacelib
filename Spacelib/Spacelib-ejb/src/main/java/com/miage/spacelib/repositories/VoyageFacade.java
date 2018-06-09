@@ -232,6 +232,34 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
         }
         return res;
     }
+    
+    
+    @Override
+    public Voyage findSiVoyagePlanifie(Usager usager, int NbPassagers, Calendar depart, Calendar arrivee) {
+        java.util.Date dateDepart = depart.getTime();
+        java.util.Date dateArrive = arrivee.getTime();
+        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+        Root<Voyage> root = cq.from(Voyage.class);
+        cq.where(
+                cb.and(
+                        cb.equal(root.get("usager"), usager),
+                        cb.equal(root.get("statut"), Voyage.statutDebutVoyage),
+                        cb.equal(root.<Date>get("dateDepart"), dateDepart),
+                        cb.equal(root.<Date>get("dateArrivee"), dateArrive),
+                        cb.equal(root.get("nbPassagers"), NbPassagers)
+                )
+        );
+
+        Voyage res;
+        try {
+            res = getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
+        } catch (NoResultException ex) {
+            res = null;
+        }
+        return res;
+    }
 
     @Override
     public boolean verifierSiVoyagePasse(Long IdVoyage) {

@@ -58,5 +58,7 @@ public interface VoyageFacadeLocal {
     
     public boolean findVoyagesUsagerPeriode(Usager usager, Calendar depart, Calendar arrivee);
     
+    public Voyage findSiVoyagePlanifie(Usager usager, int NbPassagers, Calendar depart, Calendar arrivee);
+    
     
 }
