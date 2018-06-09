@@ -74,17 +74,21 @@ public class ConducteurFacade extends AbstractFacade<Conducteur> implements Cond
 
     @Override
     public Conducteur findByPrenomAndNomAndLogin(String prenom, String nom, String login) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Conducteur> cq = cb.createQuery(Conducteur.class);
-        Root<Conducteur> root = cq.from(Conducteur.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try{
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Conducteur> cq = cb.createQuery(Conducteur.class);
+            Root<Conducteur> root = cq.from(Conducteur.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult(); 
+        }catch(NoResultException noRes){
+            return null;
+        }
     }
     
 }

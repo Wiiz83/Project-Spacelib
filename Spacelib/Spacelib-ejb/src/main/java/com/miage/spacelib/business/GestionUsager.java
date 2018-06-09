@@ -8,6 +8,7 @@ package com.miage.spacelib.business;
 import com.miage.spacelib.entities.Usager;
 import com.miage.spacelib.entities.Voyage;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.repositories.UsagerFacadeLocal;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -35,7 +36,10 @@ public class GestionUsager implements GestionUsagerLocal {
     }
 
     @Override
-    public Long creerCompte(String nom, String prenom, String login, String motdepasse) {
+    public Long creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException  {
+        final Usager us = this.usagerFacade.findByPrenomAndNomAndLogin(prenom, nom, login);
+        if(us != null) throw new UtilisateurExistantException("Ce compte existe déjà.");
+        
         Usager  usager = new Usager( nom,  prenom,  login,  motdepasse);
         this.usagerFacade.create(usager);
         return usager.getId();

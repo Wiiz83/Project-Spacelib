@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TransfertInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.ressources.RTransfert;
 import java.util.ArrayList;
 import javax.ejb.EJB;
@@ -26,7 +27,7 @@ public class ServicesConducteur implements ServicesConducteurLocal {
     }
 
     @Override
-    public void creerCompte(String nom, String prenom, String login, String motdepasse) {
+    public void creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException {
         this.gestionConducteur.creerCompte(nom, prenom, login, motdepasse);
     }
 

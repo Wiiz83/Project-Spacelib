@@ -9,6 +9,7 @@ import com.miage.spacelib.entities.Mecanicien;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.exceptions.MecanicienInconnuException;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.repositories.MecanicienFacadeLocal;
 import com.miage.spacelib.repositories.StationFacadeLocal;
 import java.util.List;
@@ -28,6 +29,15 @@ public class GestionMecanicien implements GestionMecanicienLocal {
     public void authentifier(String login, String motdepasse) throws MecanicienInconnuException {
         final Mecanicien mecanicien = this.mecanicienFacade.findByLoginAndPassword(login, motdepasse);
         if(mecanicien == null) throw new MecanicienInconnuException("Ce compte de mécanicien n'existe pas.");
+    }
+    
+    @Override
+    public void creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException {
+        final Mecanicien mecanicien = this.mecanicienFacade.findByPrenomAndNomAndLogin(prenom, nom, login);
+        if(mecanicien != null) throw new UtilisateurExistantException("Ce compte existe déjà.");
+        
+        final Mecanicien  newMecanicien = new Mecanicien(nom,  prenom,  login,  motdepasse);
+        this.mecanicienFacade.create(newMecanicien);
     }
 
     

@@ -9,6 +9,7 @@ import com.miage.spacelib.exceptions.ReservationInconnuException;
 import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RVoyage;
@@ -22,17 +23,15 @@ public interface ServicesUsagerRemote {
 
     public Long login(String nom, String pass) throws UsagerInconnuException;
 
-    public Long creerCompte(String nom, String prenom, String login, String motdepasse);
+    public Long creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException;
 
     public RVoyage voyageEnCours(Long idUsager) throws UsagerInconnuException, VoyageInconnuException;
 
-    public void finaliserVoyage(Long idVoyage)
-            throws VoyageInconnuException;
+    public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException;
 
     public ArrayList<RStation> obtenirStations();
 
-    public ArrayList<RVoyage> obtenirVoyagesPrevusUsager(Long idUsager)
-            throws UsagerInconnuException;
+    public ArrayList<RVoyage> obtenirVoyagesPrevusUsager(Long idUsager) throws UsagerInconnuException;
 
     public RVoyage reserverVoyage(Long idUsager, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart)
             throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException;

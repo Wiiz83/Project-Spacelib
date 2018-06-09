@@ -5,6 +5,14 @@
         <servlet-class>com.miage.spacelibmecanicien.servlets.Login</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Enregistrement</servlet-name>
+        <servlet-class>com.miage.spacelibmecanicien.servlets.Enregistrement</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Enregistrement</servlet-name>
+        <url-pattern>/Enregistrement</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>DebutRevision</servlet-name>
         <servlet-class>com.miage.spacelibmecanicien.servlets.DebutRevision</servlet-class>
     </servlet>

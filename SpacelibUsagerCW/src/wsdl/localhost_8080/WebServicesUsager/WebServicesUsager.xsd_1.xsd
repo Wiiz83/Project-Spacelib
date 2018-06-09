@@ -22,6 +22,8 @@
 
 <xs:element name="UsagerInconnuException" type="tns:UsagerInconnuException"/>
 
+<xs:element name="UtilisateurExistantException" type="tns:UtilisateurExistantException"/>
+
 <xs:element name="annulerVoyage" type="tns:annulerVoyage"/>
 
 <xs:element name="annulerVoyageResponse" type="tns:annulerVoyageResponse"/>
@@ -101,7 +103,6 @@
 <xs:element name="localisation" type="xs:string" minOccurs="0"/>
 <xs:element name="nbQuais" type="xs:int"/>
 <xs:element name="nom" type="xs:string" minOccurs="0"/>
-<xs:element name="statut" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -157,6 +158,12 @@
 
 <xs:complexType name="creerCompteResponse">
 <xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="UtilisateurExistantException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="reserverVoyage">

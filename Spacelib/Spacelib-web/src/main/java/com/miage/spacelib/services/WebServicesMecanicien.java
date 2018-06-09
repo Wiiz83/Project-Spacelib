@@ -12,6 +12,7 @@ import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.RevisionInconnuException;
 import com.miage.spacelib.exceptions.RevisionInexistanteException;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -25,6 +26,12 @@ public class WebServicesMecanicien {
 
     @EJB
     private ServicesMecanicienLocal ejbRef;
+    
+    
+    @WebMethod(operationName = "creerCompte")
+    public void creerCompte(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom, @WebParam(name = "login") String login, @WebParam(name = "motdepasse") String motdepasse) throws UtilisateurExistantException {
+        ejbRef.creerCompte(nom, prenom, login, motdepasse);
+    }
    
     @WebMethod(operationName = "authentifier")
     public void authentifier(@WebParam(name = "login") String login, @WebParam(name = "motdepasse") String motdepasse) throws MecanicienInconnuException {

@@ -44,9 +44,15 @@
                         </ul>
                         <div class="agile-tb glass">
                             <%
-                                String msginfo = (String) request.getAttribute("messageErreur");
+                                String msgerreur = (String) request.getAttribute("messageErreur");
+                                if (msgerreur != null) {
+                                    out.println("<p style='background-color: red; color:white; font-weight: bold; padding: 10px;'>"+ msgerreur + "</p></br>");
+                                }
+                                
+
+                                String msginfo = (String) request.getAttribute("messageInfo");
                                 if (msginfo != null) {
-                                    out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + msginfo + "</p>");
+                                    out.println("<p style='background-color: green; color:white; font-weight: bold; padding: 10px;'>" + msginfo + "</p></br>");
                                 }
                             %>
                             <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-0">
@@ -57,7 +63,7 @@
                                 </form>
                             </div>
                             <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
-                                <form method="post" action="Inscription" >				
+                                <form method="post" action="Enregistrement" >				
                                     <input placeholder="Nom" name="nom" type="text" required>
                                     <input placeholder="Prénom"name="prenom" type="text" required>						
                                     <input placeholder="Login" name="login" type="text" required>	

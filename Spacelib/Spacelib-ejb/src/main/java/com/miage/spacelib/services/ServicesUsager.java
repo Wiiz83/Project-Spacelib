@@ -20,6 +20,7 @@ import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.repositories.QuaiFacadeLocal;
 import com.miage.spacelib.repositories.StationFacadeLocal;
@@ -59,7 +60,7 @@ public class ServicesUsager implements ServicesUsagerRemote {
     }
 
     @Override
-    public Long creerCompte(String nom, String prenom, String login, String motdepasse) {
+    public Long creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException{
         return this.gestionUsager.creerCompte(nom, prenom, login, motdepasse);
     }
 

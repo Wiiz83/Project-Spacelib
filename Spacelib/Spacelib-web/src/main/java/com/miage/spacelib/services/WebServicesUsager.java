@@ -9,6 +9,7 @@ import com.miage.spacelib.exceptions.ReservationPasseeException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RVoyage;
 import java.lang.reflect.InvocationTargetException;
@@ -35,7 +36,7 @@ public class WebServicesUsager {
     }
     
     @WebMethod(operationName = "creerCompte")
-    public void creerCompte(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom, @WebParam(name = "login") String login, @WebParam(name = "motdepasse") String motdepasse) {
+    public void creerCompte(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom, @WebParam(name = "login") String login, @WebParam(name = "motdepasse") String motdepasse) throws UtilisateurExistantException {
         ejbRef.creerCompte(nom, prenom, login, motdepasse);
     }
     

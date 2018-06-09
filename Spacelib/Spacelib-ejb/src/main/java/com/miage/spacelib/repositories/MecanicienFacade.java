@@ -44,12 +44,12 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
                         cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
                 )
         );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        return getEntityManager().createQuery(cq).getSingleResult();
     }
 
     @Override
     public Mecanicien findByLoginAndPassword(String login, String motdepasse) {
-        try{
+        try {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Mecanicien> cq = cb.createQuery(Mecanicien.class);
             Root<Mecanicien> root = cq.from(Mecanicien.class);
@@ -59,17 +59,17 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
                             cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
                     )
             );
-            return getEntityManager().createQuery(cq).getSingleResult(); 
-        } catch(NoResultException e) {
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
     }
 
     @Override
     public Mecanicien creerMecanicienSiInexistant(String prenom, String nom, String login, String motdepasse) {
-        try{
+        try {
             return this.findByPrenomAndNomAndLogin(prenom, nom, login);
-        }catch(NoResultException noRes){
+        } catch (NoResultException noRes) {
             Mecanicien nouveauAdmin = new Mecanicien(nom, prenom, login, motdepasse);
             this.create(nouveauAdmin);
             return nouveauAdmin;
@@ -78,17 +78,21 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
 
     @Override
     public Mecanicien findByPrenomAndNomAndLogin(String prenom, String nom, String login) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Mecanicien> cq = cb.createQuery(Mecanicien.class);
-        Root<Mecanicien> root = cq.from(Mecanicien.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Mecanicien> cq = cb.createQuery(Mecanicien.class);
+            Root<Mecanicien> root = cq.from(Mecanicien.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException noRes) {
+            return null;
+        }
     }
-    
+
 }

@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.miage.spacelibmecanicien.servlets;
 
-import com.miage.spacelibmecanicien.model.MecanicienInconnuException_Exception;
+import com.miage.spacelibmecanicien.model.UtilisateurExistantException_Exception;
 import com.miage.spacelibmecanicien.model.WebServicesMecanicien;
 import com.miage.spacelibmecanicien.model.WebServicesMecanicien_Service;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -17,23 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author uzanl
- */
-public class Inscription extends HttpServlet {
+public class Enregistrement extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String login = request.getParameter("login");
@@ -41,17 +24,18 @@ public class Inscription extends HttpServlet {
 
         WebServicesMecanicien_Service service = new WebServicesMecanicien_Service();
         WebServicesMecanicien port = service.getWebServicesMecanicienPort();
-
+        
         try {
-            port.authentifier(login, motdepasse);
-            request.setAttribute("messageInfo", "Message modifié avec succès");
-            RequestDispatcher rd = request.getRequestDispatcher("Navettes");
-            rd.forward(request, response);
+            port.creerCompte(nom, prenom, login, motdepasse);
             
-        } catch (MecanicienInconnuException_Exception ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Erreur : " + ex.getMessage());
+            request.setAttribute("messageInfo", "Votre compte a été créé avec succès.");
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+              
+        } catch (UtilisateurExistantException_Exception ex) {
+            Logger.getLogger(Enregistrement.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
-            RequestDispatcher rd = request.getRequestDispatcher("Index");
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
         }
     }

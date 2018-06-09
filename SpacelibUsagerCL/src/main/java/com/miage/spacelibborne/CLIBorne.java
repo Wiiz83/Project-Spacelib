@@ -10,6 +10,7 @@ import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RVoyage;
@@ -40,7 +41,7 @@ public class CLIBorne {
         this.serviceUsager = serviceUsager;
     }
 
-    public void run() throws UsagerInconnuException, IllegalAccessException, InvocationTargetException, QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, StationInconnuException, VoyageInconnuException {
+    public void run() throws UsagerInconnuException, IllegalAccessException, InvocationTargetException, QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, StationInconnuException, VoyageInconnuException, UtilisateurExistantException {
         System.out.println(ascii_spacelib);
         ArrayList<RStation> stations = this.serviceUsager.obtenirStations();
         Long idStationCourante = ChoisirStationCourante(stations);
@@ -85,7 +86,7 @@ public class CLIBorne {
         return utils.saisirEntier(scanner, "Station courante: ", getIDsStations(stations));
     }
 
-    private Long obtenirUsager() throws UsagerInconnuException {
+    private Long obtenirUsager() throws UsagerInconnuException, UtilisateurExistantException {
         boolean aUnCompte = utils.yesNoQuestion(scanner, "Avez vous un compte ?");
         if (aUnCompte) {
             return loginCompte();
@@ -102,7 +103,7 @@ public class CLIBorne {
         return usager;
     }
 
-    private Long creerCompte() {
+    private Long creerCompte() throws UtilisateurExistantException {
         String nom = utils.saisirChaine(scanner, "Nom: ");
         String prenom = utils.saisirChaine(scanner, "Prenom: ");
         String login = utils.saisirChaine(scanner, "Login: ");

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
+ <servlet>
         <servlet-name>Accueil</servlet-name>
-        <servlet-class>com.miage.spacelibusager.servlets.Accueil</servlet-class>
+        <servlet-class>com.miage.servlets.Accueil</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Index</servlet-name>
-        <servlet-class>com.miage.spacelibusager.servlets.Index</servlet-class>
+        <servlet-class>com.miage.servlets.Index</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Enregistrement</servlet-name>
-        <servlet-class>com.miage.spacelibusager.servlets.Enregistrement</servlet-class>
+        <servlet-class>com.miage.servlets.Enregistrement</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Enregistrement</servlet-name>
@@ -18,11 +18,11 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>Reservation</servlet-name>
-        <servlet-class>com.miage.spacelibusager.servlets.Reservation</servlet-class>
+        <servlet-class>com.miage.servlets.Reservation</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Annulation</servlet-name>
-        <servlet-class>com.miage.spacelibusager.servlets.Annulation</servlet-class>
+        <servlet-class>com.miage.servlets.Annulation</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Accueil</servlet-name>

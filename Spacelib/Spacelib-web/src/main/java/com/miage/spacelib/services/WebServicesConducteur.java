@@ -3,6 +3,7 @@ package com.miage.spacelib.services;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TransfertInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.ressources.RTransfert;
 import java.util.ArrayList;
 import javax.ejb.EJB;
@@ -25,7 +26,7 @@ public class WebServicesConducteur {
     }
     
     @WebMethod(operationName = "creerCompte")
-    public void creerCompte(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom, @WebParam(name = "login") String login, @WebParam(name = "motdepasse") String motdepasse) {
+    public void creerCompte(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom, @WebParam(name = "login") String login, @WebParam(name = "motdepasse") String motdepasse) throws UtilisateurExistantException {
         ejbRef.creerCompte(nom, prenom, login, motdepasse);
     }
     

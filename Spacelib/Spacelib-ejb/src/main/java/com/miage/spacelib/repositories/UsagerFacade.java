@@ -44,12 +44,12 @@ public class UsagerFacade extends AbstractFacade<Usager> implements UsagerFacade
                         cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
                 )
         );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        return getEntityManager().createQuery(cq).getSingleResult();
     }
 
     @Override
     public Usager findByLoginAndPassword(String login, String motdepasse) {
-        try{
+        try {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Usager> cq = cb.createQuery(Usager.class);
             Root<Usager> root = cq.from(Usager.class);
@@ -59,17 +59,17 @@ public class UsagerFacade extends AbstractFacade<Usager> implements UsagerFacade
                             cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
                     )
             );
-            return getEntityManager().createQuery(cq).getSingleResult(); 
-        } catch(NoResultException e) {
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
     }
 
     @Override
     public Usager creerUsagerSiInexistant(String prenom, String nom, String login, String motdepasse) {
-        try{
+        try {
             return this.findByPrenomAndNomAndLogin(prenom, nom, login);
-        }catch(NoResultException noRes){
+        } catch (NoResultException noRes) {
             Usager nouveauUsager = new Usager(nom, prenom, login, motdepasse);
             this.create(nouveauUsager);
             return nouveauUsager;
@@ -78,17 +78,21 @@ public class UsagerFacade extends AbstractFacade<Usager> implements UsagerFacade
 
     @Override
     public Usager findByPrenomAndNomAndLogin(String prenom, String nom, String login) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Usager> cq = cb.createQuery(Usager.class);
-        Root<Usager> root = cq.from(Usager.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Usager> cq = cb.createQuery(Usager.class);
+            Root<Usager> root = cq.from(Usager.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException noRes) {
+            return null;
+        }
     }
-    
+
 }

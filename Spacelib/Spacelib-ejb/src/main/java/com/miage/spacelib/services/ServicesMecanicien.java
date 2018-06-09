@@ -16,6 +16,7 @@ import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.RevisionInconnuException;
 import com.miage.spacelib.exceptions.RevisionInexistanteException;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -38,6 +39,11 @@ public class ServicesMecanicien implements ServicesMecanicienLocal {
     @Override
     public void authentifier(String login, String motdepasse) throws MecanicienInconnuException {
         this.gestionMecanicien.authentifier(login, motdepasse);
+    }
+    
+    @Override
+    public void creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException{
+        this.gestionMecanicien.creerCompte(nom, prenom, login, motdepasse);
     }
 
     @Override

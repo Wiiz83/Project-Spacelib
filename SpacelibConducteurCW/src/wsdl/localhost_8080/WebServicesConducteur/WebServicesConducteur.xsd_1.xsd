@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://services.spacelib.miage.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.spacelib.miage.com/">
+
+<xs:element name="TransfertInconnuException" type="tns:TransfertInconnuException"/>
+
+<xs:element name="UsagerInconnuException" type="tns:UsagerInconnuException"/>
+
+<xs:element name="UtilisateurExistantException" type="tns:UtilisateurExistantException"/>
+
+<xs:element name="creerCompte" type="tns:creerCompte"/>
+
+<xs:element name="creerCompteResponse" type="tns:creerCompteResponse"/>
+
+<xs:element name="login" type="tns:login"/>
+
+<xs:element name="loginResponse" type="tns:loginResponse"/>
+
+<xs:element name="obtenirTransfertsConducteur" type="tns:obtenirTransfertsConducteur"/>
+
+<xs:element name="obtenirTransfertsConducteurResponse" type="tns:obtenirTransfertsConducteurResponse"/>
+
+<xs:element name="obtenirTransfertsNecessaires" type="tns:obtenirTransfertsNecessaires"/>
+
+<xs:element name="obtenirTransfertsNecessairesResponse" type="tns:obtenirTransfertsNecessairesResponse"/>
+
+<xs:element name="reserverTransfert" type="tns:reserverTransfert"/>
+
+<xs:element name="reserverTransfertResponse" type="tns:reserverTransfertResponse"/>
+
+<xs:complexType name="reserverTransfert">
+<xs:sequence>
+<xs:element name="idConducteur" type="xs:long" minOccurs="0"/>
+<xs:element name="idTransfert" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reserverTransfertResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rTransfert" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rTransfert">
+<xs:sequence>
+<xs:element name="conducteur" type="xs:long" minOccurs="0"/>
+<xs:element name="dateArrivee" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="dateCreation" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="dateDepart" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="navette" type="xs:long" minOccurs="0"/>
+<xs:element name="nbPassagers" type="xs:int"/>
+<xs:element name="quaiArrivee" type="xs:long" minOccurs="0"/>
+<xs:element name="quaiDepart" type="xs:long" minOccurs="0"/>
+<xs:element name="statut" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="UsagerInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="TransfertInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="login">
+<xs:sequence>
+<xs:element name="login" type="xs:string" minOccurs="0"/>
+<xs:element name="motdepasse" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loginResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenirTransfertsNecessaires">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="obtenirTransfertsNecessairesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rTransfert" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="creerCompte">
+<xs:sequence>
+<xs:element name="nom" type="xs:string" minOccurs="0"/>
+<xs:element name="prenom" type="xs:string" minOccurs="0"/>
+<xs:element name="login" type="xs:string" minOccurs="0"/>
+<xs:element name="motdepasse" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="creerCompteResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="UtilisateurExistantException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenirTransfertsConducteur">
+<xs:sequence>
+<xs:element name="idConducteur" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenirTransfertsConducteurResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rTransfert" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

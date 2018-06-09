@@ -7,6 +7,7 @@ package com.miage.spacelib.business;
 
 import com.miage.spacelib.entities.Conducteur;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.repositories.ConducteurFacadeLocal;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,9 +31,12 @@ public class GestionConducteur implements GestionConducteurLocal {
     }
 
     @Override
-    public void creerCompte(String nom, String prenom, String login, String motdepasse) {
-        final Conducteur conducteur = new Conducteur( nom,  prenom,  login,  motdepasse);
-        this.conducteurFacade.create(conducteur);
+    public void creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException  {
+        final Conducteur conducteur = this.conducteurFacade.findByPrenomAndNomAndLogin(prenom, nom, login);
+        if(conducteur != null) throw new UtilisateurExistantException("Ce compte existe déjà.");
+        
+        final Conducteur newConducteur = new Conducteur( nom,  prenom,  login,  motdepasse);
+        this.conducteurFacade.create(newConducteur);
     }
 
 

@@ -10,6 +10,7 @@ import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.services.ServicesUsagerRemote;
 import java.lang.reflect.InvocationTargetException;
@@ -37,7 +38,7 @@ public class Launcher {
             ServicesUsagerRemote serviceUsager = rmiMgr.getUsagerRemoteSvc();
             try {
                 (new CLIBorne(serviceUsager)).run();
-            } catch (VoyageInconnuException | IllegalAccessException | InvocationTargetException | UsagerInconnuException | QuaiInexistantException | QuaiIndisponibleException | TempsTrajetInconnuException | StationInconnuException ex) {
+            } catch (UtilisateurExistantException | VoyageInconnuException | IllegalAccessException | InvocationTargetException | UsagerInconnuException | QuaiInexistantException | QuaiIndisponibleException | TempsTrajetInconnuException | StationInconnuException ex) {
                 erreur(ex);
 
             }
