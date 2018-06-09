@@ -40,6 +40,4 @@ public interface ServicesUsagerRemote {
             throws UsagerInconnuException, ReservationInconnuException, ReservationPasseeException, ReservationClotureeException;
 
     public RStation obtenirStationParIdQuai(Long idQuai) throws StationInconnuException, QuaiInconnuException;
-    
-    public void realiserReservationPlanifiee(Long idVoyage) throws VoyageInconnuException;
 }
