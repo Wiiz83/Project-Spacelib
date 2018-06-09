@@ -7,6 +7,7 @@ import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RStatsStation;
 import com.miage.spacelib.ressources.RTransfert;
+import com.miage.spacelib.ressources.RTransfertNecessaire;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public interface ServicesConducteurLocal {
     
     public ArrayList<RTransfert> obtenirTransfertsConducteur(Long idConducteur) throws UsagerInconnuException;
     
-    List<Map.Entry<RStation, RStation>> obtenirTransfertsNecessaires();
+    List<RTransfertNecessaire> obtenirTransfertsNecessaires();
     
     List<RStatsStation> stats();
 }

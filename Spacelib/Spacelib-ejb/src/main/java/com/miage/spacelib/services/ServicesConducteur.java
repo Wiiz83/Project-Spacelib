@@ -16,6 +16,7 @@ import com.miage.spacelib.repositories.StationFacadeLocal;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RStatsStation;
 import com.miage.spacelib.ressources.RTransfert;
+import com.miage.spacelib.ressources.RTransfertNecessaire;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +51,7 @@ public class ServicesConducteur implements ServicesConducteurLocal {
     }
     
     @Override
-    public List<Map.Entry<RStation, RStation>> obtenirTransfertsNecessaires() {
+    public List<RTransfertNecessaire> obtenirTransfertsNecessaires() {
         List<Station> stations = stationFacade.findAll();
         Map<Station, Integer> variations = new HashMap<>();
         Calendar cal = Calendar.getInstance();
@@ -71,10 +72,15 @@ public class ServicesConducteur implements ServicesConducteurLocal {
         });
         Equilibrage eq = new Equilibrage(variations, infos);
         EquilibrageResultat eqr = eq.obtenirResultats();
-        List<Map.Entry<RStation, RStation>> dto = new ArrayList<>();
+        List<RTransfertNecessaire> dto = new ArrayList<>();
         List<Map.Entry<Station, Station>> res = eqr.listeTransferts();
         for (Map.Entry<Station, Station> entry : res) {
-            dto.add(new AbstractMap.SimpleEntry<>(rs(entry.getKey()), rs(entry.getValue())));
+            dto.add (new RTransfertNecessaire (
+                    entry.getKey().getId(),
+                    entry.getValue().getId(),
+                    entry.getKey().getNom(),
+                    entry.getValue().getNom()
+            ));
         }
         return dto;
     }

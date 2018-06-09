@@ -6,6 +6,7 @@ import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RTransfert;
+import com.miage.spacelib.ressources.RTransfertNecessaire;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class WebServicesConducteur {
     }
     
     @WebMethod(operationName = "obtenirTransfertsNecessaires")
-    public List<Map.Entry<RStation, RStation>> obtenirTransfertsNecessaires() {
+    public List<RTransfertNecessaire> obtenirTransfertsNecessaires() {
         return this.ejbRef.obtenirTransfertsNecessaires();
     }
     
