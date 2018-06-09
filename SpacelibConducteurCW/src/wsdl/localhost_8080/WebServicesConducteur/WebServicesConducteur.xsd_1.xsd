@@ -85,7 +85,16 @@
 
 <xs:complexType name="obtenirTransfertsNecessairesResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:rTransfert" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="return" type="tns:rTransfertNecessaire" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rTransfertNecessaire">
+<xs:sequence>
+<xs:element name="nomStationArrivee" type="xs:string" minOccurs="0"/>
+<xs:element name="nomStationDepart" type="xs:string" minOccurs="0"/>
+<xs:element name="stationArrivee" type="xs:long" minOccurs="0"/>
+<xs:element name="stationDepart" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

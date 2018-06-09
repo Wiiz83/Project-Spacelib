@@ -116,11 +116,12 @@ public class CLIBorne {
             RVoyage voyage = this.serviceUsager.voyageEnCours(idUsager);
             if (voyage == null) {
                 return CHOIX_PROCESS.DEPART;
+            } else {
+                return CHOIX_PROCESS.ARRIVEE;
             }
         } catch (VoyageInconnuException ex) {
             return CHOIX_PROCESS.DEPART;
         }
-        return CHOIX_PROCESS.DEPART;
     }
 
     private void depart(Long usager, Long idStationDepart, ArrayList<RStation> stationsArrivee) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {

@@ -1,5 +1,8 @@
 package com.miage.servlets;
 
+import com.miage.spacelib.services.UsagerInconnuException_Exception;
+import com.miage.spacelib.services.WebServicesConducteur;
+import com.miage.spacelib.services.WebServicesConducteur_Service;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,26 +16,27 @@ import javax.servlet.http.HttpSession;
 public class Index extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*
+        
         String login = request.getParameter("login");
         String motdepasse = request.getParameter("motdepasse");
 
-        WebServicesUsager_Service service = new WebServicesUsager_Service();
-        WebServicesUsager port = service.getWebServicesUsagerPort();
+        WebServicesConducteur_Service service = new WebServicesConducteur_Service();
+        WebServicesConducteur port = service.getWebServicesConducteurPort();
         
         try {
-            Long idUsager = port.login(login, motdepasse);
+            Long idConducteur = port.login(login, motdepasse);
             
             HttpSession session = request.getSession();
-            session.setAttribute("idUsager", idUsager);
+            session.setAttribute("idUsager", idConducteur);
             RequestDispatcher rd = request.getRequestDispatcher("accueil.jsp");
             rd.forward(request, response);
+            
         } catch (UsagerInconnuException_Exception ex) {
             Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
-        }*/
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

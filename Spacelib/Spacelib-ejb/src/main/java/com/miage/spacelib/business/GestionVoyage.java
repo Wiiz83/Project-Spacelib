@@ -109,6 +109,18 @@ public class GestionVoyage implements GestionVoyageLocal {
         ArrayList<Voyage> voyages = new ArrayList(voyageFacade.findAllVoyagesPrevusByUsager(usager));
         return voyages;
     }
+    
+    @Override
+    public void realiserReservationPlanifiee(Long idVoyage) throws VoyageInconnuException {
+        final Voyage voyage = this.voyageFacade.find(idVoyage);
+        if (voyage == null) {
+            throw new VoyageInconnuException("Ce voyage n'existe pas.");
+        }
+        final Quai quaiDepart = voyage.getQuaiDepart();
+        quaiDepart.setNavette(null);
+    }
+    
+            
 
     @Override
     public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException {
@@ -126,7 +138,6 @@ public class GestionVoyage implements GestionVoyageLocal {
         
         navette.setNbVoyages(navette.getNbVoyages() - 1);
         quaiArrivee.setNavette(navette);
-        quaiDepart.setNavette(null);
         
         if(navette.getNbVoyages() <= 0){
             Revision revisionNecessaire = new Revision(navette, Revision.statutRevisionNecessaire, quaiArrivee);
@@ -182,7 +193,7 @@ public class GestionVoyage implements GestionVoyageLocal {
         if (quaisStationArrive.size() <= 0) {
             throw new QuaiInexistantException("Il n'existe pas de quais pour la station d'arrivée.");
         }
-
+        
         Navette navetteFinale = null;
         Quai quaiDepartFinal = null;
         Quai quaiArriveFinal = null;
@@ -261,6 +272,13 @@ public class GestionVoyage implements GestionVoyageLocal {
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "DATE DE DEPART PREVU = " + dateDepart);
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "TEMPS TRAJET = " + tpsTrajet.getTemps());
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "DATE D'ARRIVEE CALCULEE = " + dateArrivee);
+        
+                
+        // vérifier si pas de voyage prévu par le client sur cette période
+        boolean autresVoyagesPrevusUsager = this.voyageFacade.findVoyagesUsagerPeriode(usager, dateDepart, dateArrivee);
+        if(autresVoyagesPrevusUsager == true){
+            throw new UsagerInconnuException("Vous avez déjà un ou plusieurs voyages prévus sur cette période.");
+        } 
 
         outerloop:
         for (Quai q : quaisStationArrive) {

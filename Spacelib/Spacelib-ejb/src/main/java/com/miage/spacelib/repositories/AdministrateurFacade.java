@@ -26,37 +26,45 @@ public class AdministrateurFacade extends AbstractFacade<Administrateur> impleme
 
     @Override
     public Administrateur findByPrenomAndNom(String prenom, String nom) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Administrateur> cq = cb.createQuery(Administrateur.class);
-        Root<Administrateur> root = cq.from(Administrateur.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Administrateur> cq = cb.createQuery(Administrateur.class);
+            Root<Administrateur> root = cq.from(Administrateur.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException noRes) {
+            return null;
+        }
     }
 
     @Override
     public Administrateur findByLoginAndPassword(String login, String motdepasse) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Administrateur> cq = cb.createQuery(Administrateur.class);
-        Root<Administrateur> root = cq.from(Administrateur.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase()),
-                        cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Administrateur> cq = cb.createQuery(Administrateur.class);
+            Root<Administrateur> root = cq.from(Administrateur.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase()),
+                            cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException noRes) {
+            return null;
+        }
     }
 
     @Override
     public Administrateur creerAdministrateurSiInexistant(String prenom, String nom, String login, String motdepasse) {
-        try{
+        try {
             return this.findByPrenomAndNomAndLogin(prenom, nom, login);
-        }catch(NoResultException noRes){
+        } catch (NoResultException noRes) {
             Administrateur nouveauAdmin = new Administrateur(nom, prenom, login, motdepasse);
             this.create(nouveauAdmin);
             return nouveauAdmin;
@@ -65,18 +73,21 @@ public class AdministrateurFacade extends AbstractFacade<Administrateur> impleme
 
     @Override
     public Administrateur findByPrenomAndNomAndLogin(String prenom, String nom, String login) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Administrateur> cq = cb.createQuery(Administrateur.class);
-        Root<Administrateur> root = cq.from(Administrateur.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Administrateur> cq = cb.createQuery(Administrateur.class);
+            Root<Administrateur> root = cq.from(Administrateur.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException noRes) {
+            return null;
+        }
     }
-
 
 }

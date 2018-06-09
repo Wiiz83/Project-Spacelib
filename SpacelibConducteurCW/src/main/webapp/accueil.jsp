@@ -1,10 +1,7 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.miage.spacelib.services.RTransfertNecessaire"%>
 <%@page import="com.miage.spacelib.services.WebServicesConducteur"%>
 <%@page import="com.miage.spacelib.services.WebServicesConducteur_Service"%>
-<%@page import="com.miage.spacelib.services.RStation"%>
-<%@page import="com.miage.spacelib.services.InvocationTargetException_Exception"%>
-<%@page import="com.miage.spacelib.services.IllegalAccessException_Exception"%>
-<%@page import="com.miage.spacelib.services.WebServicesUsager"%>
-<%@page import="com.miage.spacelib.services.WebServicesUsager_Service"%>
 <%@page import="java.util.logging.Level"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.List"%>
@@ -33,43 +30,47 @@
        <h1><a href="index.jsp"><img src="images/logo.png" alt="Spacelib logo" height="90px"></a></h1>
 
         <div class="main-content-nologin">
-                    <h3 style='color:white; font-size: 20px; font-weight: bold; padding: 10px;'>Navettes nécessitant une révision</h3>
-                    <form method="post" action="DebutRevision">
+                    <h3 style='color:white; font-size: 20px; font-weight: bold; padding: 10px;'>Transferts nécessaires</h3>
+                    <form method="post" action="Reservation">
                         <table class="table table-bordered" align="center" style="justify-content:center;align-items:center;width:100%;height:100%;">
                             <thead>
                                 <tr>
                                     <th class="col-md-3">
                                         Priorité
                                     </th>
-                                    <th class="col-md-3"> 
+                                    <th class="col-md-6"> 
                                         Station de départ
                                     </th>
-                                    <th class="col-md-3">
+                                    <th class="col-md-6">
                                         Station d'arrivée
                                     </th>
                                     <th class="col-md-3">
-                                        Réserver transfert
+                                        Réserver
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%
                                 
+                                 List<RTransfertNecessaire> transfertsNecessaires = new ArrayList();
                                  WebServicesConducteur_Service service = new WebServicesConducteur_Service();
                                  WebServicesConducteur port = service.getWebServicesConducteurPort();
                                  
-                                 port.
-
-                                    rstations = port.obtenirStations();
-                                    if (rstations != null) {
-                                        for (RStation r : rstations) {
+                                 transfertsNecessaires = port.obtenirTransfertsNecessaires();
+                                 
+                                 int cpt = 1;
+                                 
+                                    if (transfertsNecessaires.size() > 0) {
+                                        for (RTransfertNecessaire r : transfertsNecessaires) {
                                             out.println("<tr>");
-                                            out.println("<td> Station n° " + r.getId() + "</td>");
-                                            out.println("<td>" + r.getNom() + "</td>");
-                                            out.println("<td>" + r.getLocalisation() + "</td>");
-                                            out.println("<td>" + r.getNbQuais() + "</td>");
+                                            out.println("<td>" + cpt + "</td>");
+                                            out.println("<td>" + r.getNomStationDepart() + "</td>");
+                                            out.println("<td>" + r.getNomStationArrivee() + "</td>");
+                                            out.println("<td><button type='submit' class='btn btn-primary' name='idNavette' value='" + r.getStationDepart() + "-"+ r.getStationArrivee() + "'><span class='glyphicon glyphicon-bookmark' aria-hidden='true'></span></button></td>");
                                             out.println("</form>");
                                             out.println("</tr>");
+                                            
+                                            cpt++;
                                         }
                                     } else {
 

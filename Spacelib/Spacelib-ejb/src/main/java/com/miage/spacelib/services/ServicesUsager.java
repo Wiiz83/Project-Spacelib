@@ -63,6 +63,11 @@ public class ServicesUsager implements ServicesUsagerRemote {
     public Long creerCompte(String nom, String prenom, String login, String motdepasse) throws UtilisateurExistantException{
         return this.gestionUsager.creerCompte(nom, prenom, login, motdepasse);
     }
+    
+     @Override
+    public void realiserReservationPlanifiee(Long idVoyage) throws VoyageInconnuException {
+        this.gestionVoyage.realiserReservationPlanifiee(idVoyage);
+    }
 
     @Override
     public RVoyage voyageEnCours(Long idUsager) throws  UsagerInconnuException, VoyageInconnuException {

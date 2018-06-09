@@ -35,16 +35,20 @@ public class UsagerFacade extends AbstractFacade<Usager> implements UsagerFacade
 
     @Override
     public Usager findByPrenomAndNom(String prenom, String nom) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Usager> cq = cb.createQuery(Usager.class);
-        Root<Usager> root = cq.from(Usager.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult();
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Usager> cq = cb.createQuery(Usager.class);
+            Root<Usager> root = cq.from(Usager.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+                            cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException noRes) {
+            return null;
+        }
     }
 
     @Override

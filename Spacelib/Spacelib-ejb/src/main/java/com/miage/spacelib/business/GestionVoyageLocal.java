@@ -28,4 +28,6 @@ public interface GestionVoyageLocal {
     public void finaliserVoyage(Long idVoyage) throws VoyageInconnuException;
     
     public ArrayList<Voyage> obtenirVoyagesPrevusUsager(Long idUsager) throws UsagerInconnuException;
+    
+    public void realiserReservationPlanifiee(Long idVoyage) throws VoyageInconnuException;
 }

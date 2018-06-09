@@ -35,6 +35,7 @@ public class ConducteurFacade extends AbstractFacade<Conducteur> implements Cond
 
     @Override
     public Conducteur findByPrenomAndNom(String prenom, String nom) {
+        try {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Conducteur> cq = cb.createQuery(Conducteur.class);
         Root<Conducteur> root = cq.from(Conducteur.class);
@@ -45,20 +46,27 @@ public class ConducteurFacade extends AbstractFacade<Conducteur> implements Cond
                 )
         );
         return getEntityManager().createQuery(cq).getSingleResult(); 
+        }catch(NoResultException noRes){
+            return null;
+        }
     }
 
     @Override
     public Conducteur findByLoginAndPassword(String login, String motdepasse) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Conducteur> cq = cb.createQuery(Conducteur.class);
-        Root<Conducteur> root = cq.from(Conducteur.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase()),
-                        cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult(); 
+        try{
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Conducteur> cq = cb.createQuery(Conducteur.class);
+            Root<Conducteur> root = cq.from(Conducteur.class);
+            cq.where(
+                    cb.and(
+                            cb.equal(cb.upper(root.get("login").as(String.class)), login.toUpperCase()),
+                            cb.equal(cb.upper(root.get("motdepasse").as(String.class)), motdepasse.toUpperCase())
+                    )
+            );
+            return getEntityManager().createQuery(cq).getSingleResult(); 
+        }catch(NoResultException noRes){
+            return null;
+        }
     }
 
     @Override

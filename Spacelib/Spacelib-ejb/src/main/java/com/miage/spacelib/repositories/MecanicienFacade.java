@@ -35,6 +35,7 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
 
     @Override
     public Mecanicien findByPrenomAndNom(String prenom, String nom) {
+        try {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Mecanicien> cq = cb.createQuery(Mecanicien.class);
         Root<Mecanicien> root = cq.from(Mecanicien.class);
@@ -45,6 +46,9 @@ public class MecanicienFacade extends AbstractFacade<Mecanicien> implements Meca
                 )
         );
         return getEntityManager().createQuery(cq).getSingleResult();
+        }catch(NoResultException noRes){
+            return null;
+        }
     }
 
     @Override

@@ -56,5 +56,7 @@ public interface VoyageFacadeLocal {
     
     public boolean verifierSiVoyagePasse(Long IdVoyage);
     
+    public boolean findVoyagesUsagerPeriode(Usager usager, Calendar depart, Calendar arrivee);
+    
     
 }

@@ -255,5 +255,33 @@ public class VoyageFacade extends AbstractFacade<Voyage> implements VoyageFacade
 
         return voyagePasse;
     }
+    
+    
+    
+    @Override
+    public boolean findVoyagesUsagerPeriode(Usager usager, Calendar depart, Calendar arrivee) {
+        boolean autresVoyagesPrevus = false;
+        java.util.Date dateDepart = depart.getTime();
+        java.util.Date dateArrive = arrivee.getTime();
+        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Voyage> cq = cb.createQuery(Voyage.class);
+        Root<Voyage> root = cq.from(Voyage.class);
+        cq.where(
+                cb.and(
+                        cb.equal(root.get("usager"), usager),
+                        cb.equal(root.get("statut"), Voyage.statutDebutVoyage),
+                        cb.greaterThanOrEqualTo(root.<Date>get("dateArrivee"), dateDepart)
+                )
+        );
+
+        
+        if (getEntityManager().createQuery(cq).getResultList().size() > 0) {
+            autresVoyagesPrevus = true;
+        }
+
+        return autresVoyagesPrevus;
+    }
+  
 
 }
