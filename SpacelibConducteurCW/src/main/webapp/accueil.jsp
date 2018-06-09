@@ -1,3 +1,5 @@
+<%@page import="com.miage.spacelib.services.WebServicesConducteur"%>
+<%@page import="com.miage.spacelib.services.WebServicesConducteur_Service"%>
 <%@page import="com.miage.spacelib.services.RStation"%>
 <%@page import="com.miage.spacelib.services.InvocationTargetException_Exception"%>
 <%@page import="com.miage.spacelib.services.IllegalAccessException_Exception"%>
@@ -37,50 +39,40 @@
                             <thead>
                                 <tr>
                                     <th class="col-md-3">
-                                        Numéro de navette
+                                        Priorité
                                     </th>
                                     <th class="col-md-3"> 
-                                        Numéro de quai
+                                        Station de départ
                                     </th>
                                     <th class="col-md-3">
-                                        En attente depuis
+                                        Station d'arrivée
                                     </th>
                                     <th class="col-md-3">
-                                        Début de révision
+                                        Réserver transfert
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%
-                                    if (request.getAttribute("idStation") != null) {
+                                
+                                 WebServicesConducteur_Service service = new WebServicesConducteur_Service();
+                                 WebServicesConducteur port = service.getWebServicesConducteurPort();
+                                 
+                                 port.
 
-                                        String stringToConvert = String.valueOf(request.getAttribute("idStation"));
-                                        Long convertedLong = Long.parseLong(stringToConvert);
-
-                                        try {
-                                            List<Revision> revisions = DebutRevision.getNavetteList(convertedLong);
-                                            for (Revision r : revisions) {
-                                                out.println("<tr>");
-                                                out.println("<td> Navette " + r.getNavette().getId() + "</td>");
-                                                out.println("<td> Quai " + r.getQuai().getId() + "</td>");
-                                                out.println("<td>" + r.getDateCreation() + "</td>");
-                                                out.println("<td><button type='submit' class='btn btn-primary' name='idNavette' value='" + r.getNavette().getId() + "'><span class='glyphicon glyphicon-wrench' aria-hidden='true'></span></button></td>");
-                                                out.println("</form>");
-                                                out.println("</tr>");
-                                            }
-                                        } catch (NavettePourQuaiInexistantException_Exception ex) {
-                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
-                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
-                                        } catch (QuaiInexistantException_Exception ex) {
-                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
-                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
-                                        } catch (RevisionInexistanteException_Exception ex) {
-                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
-                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
-                                        } catch (StationInconnuException_Exception ex) {
-                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
-                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
+                                    rstations = port.obtenirStations();
+                                    if (rstations != null) {
+                                        for (RStation r : rstations) {
+                                            out.println("<tr>");
+                                            out.println("<td> Station n° " + r.getId() + "</td>");
+                                            out.println("<td>" + r.getNom() + "</td>");
+                                            out.println("<td>" + r.getLocalisation() + "</td>");
+                                            out.println("<td>" + r.getNbQuais() + "</td>");
+                                            out.println("</form>");
+                                            out.println("</tr>");
                                         }
+                                    } else {
+
                                     }
                                 %>
                             </tbody>
