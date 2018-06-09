@@ -28,58 +28,65 @@
                 rd.forward(request, response);
             }
         %>
-        <h1><a href="accueil.jsp"><img src="images/logo.png" alt="Spacelib logo" height="90px"></a></h1>
+       <h1><a href="index.jsp"><img src="images/logo.png" alt="Spacelib logo" height="90px"></a></h1>
+
         <div class="main-content-nologin">
-            <div id="menu">
-                <ul>
-                    <li><a href="accueil.jsp">Accueil</a></li>
-                    <li><a href="reservation.jsp">Réserver un voyage</a></li>
-                    <li><a href="annulation.jsp">Annuler un voyage</a></li>
-                    <li><a href="index.jsp">Déconnexion</a></li>
-                </ul>
-            </div>
-            <h3 style='color:white; font-size: 20px; font-weight: bold; padding: 10px;'>Carte Spacelib</h3>
-            <table class="table table-bordered" align="center" style="justify-content:center;align-items:center;width:100%;height:100%;">
-                <thead>
-                    <tr>
-                        <th class="col-md-3">
-                            Station
-                        </th>
-                        <th class="col-md-3"> 
-                            Nom
-                        </th>
-                        <th class="col-md-3">
-                            Localisation
-                        </th>
-                        <th class="col-md-3">
-                            Nombre de quais
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%
-                        List<RStation> rstations = null;
-                        WebServicesUsager_Service service = new WebServicesUsager_Service();
-                        WebServicesUsager port = service.getWebServicesUsagerPort();
+                    <h3 style='color:white; font-size: 20px; font-weight: bold; padding: 10px;'>Navettes nécessitant une révision</h3>
+                    <form method="post" action="DebutRevision">
+                        <table class="table table-bordered" align="center" style="justify-content:center;align-items:center;width:100%;height:100%;">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-3">
+                                        Numéro de navette
+                                    </th>
+                                    <th class="col-md-3"> 
+                                        Numéro de quai
+                                    </th>
+                                    <th class="col-md-3">
+                                        En attente depuis
+                                    </th>
+                                    <th class="col-md-3">
+                                        Début de révision
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                    if (request.getAttribute("idStation") != null) {
 
-                            rstations = port.obtenirStations();
-                            if (rstations != null) {
-                                for (RStation r : rstations) {
-                                    out.println("<tr>");
-                                    out.println("<td> Station n° " + r.getId() + "</td>");
-                                    out.println("<td>" + r.getNom() + "</td>");
-                                    out.println("<td>" + r.getLocalisation() + "</td>");
-                                    out.println("<td>" + r.getNbQuais() + "</td>");
-                                    out.println("</form>");
-                                    out.println("</tr>");
-                                }
-                            } else {
+                                        String stringToConvert = String.valueOf(request.getAttribute("idStation"));
+                                        Long convertedLong = Long.parseLong(stringToConvert);
 
-                            }
+                                        try {
+                                            List<Revision> revisions = DebutRevision.getNavetteList(convertedLong);
+                                            for (Revision r : revisions) {
+                                                out.println("<tr>");
+                                                out.println("<td> Navette " + r.getNavette().getId() + "</td>");
+                                                out.println("<td> Quai " + r.getQuai().getId() + "</td>");
+                                                out.println("<td>" + r.getDateCreation() + "</td>");
+                                                out.println("<td><button type='submit' class='btn btn-primary' name='idNavette' value='" + r.getNavette().getId() + "'><span class='glyphicon glyphicon-wrench' aria-hidden='true'></span></button></td>");
+                                                out.println("</form>");
+                                                out.println("</tr>");
+                                            }
+                                        } catch (NavettePourQuaiInexistantException_Exception ex) {
+                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
+                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
+                                        } catch (QuaiInexistantException_Exception ex) {
+                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
+                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
+                                        } catch (RevisionInexistanteException_Exception ex) {
+                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
+                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
+                                        } catch (StationInconnuException_Exception ex) {
+                                            Logger.getLogger(DebutRevision.class.getName()).log(Level.SEVERE, null, ex);
+                                            out.println("<p style='color:white; font-weight: bold; padding: 10px;'>" + ex.getMessage() + "</p>");
+                                        }
+                                    }
+                                %>
+                            </tbody>
+                        </table>  
 
-                    %>
-                </tbody>
-            </table>  
+                    </form>
         </div>
         <div class="footer">
             <p> &copy; 2018 Spacelib Company. All Rights Reserved</p>
