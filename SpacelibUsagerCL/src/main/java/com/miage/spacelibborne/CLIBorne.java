@@ -14,6 +14,7 @@ import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RVoyage;
+import com.miage.spacelib.services.ServicesConducteurRemote;
 import com.miage.spacelib.services.ServicesUsagerRemote;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -34,10 +35,12 @@ public class CLIBorne {
     };
 
     private final ServicesUsagerRemote serviceUsager;
+    private final ServicesConducteurRemote serviceCond;
     private final Scanner scanner = new Scanner(System.in);
     private final CLIUtils utils = new CLIUtils();
 
-    public CLIBorne(ServicesUsagerRemote serviceUsager) {
+    public CLIBorne(ServicesUsagerRemote serviceUsager, ServicesConducteurRemote serviceCond) {
+        this.serviceCond = serviceCond;
         this.serviceUsager = serviceUsager;
     }
 
@@ -46,13 +49,24 @@ public class CLIBorne {
         ArrayList<RStation> stations = this.serviceUsager.obtenirStations();
         Long idStationCourante = ChoisirStationCourante(stations);
         while (true) {
-            Long idUsager = obtenirUsager();
-            CHOIX_PROCESS process = obtenirProcess(idUsager);
-            if (process == CHOIX_PROCESS.DEPART) {
-                depart(idUsager, idStationCourante, stationsArrivee(stations, idStationCourante));
+
+            Long idConducteur = obtenirConducteur();
+            if (idConducteur == null) {
+                Long idUsager = obtenirUsager();
+                runUsager(idStationCourante, idUsager, stations);
             } else {
-                arrivee(idUsager);
+                runConducteur(idStationCourante, idConducteur, stations);
+
             }
+        }
+    }
+
+    private void runUsager(Long idStationCourante, Long idUsager, ArrayList<RStation> stations) throws UsagerInconnuException, QuaiInexistantException, VoyageInconnuException, QuaiIndisponibleException, TempsTrajetInconnuException, StationInconnuException {
+        CHOIX_PROCESS process = obtenirProcess(idUsager);
+        if (process == CHOIX_PROCESS.DEPART) {
+            depart(idUsager, idStationCourante, stationsArrivee(stations, idStationCourante));
+        } else {
+            arrivee(idUsager);
         }
     }
 
@@ -137,6 +151,15 @@ public class CLIBorne {
         if (utils.yesNoQuestion(scanner, "Finaliser le voyage en cours? ")) {
             this.serviceUsager.finaliserVoyage(voyageEncours.getId());
         }
+    }
+
+    /// Conducteur
+    private void runConducteur(Long idStationCourante, Long idConducteur, ArrayList<RStation> stations) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private Long obtenirConducteur() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private final String ascii_spacelib

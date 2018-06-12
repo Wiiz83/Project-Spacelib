@@ -12,6 +12,7 @@ import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.UtilisateurExistantException;
 import com.miage.spacelib.exceptions.VoyageInconnuException;
+import com.miage.spacelib.services.ServicesConducteurRemote;
 import com.miage.spacelib.services.ServicesUsagerRemote;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
@@ -36,8 +37,10 @@ public class Launcher {
         try {
             RMIUsagerServiceManager rmiMgr = new RMIUsagerServiceManager();
             ServicesUsagerRemote serviceUsager = rmiMgr.getUsagerRemoteSvc();
+            RMIConducteurServiceManager rmicond = new RMIConducteurServiceManager();
+            ServicesConducteurRemote servCond = rmicond.getConducteurRemoteSvc();
             try {
-                (new CLIBorne(serviceUsager)).run();
+                (new CLIBorne(serviceUsager,servCond)).run();
             } catch (UtilisateurExistantException | VoyageInconnuException | IllegalAccessException | InvocationTargetException | UsagerInconnuException | QuaiInexistantException | QuaiIndisponibleException | TempsTrajetInconnuException | StationInconnuException ex) {
                 erreur(ex);
 
