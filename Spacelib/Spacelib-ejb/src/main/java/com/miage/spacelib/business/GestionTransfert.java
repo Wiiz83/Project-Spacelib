@@ -1,5 +1,8 @@
 package com.miage.spacelib.business;
 
+import static com.miage.spacelib.business.GestionVoyage.estAucun;
+import static com.miage.spacelib.business.GestionVoyage.estTransfert;
+import static com.miage.spacelib.business.GestionVoyage.estVoyage;
 import com.miage.spacelib.business.equilibrage.Equilibrage;
 import com.miage.spacelib.business.equilibrage.EquilibrageResultat;
 import com.miage.spacelib.business.equilibrage.InfoStation;
@@ -9,6 +12,7 @@ import com.miage.spacelib.entities.Quai;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.entities.TempsTrajet;
 import com.miage.spacelib.entities.Transfert;
+import com.miage.spacelib.entities.Usager;
 import com.miage.spacelib.entities.Voyage;
 import com.miage.spacelib.exceptions.QuaiIndisponibleException;
 import com.miage.spacelib.exceptions.QuaiInexistantException;
@@ -112,10 +116,16 @@ public class GestionTransfert implements GestionTransfertLocal {
     }
 
     @Override
-    public Transfert reserverTransfert(Long idConducteur, Long idStationDepart, Long idStationArrivee, int NbPassagers, Calendar dateDepart) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+    public Transfert reserverTransfert(Long idUsager, Long idStationDepart, Long idStationArrivee) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
 
-        // est ce que le conducteur existe ?
-        final Conducteur conducteur = this.conducteurFacade.find(idConducteur);
+        Calendar dateDepart = Calendar.getInstance();
+        int NbPassagers = 0;
+        
+        Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param idUsager : " + idUsager);
+        Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param idStationDepart : " + idStationDepart);
+        Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param idStationArrivee : " + idStationArrivee);
+
+        final Conducteur conducteur = this.conducteurFacade.find(idUsager);
         if (conducteur == null) {
             throw new UsagerInconnuException("Ce compte de conducteur n'existe pas.");
         }
@@ -149,7 +159,8 @@ public class GestionTransfert implements GestionTransfertLocal {
         if (quaisStationArrive.size() <= 0) {
             throw new QuaiInexistantException("Il n'existe pas de quais pour la station d'arrivée.");
         }
-
+        
+        
         Navette navetteFinale = null;
         Quai quaiDepartFinal = null;
         Quai quaiArriveFinal = null;
@@ -164,6 +175,8 @@ public class GestionTransfert implements GestionTransfertLocal {
             Voyage precedentVoyage = this.voyageFacade.findPlusProcheVoyageArriveADateEtQuai(dateDepart, q);
             Transfert precedentTransfert = this.transfertFacade.findPlusProcheTransfertArriveADateEtQuai(dateDepart, q);
             String lePlusTard = lequelEstLePlusTard(precedentVoyage, precedentTransfert);
+            Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "lePlusTard = " +lePlusTard);
+            
             switch (lePlusTard) {
                 case estAucun:
                     // est ce que le quai possède une navette arrimée au moment de la réservation ?
@@ -175,11 +188,11 @@ public class GestionTransfert implements GestionTransfertLocal {
                         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Il n'y a jamais eu de voyage ni de transfert sur ce quai. Il n'y a donc pas de navette disponible sur ce quai. On passe au prochain quai.");
                         continue outerloop;
                     }
+                    break;
                 case estVoyage:
                     navette = precedentVoyage.getNavette();
                     dateArriveePrecedenteReservation = precedentVoyage.getDateArrivee();
                     break;
-
                 case estTransfert:
                     navette = precedentTransfert.getNavette();
                     dateArriveePrecedenteReservation = precedentTransfert.getDateArrivee();
@@ -211,8 +224,7 @@ public class GestionTransfert implements GestionTransfertLocal {
 
         ////////////////////////////////////////////////// CHECKPOINT ////////////////////////////////////////////////////////
         if ((quaiDepartFinal == null) || (navetteFinale == null)) {
-            Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Il n'y a pas de navette disponible au départ de cette station.");
-            throw new QuaiIndisponibleException("Il n'y a pas de navette disponible au départ de cette station.");
+            throw new QuaiIndisponibleException("Il n'y a aucune navette disponible répondant à ces critères.");
         } else {
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Le quai de départ choisi est le " + quaiDepartFinal);
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La navette pour le voyage est la " + navetteFinale);
@@ -227,6 +239,7 @@ public class GestionTransfert implements GestionTransfertLocal {
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "DATE DE DEPART PREVU = " + dateDepart);
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "TEMPS TRAJET = " + tpsTrajet.getTemps());
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "DATE D'ARRIVEE CALCULEE = " + dateArrivee);
+        
 
         outerloop:
         for (Quai q : quaisStationArrive) {
@@ -287,9 +300,11 @@ public class GestionTransfert implements GestionTransfertLocal {
 
         return transfertFinal;
     }
-
+    
     private boolean EstOKPassagersEtVoyagesNavette(Navette n, int nb) {
         boolean result = false;
+        System.out.println("n.getNbPlaces() = " + n.getNbPlaces());
+        System.out.println("n.getNbVoyages() = " + n.getNbVoyages());
         if ((n.getNbPlaces() >= nb) && (n.getNbVoyages() > 0)) {
             result = true;
         }
@@ -311,7 +326,9 @@ public class GestionTransfert implements GestionTransfertLocal {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "La dernière arrivée la plus récente sur ce quai est un transfert.");
                 resa = estTransfert;
             } else {
-                Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "Un problème est apparu pour déterminer la date d'arrivée du dernier voyage et transfert la plus récente sur ce quai.");
+                Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Le transfert et le voyage ont la même date.");
+                System.out.println("dateVoyage = " +dateVoyage.getTime());
+                System.out.println("dateTransfert = " +dateTransfert.getTime());
                 resa = estAucun;
             }
         } else if ((voyage == null) && (transfert == null)) {

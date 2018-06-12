@@ -1,11 +1,14 @@
 package com.miage.servlets;
 
+import com.miage.spacelib.services.QuaiIndisponibleException_Exception;
+import com.miage.spacelib.services.QuaiInexistantException_Exception;
+import com.miage.spacelib.services.RTransfert;
+import com.miage.spacelib.services.StationInconnuException_Exception;
+import com.miage.spacelib.services.TempsTrajetInconnuException_Exception;
+import com.miage.spacelib.services.UsagerInconnuException_Exception;
+import com.miage.spacelib.services.WebServicesConducteur;
+import com.miage.spacelib.services.WebServicesConducteur_Service;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -14,56 +17,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 public class Reservation extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*
         HttpSession session = request.getSession();
         if (session.getAttribute("idUsager") == null) {
             request.setAttribute("messageErreur", "Erreur : Merci de vous connecter");
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             rd.forward(request, response);
         } else {
-            Long idStationDepart = Long.valueOf(request.getParameter("idStationDepart"));
-            Long idStationArrivee = Long.valueOf(request.getParameter("idStationArrivee"));
+            String idTransfert = request.getParameter("idTransfert");
+            Long idStationDepart = Long.valueOf(idTransfert.substring(0, idTransfert.indexOf("-")));
+            Long idStationArrivee = Long.valueOf(idTransfert.substring(idTransfert.indexOf("-") +1, idTransfert.length()));
+            Long idConducteur = (Long) session.getAttribute("idUsager");
 
-            if (Objects.equals(idStationDepart, idStationArrivee)) {
-                request.setAttribute("messageErreur", "Erreur : Les stations de départ et d'arrivée ne peuvent pas être identiques.");
-                RequestDispatcher rd = request.getRequestDispatcher("reservation.jsp");
-                rd.forward(request, response);
-            }
+            WebServicesConducteur_Service service = new WebServicesConducteur_Service();
+            WebServicesConducteur port = service.getWebServicesConducteurPort();
 
-            Long idUsager = (Long) session.getAttribute("idUsager");
-
-            int nbpassagers = Integer.parseInt(request.getParameter("nbpassagers"));
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date;
-            //Calendar dateDepart;
-            XMLGregorianCalendar dateDepart = null;
-
+            RTransfert transfert;
+            
             try {
-                date = sdf.parse(request.getParameter("ddepart"));
-                //dateDepart = Calendar.getInstance();
-                //dateDepart.setTime(date);
-                GregorianCalendar c = new GregorianCalendar();
-                c.setTime(date);
-                dateDepart = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-            } catch (ParseException | DatatypeConfigurationException ex) {
-                Logger.getLogger(Reservation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            WebServicesUsager_Service service = new WebServicesUsager_Service();
-            WebServicesUsager port = service.getWebServicesUsagerPort();
-
-            RVoyage vvoyage;
-
-            try {
-                vvoyage = port.reserverVoyage(idUsager, idStationDepart, idStationArrivee, nbpassagers, dateDepart);
-                RequestDispatcher rd = request.getRequestDispatcher("voyages.jsp");
+                System.out.println(idConducteur);
+                System.out.println(idStationDepart);
+                System.out.println(idStationArrivee);
+                transfert = port.reserverTransfert(idConducteur, idStationDepart, idStationArrivee);
+                System.out.println(transfert);
+                RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
             } catch (QuaiIndisponibleException_Exception | QuaiInexistantException_Exception | StationInconnuException_Exception | TempsTrajetInconnuException_Exception | UsagerInconnuException_Exception ex) {
                 Logger.getLogger(Reservation.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,8 +51,7 @@ public class Reservation extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("reservation.jsp");
                 rd.forward(request, response);
             }
-
-        }*/
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

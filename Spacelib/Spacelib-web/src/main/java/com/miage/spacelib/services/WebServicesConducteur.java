@@ -1,6 +1,9 @@
 package com.miage.spacelib.services;
 
+import com.miage.spacelib.exceptions.QuaiIndisponibleException;
+import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.TransfertInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.UtilisateurExistantException;
@@ -40,8 +43,9 @@ public class WebServicesConducteur {
     }
     
     @WebMethod(operationName = "reserverTransfert")
-    public RTransfert reserverTransfert(@WebParam(name = "idConducteur") Long idConducteur, @WebParam(name = "idTransfert") Long idTransfert) throws UsagerInconnuException, TransfertInconnuException {
-       return this.ejbRef.reserverTransfert(idConducteur, idTransfert);
+    public RTransfert reserverTransfert(@WebParam(name = "idConducteur") Long idConducteur, @WebParam(name = "idStationDepart") Long idStationDepart, @WebParam(name = "idStationArrivee") Long idStationArrivee) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+        System.out.println("PASSE");
+        return this.ejbRef.reserverTransfert(idConducteur, idStationDepart, idStationArrivee);
     }
 
     @WebMethod(operationName = "obtenirTransfertsConducteur")

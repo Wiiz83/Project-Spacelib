@@ -7,8 +7,11 @@ import com.miage.spacelib.business.equilibrage.EquilibrageResultat;
 import com.miage.spacelib.business.equilibrage.InfoStation;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.entities.Transfert;
+import com.miage.spacelib.exceptions.QuaiIndisponibleException;
+import com.miage.spacelib.exceptions.QuaiInexistantException;
 import javax.ejb.Stateless;
 import com.miage.spacelib.exceptions.StationInconnuException;
+import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.TransfertInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.UtilisateurExistantException;
@@ -127,11 +130,10 @@ public class ServicesConducteur implements ServicesConducteurLocal {
     }
 
     @Override
-    public RTransfert reserverTransfert(Long idConducteur, Long idTransfert) throws UsagerInconnuException, TransfertInconnuException {
-       // Transfert transfert = this.gestionTransfert.reserverTransfert(idConducteur, idTransfert);
-        //RTransfert rtransfert = new RTransfert(transfert.getId(), transfert.getNbPassagers(), transfert.getNavette().getId(), transfert.getStatut(), transfert.getConducteur().getId(), transfert.getDateCreation(), transfert.getDateDepart(), transfert.getDateArrivee(), transfert.getQuaiDepart().getId(), transfert.getQuaiArrivee().getId());
-        //return rtransfert;
-        return null;
+     public RTransfert reserverTransfert(Long idConducteur, Long idStationDepart, Long idStationArrivee) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
+        Transfert transfert = this.gestionTransfert.reserverTransfert(idConducteur, idStationDepart, idStationArrivee);
+        RTransfert rtransfert = new RTransfert(transfert.getId(), transfert.getNbPassagers(), transfert.getNavette().getId(), transfert.getStatut(), transfert.getConducteur().getId(), transfert.getDateCreation(), transfert.getDateDepart(), transfert.getDateArrivee(), transfert.getQuaiDepart().getId(), transfert.getQuaiArrivee().getId());
+        return rtransfert; 
     }
 
     @Override

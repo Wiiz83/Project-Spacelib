@@ -66,7 +66,7 @@
                                             out.println("<td>" + cpt + "</td>");
                                             out.println("<td>" + r.getNomStationDepart() + "</td>");
                                             out.println("<td>" + r.getNomStationArrivee() + "</td>");
-                                            out.println("<td><button type='submit' class='btn btn-primary' name='idNavette' value='" + r.getStationDepart() + "-"+ r.getStationArrivee() + "'><span class='glyphicon glyphicon-bookmark' aria-hidden='true'></span></button></td>");
+                                            out.println("<td><button type='submit' class='btn btn-primary' name='idTransfert' value='" + r.getStationDepart() + "-"+ r.getStationArrivee() + "'><span class='glyphicon glyphicon-bookmark' aria-hidden='true'></span></button></td>");
                                             out.println("</form>");
                                             out.println("</tr>");
                                             

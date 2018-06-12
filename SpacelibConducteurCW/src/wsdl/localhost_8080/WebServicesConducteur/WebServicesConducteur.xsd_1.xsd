@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://services.spacelib.miage.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.spacelib.miage.com/">
 
-<xs:element name="TransfertInconnuException" type="tns:TransfertInconnuException"/>
+<xs:element name="QuaiIndisponibleException" type="tns:QuaiIndisponibleException"/>
+
+<xs:element name="QuaiInexistantException" type="tns:QuaiInexistantException"/>
+
+<xs:element name="StationInconnuException" type="tns:StationInconnuException"/>
+
+<xs:element name="TempsTrajetInconnuException" type="tns:TempsTrajetInconnuException"/>
 
 <xs:element name="UsagerInconnuException" type="tns:UsagerInconnuException"/>
 
@@ -29,7 +35,8 @@
 <xs:complexType name="reserverTransfert">
 <xs:sequence>
 <xs:element name="idConducteur" type="xs:long" minOccurs="0"/>
-<xs:element name="idTransfert" type="xs:long" minOccurs="0"/>
+<xs:element name="idStationDepart" type="xs:long" minOccurs="0"/>
+<xs:element name="idStationArrivee" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -54,13 +61,31 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="QuaiInexistantException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="QuaiIndisponibleException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="TempsTrajetInconnuException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="UsagerInconnuException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="TransfertInconnuException">
+<xs:complexType name="StationInconnuException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>

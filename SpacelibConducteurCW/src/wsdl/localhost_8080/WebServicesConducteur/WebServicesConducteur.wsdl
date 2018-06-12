@@ -13,11 +13,14 @@
 <message name="UsagerInconnuException">
 <part name="fault" element="tns:UsagerInconnuException"/>
 </message>
-<message name="obtenirTransfertsConducteur">
-<part name="parameters" element="tns:obtenirTransfertsConducteur"/>
+<message name="creerCompte">
+<part name="parameters" element="tns:creerCompte"/>
 </message>
-<message name="obtenirTransfertsConducteurResponse">
-<part name="parameters" element="tns:obtenirTransfertsConducteurResponse"/>
+<message name="creerCompteResponse">
+<part name="parameters" element="tns:creerCompteResponse"/>
+</message>
+<message name="UtilisateurExistantException">
+<part name="fault" element="tns:UtilisateurExistantException"/>
 </message>
 <message name="obtenirTransfertsNecessaires">
 <part name="parameters" element="tns:obtenirTransfertsNecessaires"/>
@@ -31,17 +34,23 @@
 <message name="reserverTransfertResponse">
 <part name="parameters" element="tns:reserverTransfertResponse"/>
 </message>
-<message name="TransfertInconnuException">
-<part name="fault" element="tns:TransfertInconnuException"/>
+<message name="QuaiInexistantException">
+<part name="fault" element="tns:QuaiInexistantException"/>
 </message>
-<message name="creerCompte">
-<part name="parameters" element="tns:creerCompte"/>
+<message name="QuaiIndisponibleException">
+<part name="fault" element="tns:QuaiIndisponibleException"/>
 </message>
-<message name="creerCompteResponse">
-<part name="parameters" element="tns:creerCompteResponse"/>
+<message name="TempsTrajetInconnuException">
+<part name="fault" element="tns:TempsTrajetInconnuException"/>
 </message>
-<message name="UtilisateurExistantException">
-<part name="fault" element="tns:UtilisateurExistantException"/>
+<message name="StationInconnuException">
+<part name="fault" element="tns:StationInconnuException"/>
+</message>
+<message name="obtenirTransfertsConducteur">
+<part name="parameters" element="tns:obtenirTransfertsConducteur"/>
+</message>
+<message name="obtenirTransfertsConducteurResponse">
+<part name="parameters" element="tns:obtenirTransfertsConducteurResponse"/>
 </message>
 <portType name="WebServicesConducteur">
 <operation name="login">
@@ -49,10 +58,10 @@
 <output wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/loginResponse" message="tns:loginResponse"/>
 <fault message="tns:UsagerInconnuException" name="UsagerInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/login/Fault/UsagerInconnuException"/>
 </operation>
-<operation name="obtenirTransfertsConducteur">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/obtenirTransfertsConducteurRequest" message="tns:obtenirTransfertsConducteur"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/obtenirTransfertsConducteurResponse" message="tns:obtenirTransfertsConducteurResponse"/>
-<fault message="tns:UsagerInconnuException" name="UsagerInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/obtenirTransfertsConducteur/Fault/UsagerInconnuException"/>
+<operation name="creerCompte">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/creerCompteRequest" message="tns:creerCompte"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/creerCompteResponse" message="tns:creerCompteResponse"/>
+<fault message="tns:UtilisateurExistantException" name="UtilisateurExistantException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/creerCompte/Fault/UtilisateurExistantException"/>
 </operation>
 <operation name="obtenirTransfertsNecessaires">
 <input wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/obtenirTransfertsNecessairesRequest" message="tns:obtenirTransfertsNecessaires"/>
@@ -61,13 +70,16 @@
 <operation name="reserverTransfert">
 <input wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfertRequest" message="tns:reserverTransfert"/>
 <output wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfertResponse" message="tns:reserverTransfertResponse"/>
+<fault message="tns:QuaiInexistantException" name="QuaiInexistantException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfert/Fault/QuaiInexistantException"/>
+<fault message="tns:QuaiIndisponibleException" name="QuaiIndisponibleException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfert/Fault/QuaiIndisponibleException"/>
+<fault message="tns:TempsTrajetInconnuException" name="TempsTrajetInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfert/Fault/TempsTrajetInconnuException"/>
 <fault message="tns:UsagerInconnuException" name="UsagerInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfert/Fault/UsagerInconnuException"/>
-<fault message="tns:TransfertInconnuException" name="TransfertInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfert/Fault/TransfertInconnuException"/>
+<fault message="tns:StationInconnuException" name="StationInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/reserverTransfert/Fault/StationInconnuException"/>
 </operation>
-<operation name="creerCompte">
-<input wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/creerCompteRequest" message="tns:creerCompte"/>
-<output wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/creerCompteResponse" message="tns:creerCompteResponse"/>
-<fault message="tns:UtilisateurExistantException" name="UtilisateurExistantException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/creerCompte/Fault/UtilisateurExistantException"/>
+<operation name="obtenirTransfertsConducteur">
+<input wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/obtenirTransfertsConducteurRequest" message="tns:obtenirTransfertsConducteur"/>
+<output wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/obtenirTransfertsConducteurResponse" message="tns:obtenirTransfertsConducteurResponse"/>
+<fault message="tns:UsagerInconnuException" name="UsagerInconnuException" wsam:Action="http://services.spacelib.miage.com/WebServicesConducteur/obtenirTransfertsConducteur/Fault/UsagerInconnuException"/>
 </operation>
 </portType>
 <binding name="WebServicesConducteurPortBinding" type="tns:WebServicesConducteur">
@@ -84,7 +96,7 @@
 <soap:fault name="UsagerInconnuException" use="literal"/>
 </fault>
 </operation>
-<operation name="obtenirTransfertsConducteur">
+<operation name="creerCompte">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -92,8 +104,8 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="UsagerInconnuException">
-<soap:fault name="UsagerInconnuException" use="literal"/>
+<fault name="UtilisateurExistantException">
+<soap:fault name="UtilisateurExistantException" use="literal"/>
 </fault>
 </operation>
 <operation name="obtenirTransfertsNecessaires">
@@ -113,14 +125,23 @@
 <output>
 <soap:body use="literal"/>
 </output>
+<fault name="QuaiInexistantException">
+<soap:fault name="QuaiInexistantException" use="literal"/>
+</fault>
+<fault name="QuaiIndisponibleException">
+<soap:fault name="QuaiIndisponibleException" use="literal"/>
+</fault>
+<fault name="TempsTrajetInconnuException">
+<soap:fault name="TempsTrajetInconnuException" use="literal"/>
+</fault>
 <fault name="UsagerInconnuException">
 <soap:fault name="UsagerInconnuException" use="literal"/>
 </fault>
-<fault name="TransfertInconnuException">
-<soap:fault name="TransfertInconnuException" use="literal"/>
+<fault name="StationInconnuException">
+<soap:fault name="StationInconnuException" use="literal"/>
 </fault>
 </operation>
-<operation name="creerCompte">
+<operation name="obtenirTransfertsConducteur">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -128,8 +149,8 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="UtilisateurExistantException">
-<soap:fault name="UtilisateurExistantException" use="literal"/>
+<fault name="UsagerInconnuException">
+<soap:fault name="UsagerInconnuException" use="literal"/>
 </fault>
 </operation>
 </binding>
