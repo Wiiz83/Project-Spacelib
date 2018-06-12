@@ -211,5 +211,30 @@ public class TransfertFacade extends AbstractFacade<Transfert> implements Transf
         );
         return getEntityManager().createQuery(cq).getResultList();
     }
+    
+    
+    @Override
+    public Transfert findTransfertEnCoursConducteur(Conducteur conducteur) {
+        Date currDate = new Date();
+        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Transfert> cq = cb.createQuery(Transfert.class);
+        Root<Transfert> root = cq.from(Transfert.class);
+        cq.where(
+                cb.and(
+                        cb.equal(root.get("conducteur"), conducteur),
+                        cb.equal(root.get("statut"), Transfert.statutDebutTransfert),
+                        cb.equal(root.<Date>get("dateArrivee"), currDate)
+                )
+        );
+        cq.orderBy(cb.asc(root.get("dateDepart")));
+        Transfert res;
+        try {
+            res = getEntityManager().createQuery(cq).setFirstResult(0).setMaxResults(1).getSingleResult();
+        } catch (NoResultException ex) {
+            res = null;
+        }
+        return res;
+    }
 
 }

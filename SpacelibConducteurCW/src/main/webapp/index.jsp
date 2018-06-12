@@ -54,6 +54,13 @@
                                 if (msginfo != null) {
                                     out.println("<p style='background-color: green; color:white; font-weight: bold; padding: 10px;'>" + msginfo + "</p></br>");
                                 }
+                                
+                                String idQuaiDepart = String.valueOf(request.getAttribute("idQuaiDepart"));
+                                String idNavette = String.valueOf(request.getAttribute("idNavette"));
+                                if (idQuaiDepart != null && !idQuaiDepart.isEmpty() && idQuaiDepart != "null") {
+                                    out.println("<p style='background-color: green; color:white; font-weight: bold; padding: 10px;'>La navette " + idNavette + " se trouve au quai numéro " + idQuaiDepart + "</p></br>");
+                                }
+
                             %>
                             <div class="tab-2 resp-tab-content" aria-labelledby="tab_item-0">
                                 <form method="post" action="Index">					

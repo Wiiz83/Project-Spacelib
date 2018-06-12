@@ -42,13 +42,17 @@ public class Reservation extends HttpServlet {
                 System.out.println(idStationDepart);
                 System.out.println(idStationArrivee);
                 transfert = port.reserverTransfert(idConducteur, idStationDepart, idStationArrivee);
-                System.out.println(transfert);
+                
+                long idQuaiDepart = transfert.getQuaiDepart();
+                long idNavette = transfert.getNavette();
+                request.setAttribute("idQuaiDepart", idQuaiDepart);
+                request.setAttribute("idNavette", idNavette);
                 RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
             } catch (QuaiIndisponibleException_Exception | QuaiInexistantException_Exception | StationInconnuException_Exception | TempsTrajetInconnuException_Exception | UsagerInconnuException_Exception ex) {
                 Logger.getLogger(Reservation.class.getName()).log(Level.SEVERE, null, ex);
                 request.setAttribute("messageErreur", "Erreur : " + ex.getMessage());
-                RequestDispatcher rd = request.getRequestDispatcher("reservation.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
             }
         }

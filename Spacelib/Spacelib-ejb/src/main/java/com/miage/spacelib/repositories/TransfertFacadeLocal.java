@@ -49,4 +49,6 @@ public interface TransfertFacadeLocal {
     
     public List<Transfert> findAllTransfertsPrevusByConducteur(Conducteur conducteur);
     
+    public Transfert findTransfertEnCoursConducteur(Conducteur conducteur);
+    
 }

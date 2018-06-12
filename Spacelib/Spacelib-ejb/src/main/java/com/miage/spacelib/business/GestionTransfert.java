@@ -9,6 +9,7 @@ import com.miage.spacelib.business.equilibrage.InfoStation;
 import com.miage.spacelib.entities.Conducteur;
 import com.miage.spacelib.entities.Navette;
 import com.miage.spacelib.entities.Quai;
+import com.miage.spacelib.entities.Revision;
 import com.miage.spacelib.entities.Station;
 import com.miage.spacelib.entities.TempsTrajet;
 import com.miage.spacelib.entities.Transfert;
@@ -19,6 +20,7 @@ import com.miage.spacelib.exceptions.QuaiInexistantException;
 import com.miage.spacelib.exceptions.StationInconnuException;
 import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
+import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.repositories.ConducteurFacadeLocal;
 import com.miage.spacelib.repositories.NavetteFacadeLocal;
 import com.miage.spacelib.repositories.QuaiFacadeLocal;
@@ -78,6 +80,50 @@ public class GestionTransfert implements GestionTransfertLocal {
     public ArrayList<Transfert> obtenirTransfertsNecessaires() {
         throw new UnsupportedOperationException("Utiliser transfertsEquilibrage()");
     }
+    
+    
+    @Override
+    public Transfert transfertEnCours(Long idConducteur) throws UsagerInconnuException, VoyageInconnuException {
+        final Conducteur conducteur = this.conducteurFacade.find(idConducteur);
+        if (conducteur == null) {
+            throw new UsagerInconnuException("Ce compte de conducteur n'existe pas.");
+        }
+        
+        final Transfert transfert = this.transfertFacade.findTransfertEnCoursConducteur(conducteur);     
+         if (transfert == null) {
+            throw new VoyageInconnuException("Pas de transfert en cours.");
+        }
+         
+        if(transfert.getQuaiArrivee().getNavette() != null){
+            throw new VoyageInconnuException("Ce transfert a déjà été finalisé.");
+        }
+         
+         return transfert; 
+    }
+    
+    
+    @Override
+    public void finaliserTransfert(Long idTransfert) throws VoyageInconnuException {
+        final Transfert transfert = this.transfertFacade.find(idTransfert);
+        if (transfert == null) {
+            throw new VoyageInconnuException("Ce transfert n'existe pas.");
+        }
+        
+        Transfert transfertAcheve = new Transfert(transfert.getNbPassagers(), transfert.getNavette(), Transfert.statutFinTransfert, transfert.getConducteur(), transfert.getDateDepart(), transfert.getDateArrivee(), transfert.getQuaiDepart(), transfert.getQuaiArrivee());
+        this.transfertFacade.create(transfertAcheve);
+        
+        final Navette navette = transfert.getNavette();
+        final Quai quaiArrivee = transfert.getQuaiArrivee();
+        
+        navette.setNbVoyages(navette.getNbVoyages() - 1);
+        quaiArrivee.setNavette(navette);
+        
+        if(navette.getNbVoyages() <= 0){
+            Revision revisionNecessaire = new Revision(navette, Revision.statutRevisionNecessaire, quaiArrivee);
+            this.revisionFacade.create(revisionNecessaire);
+        }
+    }
+    
 
     public List<Map.Entry<Station, Station>> transfertsEquilibrage() {
         List<Station> stations = stationFacade.findAll();
@@ -119,7 +165,7 @@ public class GestionTransfert implements GestionTransfertLocal {
     public Transfert reserverTransfert(Long idUsager, Long idStationDepart, Long idStationArrivee) throws QuaiInexistantException, QuaiIndisponibleException, TempsTrajetInconnuException, UsagerInconnuException, StationInconnuException {
 
         Calendar dateDepart = Calendar.getInstance();
-        int NbPassagers = 0;
+        int NbPassagers = 1;
         
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param idUsager : " + idUsager);
         Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Param idStationDepart : " + idStationDepart);
