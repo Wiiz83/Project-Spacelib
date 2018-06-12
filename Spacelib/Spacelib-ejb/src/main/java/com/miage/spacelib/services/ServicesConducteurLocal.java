@@ -7,6 +7,7 @@ import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.TransfertInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.UtilisateurExistantException;
+import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RStatsStation;
 import com.miage.spacelib.ressources.RTransfert;
@@ -30,4 +31,8 @@ public interface ServicesConducteurLocal {
     List<RTransfertNecessaire> obtenirTransfertsNecessaires();
     
     List<RStatsStation> stats();
+    
+    public void finaliserVoyage(Long idTransfert) throws VoyageInconnuException;
+    
+    public RTransfert transfertEnCours(Long idConducteur) throws  UsagerInconnuException, VoyageInconnuException;
 }

@@ -15,6 +15,7 @@ import com.miage.spacelib.exceptions.TempsTrajetInconnuException;
 import com.miage.spacelib.exceptions.TransfertInconnuException;
 import com.miage.spacelib.exceptions.UsagerInconnuException;
 import com.miage.spacelib.exceptions.UtilisateurExistantException;
+import com.miage.spacelib.exceptions.VoyageInconnuException;
 import com.miage.spacelib.repositories.StationFacadeLocal;
 import com.miage.spacelib.ressources.RStation;
 import com.miage.spacelib.ressources.RStatsStation;
@@ -145,6 +146,30 @@ public class ServicesConducteur implements ServicesConducteurLocal {
             rtransferts.add(rtransfert);
         }
         return rtransferts;
+    }
+    
+    
+    
+    @Override
+    public RTransfert transfertEnCours(Long idConducteur) throws  UsagerInconnuException, VoyageInconnuException {
+        Transfert transfert = this.gestionTransfert.transfertEnCours(idConducteur);
+        RTransfert rtransfert = new RTransfert();        
+        rtransfert.setDateArrivee(transfert.getDateArrivee());
+        rtransfert.setDateCreation(transfert.getDateCreation());
+        rtransfert.setDateDepart(transfert.getDateDepart());
+        rtransfert.setId(transfert.getId());
+        rtransfert.setNavette(transfert.getNavette().getId());
+        rtransfert.setNbPassagers(transfert.getNbPassagers());
+        rtransfert.setQuaiArrivee(transfert.getQuaiArrivee().getId());
+        rtransfert.setQuaiDepart(transfert.getQuaiDepart().getId());
+        rtransfert.setStatut(transfert.getStatut());
+        rtransfert.setConducteur(transfert.getConducteur().getId());
+        return rtransfert;
+    }
+
+    @Override
+    public void finaliserVoyage(Long idTransfert) throws VoyageInconnuException {
+        this.gestionTransfert.finaliserTransfert(idTransfert);
     }
 
 }
