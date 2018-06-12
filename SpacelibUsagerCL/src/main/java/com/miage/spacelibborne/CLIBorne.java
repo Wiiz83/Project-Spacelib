@@ -29,9 +29,7 @@ import java.util.logging.Logger;
  */
 public class CLIBorne {
 
-    private enum CHOIX_PROCESS {
-        DEPART, ARRIVEE
-    };
+
 
     private final ServicesUsagerRemote serviceUsager;
     private final Scanner scanner = new Scanner(System.in);
@@ -47,40 +45,17 @@ public class CLIBorne {
         Long idStationCourante = ChoisirStationCourante(stations);
         while (true) {
             Long idUsager = obtenirUsager();
-            CHOIX_PROCESS process = obtenirProcess(idUsager);
-            if (process == CHOIX_PROCESS.DEPART) {
-                depart(idUsager, idStationCourante, stationsArrivee(stations, idStationCourante));
-            } else {
-                arrivee(idUsager);
-            }
+           
         }
     }
-
-    private ArrayList<RStation> stationsArrivee(ArrayList<RStation> stations, Long idStationDepart) {
-        ArrayList<RStation> stationsDepart = new ArrayList(stations);
-        stationsDepart.removeIf((RStation station) -> Objects.equals(station.getId(), idStationDepart));
-        return stationsDepart;
-    }
-
-    private void afficherListeStations(ArrayList<RStation> stations) {
+    
+        private void afficherListeStations(ArrayList<RStation> stations) {
         stations.forEach((station) -> {
             System.out.println(station.getId() + ". " + station.getNom());
         });
     }
 
-    private ArrayList<Long> getIDsStations(ArrayList<RStation> stations) {
-        ArrayList<Long> ids = new ArrayList<>();
-        stations.forEach((station) -> {
-            ids.add(station.getId());
-        });
-        return ids;
-    }
-
-    private Long verifierUsager(String login, String mdp) throws UsagerInconnuException {
-        Long idUsager = this.serviceUsager.login(login, mdp);
-        return idUsager;
-    }
-
+    
     private Long ChoisirStationCourante(ArrayList<RStation> stations) throws IllegalAccessException, InvocationTargetException {
         afficherListeStations(stations);
         return utils.saisirEntier(scanner, "Station courante: ", getIDsStations(stations));

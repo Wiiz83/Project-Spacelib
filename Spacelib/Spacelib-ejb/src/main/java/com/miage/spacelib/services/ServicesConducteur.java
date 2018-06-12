@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import javax.ejb.EJB;
 
 @Stateless
-public class ServicesConducteur implements ServicesConducteurLocal {
+public class ServicesConducteur implements ServicesConducteurLocal, ServicesConducteurRemote {
 
     @EJB
     private GestionConducteurLocal gestionConducteur;
