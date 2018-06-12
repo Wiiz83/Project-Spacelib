@@ -49,14 +49,12 @@ public class CLIBorne {
         ArrayList<RStation> stations = this.serviceUsager.obtenirStations();
         Long idStationCourante = ChoisirStationCourante(stations);
         while (true) {
-
             Long idConducteur = obtenirConducteur();
             if (idConducteur == null) {
                 Long idUsager = obtenirUsager();
                 runUsager(idStationCourante, idUsager, stations);
             } else {
                 runConducteur(idStationCourante, idConducteur, stations);
-
             }
         }
     }
@@ -154,12 +152,29 @@ public class CLIBorne {
     }
 
     /// Conducteur
-    private void runConducteur(Long idStationCourante, Long idConducteur, ArrayList<RStation> stations) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void runConducteur(Long idStationCourante, Long idConducteur, ArrayList<RStation> stations) throws UsagerInconnuException, VoyageInconnuException {
+        Long idTransfertEnCours = transfertEnCours(idConducteur);
+        if (idTransfertEnCours != null) {
+            finaliserTransfert(idTransfertEnCours);
+        } else {
+            System.out.println("Aucun transfert en cours");
+        }
     }
 
-    private Long obtenirConducteur() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Long transfertEnCours(Long idConducteur) throws UsagerInconnuException, VoyageInconnuException {
+        return this.serviceCond.transfertEnCours(idConducteur).getId();
+    }
+
+    private void finaliserTransfert(Long idTransfertEnCours) throws VoyageInconnuException {
+        if (utils.yesNoQuestion(scanner, "Finaliser le transfert en cours? ")) {
+            this.serviceCond.finaliserVoyage(idTransfertEnCours);
+        }
+    }
+
+    private Long obtenirConducteur() throws UsagerInconnuException {
+        String login = utils.saisirChaine(scanner, "Login: ");
+        String mdp = utils.saisirChaine(scanner, "Mot de passe: ");
+        return this.serviceCond.login(login, mdp);        
     }
 
     private final String ascii_spacelib
