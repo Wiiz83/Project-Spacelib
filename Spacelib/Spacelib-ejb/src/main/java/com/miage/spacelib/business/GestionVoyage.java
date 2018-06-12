@@ -347,13 +347,13 @@ public class GestionVoyage implements GestionVoyageLocal {
             this.voyageFacade.create(voyageFinal);
         } else {
 
-            if (quaiDepartFinal != null) {
+            if (quaiDepartFinal == null) {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "ECHEC FINAL ! Il n'y a pas de quai de départ disponible.");
                 throw new QuaiIndisponibleException("Il n'y a pas de quai de départ disponible.");
-            } else if (quaiArriveFinal != null) {
+            } else if (quaiArriveFinal == null) {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "ECHEC FINAL ! Il n'y a pas de quai d'arrivée disponible.");
                 throw new QuaiIndisponibleException("Il n'y a pas de quai d'arrivée disponible.");
-            } else if (navetteFinale != null) {
+            } else if (navetteFinale == null) {
                 Logger.getLogger(GestionVoyage.class.getName()).log(Level.SEVERE, "ECHEC FINAL ! Il n'y a pas de navette disponible.");
                 throw new QuaiIndisponibleException("Il n'y a pas de navette disponible.");
             }
