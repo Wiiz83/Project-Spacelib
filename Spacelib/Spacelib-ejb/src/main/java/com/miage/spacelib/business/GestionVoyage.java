@@ -295,6 +295,17 @@ public class GestionVoyage implements GestionVoyageLocal {
         for (Quai q : quaisStationArrive) {
             Logger.getLogger(GestionVoyage.class.getName()).log(Level.INFO, "Début d'analyse du quai de la station d'arrivée : " + q);
 
+            
+            // est ce que la navette actuellement arrimée au quai va partir ?
+            boolean prochainsVoyagesPrevus = false;
+            boolean prochainsTransfertPrevus = false;
+            prochainsVoyagesPrevus = this.voyageFacade.verifierSiAutresVoyagesPrevusSurNavette(Calendar.getInstance(), q.getNavette());
+            prochainsTransfertPrevus = this.transfertFacade.verifierSiAutresTransfertsPrevusSurNavette(Calendar.getInstance(), q.getNavette());
+            if ((prochainsVoyagesPrevus == false) && (prochainsTransfertPrevus == false)) {
+                continue; // la navette ne repartira jamais, passons au prochain quai
+            } 
+            
+            
             // Analyse de la précédente arrivée = Peut être avant ou le jour même. Si aucune arrivée avant, succès !
             Voyage precedentVoyage = this.voyageFacade.findPlusProcheVoyageArriveADateEtQuai(dateArrivee, q);
             Transfert precedentTransfert = this.transfertFacade.findPlusProcheTransfertArriveADateEtQuai(dateArrivee, q);
