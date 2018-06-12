@@ -97,6 +97,11 @@ public class GestionVoyage implements GestionVoyageLocal {
          if (voy == null) {
             throw new VoyageInconnuException("Pas de voyage en cours.");
         }
+         
+        if(voy.getQuaiArrivee().getNavette() != null){
+            throw new VoyageInconnuException("Ce voyage a déjà été finalisé.");
+        }
+         
          return voy; 
     }
 
