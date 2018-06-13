@@ -50,15 +50,20 @@ public class CLIBorne {
         Long idStationCourante = ChoisirStationCourante(stations);
         while (true) {
             String typeClient = utils.saisirChaine(scanner, "Type de client? ");
-            if (typeClient.equalsIgnoreCase("Conducteur")) {
-                Long idConducteur = obtenirConducteur();
-                runConducteur(idStationCourante, idConducteur, stations);
-            } else if (typeClient.equalsIgnoreCase("Usager")) {
-                Long idUsager = obtenirUsager();
-                runUsager(idStationCourante, idUsager, stations);
-            } else {
-                throw new UsagerInconnuException("Aucun utilisateur reconnu.");
-            } 
+            try {
+                if (typeClient.equalsIgnoreCase("Conducteur")) {
+                    Long idConducteur = obtenirConducteur();
+                    runConducteur(idStationCourante, idConducteur, stations);
+                } else if (typeClient.equalsIgnoreCase("Usager")) {
+                    Long idUsager = obtenirUsager();
+                    runUsager(idStationCourante, idUsager, stations);
+                } else {
+                    System.out.println("Aucun utilisateur reconnu. Veuillez reessayer svp.");
+                }
+            } catch (UsagerInconnuException ex) {
+                System.out.println("Aucun utilisateur reconnu. Veuillez reessayer.");
+            }
+
         }
     }
 

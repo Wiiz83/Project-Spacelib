@@ -274,8 +274,12 @@ public class GestionVoyage implements GestionVoyageLocal {
         // - pas de duplication
         // - on retire la navette du quai de départ
         // - et c'est parti !
+        System.out.println("usager "+ usager);
+        System.out.println("NbPassagers "+ NbPassagers);
+        System.out.println("dateDepart "+ dateDepart);
+        System.out.println("dateArrivee "+ dateArrivee);
         Voyage voyagePlanifie = this.voyageFacade.findSiVoyagePlanifie(usager, NbPassagers, dateDepart, dateArrivee);
-        System.out.println(voyagePlanifie);
+        
         if(voyagePlanifie != null){
             final Quai quaiDepart = voyagePlanifie.getQuaiDepart();
             quaiDepart.setNavette(null);
@@ -287,7 +291,7 @@ public class GestionVoyage implements GestionVoyageLocal {
         // vérifier si pas de voyage prévu par le client sur cette période
         boolean autresVoyagesPrevusUsager = this.voyageFacade.findVoyagesUsagerPeriode(usager, dateDepart, dateArrivee);
         if(autresVoyagesPrevusUsager == true){
-            throw new UsagerInconnuException("Vous avez déjà un ou plusieurs voyages prévus sur cette période.");
+            throw new QuaiIndisponibleException("Vous avez déjà un ou plusieurs voyages prévus sur cette période.");
         } 
         
         
