@@ -275,6 +275,7 @@ public class GestionVoyage implements GestionVoyageLocal {
         // - on retire la navette du quai de départ
         // - et c'est parti !
         Voyage voyagePlanifie = this.voyageFacade.findSiVoyagePlanifie(usager, NbPassagers, dateDepart, dateArrivee);
+        System.out.println(voyagePlanifie);
         if(voyagePlanifie != null){
             final Quai quaiDepart = voyagePlanifie.getQuaiDepart();
             quaiDepart.setNavette(null);

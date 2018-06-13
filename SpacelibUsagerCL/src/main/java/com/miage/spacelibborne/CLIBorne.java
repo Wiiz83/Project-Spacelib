@@ -49,13 +49,16 @@ public class CLIBorne {
         ArrayList<RStation> stations = this.serviceUsager.obtenirStations();
         Long idStationCourante = ChoisirStationCourante(stations);
         while (true) {
-            Long idConducteur = obtenirConducteur();
-            if (idConducteur == null) {
+            String typeClient = utils.saisirChaine(scanner, "Type de client? ");
+            if (typeClient.equalsIgnoreCase("Conducteur")) {
+                Long idConducteur = obtenirConducteur();
+                runConducteur(idStationCourante, idConducteur, stations);
+            } else if (typeClient.equalsIgnoreCase("Usager")) {
                 Long idUsager = obtenirUsager();
                 runUsager(idStationCourante, idUsager, stations);
             } else {
-                runConducteur(idStationCourante, idConducteur, stations);
-            }
+                throw new UsagerInconnuException("Aucun utilisateur reconnu.");
+            } 
         }
     }
 
@@ -174,7 +177,7 @@ public class CLIBorne {
     private Long obtenirConducteur() throws UsagerInconnuException {
         String login = utils.saisirChaine(scanner, "Login: ");
         String mdp = utils.saisirChaine(scanner, "Mot de passe: ");
-        return this.serviceCond.login(login, mdp);        
+        return this.serviceCond.login(login, mdp);
     }
 
     private final String ascii_spacelib
